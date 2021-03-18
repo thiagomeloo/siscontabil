@@ -18,7 +18,13 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 11
-    
+ 
+    - name: Set postgres
+      uses: harmon758/postgresql-action@v1
+      with:
+        postgresql db: siscontabil
+        postgresql password: 1234
+
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
       
@@ -36,7 +42,13 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 11
-    
+
+    - name: Set postgres
+      uses: harmon758/postgresql-action@v1
+      with:
+        postgresql db: siscontabil
+        postgresql password: 1234
+
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
       
@@ -49,8 +61,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
+      - uses: akhileshns/heroku-deploy@v3.12.12
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: "${{secrets.HEROKU_APP_NAME}}" #Must be unique in Heroku
-          heroku_email: "${{secrets.HEROKU_APP_EMAIL}}"
+          heroku_app_name: ${{secrets.HEROKU_APP_NAME}}
+          heroku_email: ${{secrets.HEROKU_APP_EMAIL}}

@@ -5,5 +5,6 @@ public class DadosBancario {
   private long id;
   private String agencia;
   private String conta;
+  private String banco;
 
 }

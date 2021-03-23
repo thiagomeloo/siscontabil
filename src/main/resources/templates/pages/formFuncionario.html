@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Sistema Contabil</title>
+  <link rel="stylesheet" href="/bootstrap-5.0/css/bootstrap.min.css">
+
+
+</head>
+
+<body>
+
+  <div th:insert="fragments/menu :: menu"></div>
+  
+  <div class="container-fluid">
+    <h4 class="mt-4">Cadastrar Funcionário</h4>
+    <form class="row g-3 form-floating">
+      
+      <h5 class="mt-4 mb-0 text-muted">Dados Pessoais</h5>
+      <div class="col-md-6 form-floating">
+        <input type="text" class="form-control" id="inputNome" placeholder="Nome">
+        <label for="inputNome">Nome</label>
+      </div>
+
+      <div class="col-md-6 form-floating">
+        <input type="text" class="form-control" id="inputText" placeholder="Cpf">
+        <label for="inputCpf">Cpf</label>
+      </div>
+      <div class="col-md-4 form-floating">
+        <input type="text" class="form-control" id="inputRg" placeholder="Rg">
+        <label for="inputRg">Rg</label>
+      </div>
+      <div class="col-md-4 form-floating">
+        <input type="text" class="form-control" id="inputTituloEleitor" placeholder="Titulo Eleitor">
+        <label for="inputTituloEleitor">Titulo Eleitor</label>
+      </div>
+      <div class="col-md-4 form-floating">
+        <select id="inputSexo" class="form-select" aria-label="Selecione o Sexo">
+          <option selected>Selecione</option>
+          <option>Masculino</option>
+          <option>Feminino</option>
+        </select>
+        <label for="inputSexo" class="form-label">Sexo</label>
+      </div>
+
+      <div class="col-md-6 form-floating">
+        <input type="text" class="form-control" id="inputNomeMae" placeholder="Nome da Mãe">
+        <label for="inputNomeMae">Nome da Mãe</label>
+      </div>
+      <div class="col-md-6 form-floating">
+        <input type="text" class="form-control" id="inputNomePai" placeholder="Nome do Pai">
+        <label for="inputNomePai">Nome do Pai</label>
+      </div>
+      <div class="col-md-4 form-floating">
+        <input type="text" class="form-control" id="inputNacionalidade" placeholder="Nacionalidade">
+        <label for="inputNacionalidade">Nacionalidade</label>
+      </div>
+      <div class="col-md-4 form-floating">
+        <input type="text" class="form-control" id="inputNaturalidade" placeholder="Naturalidade">
+        <label for="inputNaturalidade">Naturalidade</label>
+      </div>
+      <div class="col-md-4 form-floating">
+        <input type="text" class="form-control" id="inputEscolaridade" placeholder="Nivel de Escolaridade">
+        <label for="inputEscolaridade">Nivel de Escolaridade</label>
+      </div>
+
+      
+      <h5 class="mt-4 mb-0 text-muted">Endereço</h5>
+
+      <div class="col-md-6 form-floating">
+        <input type="text" class="form-control" id="inputRua" placeholder="Rua">
+        <label for="inputRua" class="form-label">Rua</label>
+      </div>
+      <div class="col-md-2 form-floating">
+        <input type="text" class="form-control" id="inputNumero" placeholder="Numero">
+        <label for="inputNumero" class="form-label">Numero</label>
+      </div>
+      <div class="col-md-4 form-floating">
+        <input type="text" class="form-control" id="inputBairro" placeholder="Bairro">
+        <label for="inputBairro" class="form-label">Bairro</label>
+      </div>
+      <div class="col-md-4 form-floating">
+        <input type="text" class="form-control" id="inputCidade" placeholder="Cidade">
+        <label for="inputCidade" class="form-label">Cidade</label>
+      </div>
+      <div class="col-md-4 form-floating">
+        <select id="inputEstado" class="form-select">
+          <option selected>Selecione</option>
+          <option>...</option>
+        </select>
+        <label for="inputEstado" class="form-label">Estado</label>
+      </div>
+
+
+      <div class="col-12">
+        <button type="submit" class="btn btn-primary btn-lg">Cadastrar</button>
+      </div>
+    </form>
+  </div>
+
+
+
+  <script src="/bootstrap-5.0/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

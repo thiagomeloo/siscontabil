@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Sistema Contabil</title>
+  <link rel="stylesheet" href="/bootstrap-5.0/css/bootstrap.min.css">
+
+
+</head>
+
+<body>
+
+  <div th:insert="fragments/menu :: menu"></div>
+  
+  <div class="container-fluid">
+    <h4 class="mt-4">Cadastrar Setor</h4>
+    <form class="row g-3 form-floating">
+      
+      <h5 class="mt-4 mb-0 text-muted">Dados Setor</h5>
+      <div class="col-md-6 form-floating">
+        <input type="text" class="form-control" id="inputNome" placeholder="Nome">
+        <label for="inputNome">Nome</label>
+      </div>
+      <div class="col-md-6 form-floating">
+        <input type="text" class="form-control" id="inputDescricao" placeholder="Nome">
+        <label for="inputDescricao">Descrição</label>
+      </div>
+
+      <div class="col-12">
+        <button type="submit" class="btn btn-primary btn-lg">Cadastrar</button>
+      </div>
+    </form>
+  </div>
+
+
+
+  <script src="/bootstrap-5.0/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

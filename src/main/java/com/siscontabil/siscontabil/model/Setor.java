@@ -20,6 +20,9 @@ public class Setor {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long id;
 
+  @Column(name = "nome")
+  private String nome;
+
   @Column(name = "descricao")
   private String descricao;
   

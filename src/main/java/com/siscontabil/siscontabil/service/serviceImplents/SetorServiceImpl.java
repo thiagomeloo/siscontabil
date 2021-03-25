@@ -1,5 +1,7 @@
 package com.siscontabil.siscontabil.service.serviceImplents;
 
+import java.util.List;
+
 import com.siscontabil.siscontabil.model.Setor;
 import com.siscontabil.siscontabil.repository.SetorRepository;
 import com.siscontabil.siscontabil.service.SetorService;
@@ -17,5 +19,17 @@ public class SetorServiceImpl implements SetorService {
   public Setor save(Setor setor) {
     return repository.save(setor);
   }
+
+  @Override
+  public List<Setor> findAll() {
+    return repository.findAll();
+  }
+
+  @Override
+  public Setor findById(Long id) {
+    return repository.findById(id).get();
+  }
+
+  
   
 }

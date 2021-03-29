@@ -21,7 +21,14 @@ public class FuncionarioFuncaoController {
 
   @Autowired
   SetorServiceImpl setorService;
+  
 
+  @GetMapping("/funcionario/funcao")
+  public ModelAndView getFuncionariosFuncao(){
+    ModelAndView mv = new ModelAndView("pages/listaFuncionarioFuncao");
+      mv.addObject("allFuncoes", funcionarioFuncaoService.findAll());
+      return mv;
+  }
 
   @GetMapping("/funcionario/funcao/create")
   public ModelAndView getFormCreate(){

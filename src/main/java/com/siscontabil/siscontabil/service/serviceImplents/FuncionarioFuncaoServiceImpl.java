@@ -1,5 +1,7 @@
 package com.siscontabil.siscontabil.service.serviceImplents;
 
+import java.util.List;
+
 import com.siscontabil.siscontabil.model.FuncionarioFuncao;
 import com.siscontabil.siscontabil.repository.FuncionarioFuncaoRepository;
 import com.siscontabil.siscontabil.service.FuncionarioFuncaoService;
@@ -15,6 +17,11 @@ public class FuncionarioFuncaoServiceImpl implements FuncionarioFuncaoService {
   @Override
   public FuncionarioFuncao save(FuncionarioFuncao funcionarioFuncao) {
     return repository.save(funcionarioFuncao);
+  }
+
+  @Override
+  public List<FuncionarioFuncao> findAll() {
+    return repository.findAll();
   }
   
 }

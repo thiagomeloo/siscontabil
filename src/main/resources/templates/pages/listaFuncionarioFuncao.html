@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Sistema Contabil</title>
+  <link rel="stylesheet" href="/bootstrap-5.0/css/bootstrap.min.css">
+
+
+</head>
+
+<body>
+
+  <div th:insert="fragments/menu :: menu"></div>
+  
+  <div class="container-fluid">
+    <h4 class="mt-4">Lista de funções de funcionários</h4>
+    <p 
+      th:each="funcao : ${allFuncoes}"
+      th:text="${funcao.id} + ' | ' + ${funcao.cargo} ">
+    </p>
+
+  </div>
+
+
+
+  <script src="/bootstrap-5.0/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

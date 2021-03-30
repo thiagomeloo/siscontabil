@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Sistema Contabil</title>
+  <link rel="stylesheet" href="/bootstrap-5.0/css/bootstrap.min.css">
+
+
+</head>
+
+<body>
+
+  <div th:insert="fragments/menu :: menu"></div>
+  
+  <div class="container-fluid">
+    <h4 class="mt-4">Cadastrar Usuario</h4>
+    <form class="row g-3 form-floating" method="POST" action="">
+      
+      <h5 class="mt-4 mb-0 text-muted">Dados Usuario</h5>
+      <div class="col-md-4 form-floating">
+        <input type="text" class="form-control" id="inputLogin" name="login" placeholder="login">
+        <label for="inputLogin">Login</label>
+      </div>
+      <div class="col-md-4 form-floating">
+        <input type="text" class="form-control" id="inputSenha" name="senha" placeholder="senha">
+        <label for="inputSenha">Senha</label>
+      </div>
+      <div class="col-md-4 form-floating">
+        <select id="inputTipoUsuario" class="form-select" name="tipoUsuario" required>
+          <option selected disabled value="">Selecione</option>
+          <option value="admin">Admin</option>
+          <option value="financeiro">Financeiro</option>
+          <option value="contabilidade">Contabilidade</option>
+          <option value="faturamento">Faturamento</option>
+        </select>
+        <label for="inputTipoUsuario" class="form-label">Tipo Usuario</label>
+      </div>
+
+      <div class="col-12">
+        <button type="submit" class="btn btn-primary btn-lg">Cadastrar</button>
+      </div>
+    </form>
+  </div>
+
+
+
+  <script src="/bootstrap-5.0/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

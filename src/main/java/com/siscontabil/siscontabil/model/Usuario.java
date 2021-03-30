@@ -28,9 +28,8 @@ public class Usuario {
   @Column(name = "senha")
   private String senha;
 
-  @ManyToOne
-  @JoinColumn(name = "id_tipo_usuario")
-  private TipoUsuario tipoUsuario;
+  @Column(name = "tipo_usuario")
+  private String tipoUsuario;
 
   @Column(name = "status")
   private boolean status;

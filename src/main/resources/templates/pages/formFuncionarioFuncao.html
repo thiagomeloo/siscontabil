@@ -45,12 +45,16 @@
           <option 
             th:each="setor : ${allSetors}"
             th:value="${setor.id}"
-            th:text="${setor.nome} + ${setor.id}"
-            th:selected="${funcao}?  '(${setor.id} == ${funcao}?.setor.id)' : 'false'"
+            th:text="${setor.nome}"
+            th:selected= "${funcao != null and funcao.setor.id == setor.id} ? true : false" 
           >...</option>
         </select>
         <label for="inputSetor" class="form-label">Setor</label>
-      </div>     
+      </div>
+
+      <div th:if="${funcao}">
+        <input type="hidden" th:value="${funcao?.id}" name="Id" />
+      </div>
 
       <div class="col-12">
         <button type="submit" class="btn btn-primary btn-lg" th:text="${funcao}? 'Atualizar' : 'Cadastrar'"></button>

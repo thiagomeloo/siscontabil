@@ -1,8 +1,6 @@
 package com.siscontabil.siscontabil.controller;
 
-import com.siscontabil.siscontabil.model.Setor;
 import com.siscontabil.siscontabil.model.Usuario;
-import com.siscontabil.siscontabil.service.serviceImplents.SetorServiceImpl;
 import com.siscontabil.siscontabil.service.serviceImplents.UsuarioServiceImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;

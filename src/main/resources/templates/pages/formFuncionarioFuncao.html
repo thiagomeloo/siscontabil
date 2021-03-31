@@ -16,20 +16,27 @@
   <div th:insert="fragments/menu :: menu"></div>
   
   <div class="container-fluid">
-    <h4 class="mt-4">Cadastrar Função</h4>
-    <form class="row g-3 form-floating needs-validation" method="POST" >
+    <h4 class="mt-4" th:text="${funcao}? 'Atualizar Função' : 'Cadastrar Função'"></h4>
+    <form class="row g-3 form-floating needs-validation" method="POST" th:action="${funcao}? '/funcionario/funcao/update' : ''">
       
       <h5 class="mt-4 mb-0 text-muted">Dados da Função</h5>
       <div class="col-md-6 form-floating">
-        <input type="text" class="form-control" id="inputNomeCargo" name="cargo" placeholder="Nome do Cargo" required>
+        <input type="text" class="form-control" id="inputNomeCargo" name="cargo" placeholder="Nome do Cargo" required
+          th:value="${funcao?.cargo}"
+        >
         <label for="inputNomeCargo">Nome Cargo</label>
       </div>
       <div class="col-md-6 form-floating">
-        <input type="number" class="form-control" id="inputCargaHoraria" name="cargaHoraria" placeholder="Carga Horaria" required>
+        <input type="number" class="form-control" id="inputCargaHoraria" name="cargaHoraria" placeholder="Carga Horaria" required
+          th:value="${funcao?.cargaHoraria}"
+        >
         <label for="inputCargaHoraria">Carga Horaria</label>
       </div>
       <div class="col-md-6 form-floating">
-        <input type="number" step=0.01 class="form-control" id="inputSalario" name="salario" placeholder="Carga Horaria" required>
+        <input type="number" step=0.01 class="form-control" id="inputSalario" name="salario" placeholder="Carga Horaria" required
+          th:value="${funcao?.salario}"
+        >
+
         <label for="inputSalario">Salário</label>
       </div>
       <div class="col-md-6 form-floating">
@@ -38,14 +45,15 @@
           <option 
             th:each="setor : ${allSetors}"
             th:value="${setor.id}"
-            th:text="${setor.nome}"
+            th:text="${setor.nome} + ${setor.id}"
+            th:selected="${funcao}?  '(${setor.id} == ${funcao}?.setor.id)' : 'false'"
           >...</option>
         </select>
         <label for="inputSetor" class="form-label">Setor</label>
       </div>     
 
       <div class="col-12">
-        <button type="submit" class="btn btn-primary btn-lg">Cadastrar</button>
+        <button type="submit" class="btn btn-primary btn-lg" th:text="${funcao}? 'Atualizar' : 'Cadastrar'"></button>
       </div>
     </form>
   </div>

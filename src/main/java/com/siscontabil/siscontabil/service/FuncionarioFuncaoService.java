@@ -11,5 +11,6 @@ public interface FuncionarioFuncaoService {
 
   public List<FuncionarioFuncao> findAll();
   public FuncionarioFuncao save(FuncionarioFuncao funcionarioFuncao);
+  public FuncionarioFuncao findById(Long id);
   
 }

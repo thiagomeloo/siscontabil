@@ -16,21 +16,29 @@
   <div th:insert="fragments/menu :: menu"></div>
   
   <div class="container-fluid">
-    <h4 class="mt-4">Cadastrar Setor</h4>
-    <form class="row g-3 form-floating" method="POST" action="">
+    <h4 class="mt-4" th:text="${setor}? 'Atualizar Setor' : 'Cadastrar Setor'" ></h4>
+    <form class="row g-3 form-floating" method="POST" th:action="${setor}? '/setor/update' : ''">
       
       <h5 class="mt-4 mb-0 text-muted">Dados Setor</h5>
       <div class="col-md-6 form-floating">
-        <input type="text" class="form-control" id="inputNome" name="nome" placeholder="Nome">
+        <input type="text" class="form-control" id="inputNome" name="nome" placeholder="Nome" required
+          th:value="${setor?.nome}"
+        >
         <label for="inputNome">Nome</label>
       </div>
       <div class="col-md-6 form-floating">
-        <input type="text" class="form-control" id="inputDescricao" name="descricao" placeholder="Descrição">
+        <input type="text" class="form-control" id="inputDescricao" name="descricao" placeholder="Descrição" required
+        th:value="${setor?.descricao}"
+        >
         <label for="inputDescricao">Descrição</label>
       </div>
 
+      <div th:if="${setor}">
+        <input type="hidden" th:value="${setor?.id}" name="Id" />
+      </div>
+
       <div class="col-12">
-        <button type="submit" class="btn btn-primary btn-lg">Cadastrar</button>
+        <button type="submit" class="btn btn-primary btn-lg" th:text="${setor}? 'Atualizar' : 'Cadastrar'"></button>
       </div>
     </form>
   </div>

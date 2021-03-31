@@ -25,5 +25,8 @@ public class Setor {
 
   @Column(name = "descricao")
   private String descricao;
+
+  @Column(name = "status", columnDefinition = "boolean default true")
+  private boolean status = true;
   
 }

@@ -33,5 +33,8 @@ public class FuncionarioFuncao {
   @ManyToOne
   @JoinColumn(name = "setor")
   private Setor setor;
+
+  @Column(name = "status", columnDefinition = "boolean default true")
+  private boolean status = true;
   
 }

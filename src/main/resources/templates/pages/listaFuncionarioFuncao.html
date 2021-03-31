@@ -35,12 +35,14 @@
           <td th:text="${funcao.cargaHoraria}"></td>
           <td th:text="${funcao.setor.nome}"></td>
           <td class="">
-            <button href="#" class="btn btn-sm btn-primary">
+            <a href="#" class="btn btn-sm btn-primary" 
+              th:href="@{'/funcionario/funcao/update/'+${funcao.id}}"
+            >
               <i class="bi bi-pencil"></i>
-            </button>
-            <button href="#" class="btn btn-sm btn-danger">
+            </a>
+            <a href="#" class="btn btn-sm btn-danger">
               <i class="bi bi-x"></i>
-            </button>
+            </a>
           </td>
         </tr>
       </tbody>

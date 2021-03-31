@@ -31,7 +31,7 @@ public class Usuario {
   @Column(name = "tipo_usuario")
   private String tipoUsuario;
 
-  @Column(name = "status")
-  private boolean status;
+  @Column(name = "status", columnDefinition = "boolean default true")
+  private boolean status = true;
 
 }

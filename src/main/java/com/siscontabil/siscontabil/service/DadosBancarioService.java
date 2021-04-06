@@ -1,3 +1,5 @@
+package com.siscontabil.siscontabil.service;
+
 import com.siscontabil.siscontabil.model.DadosBancario;
 
 import org.springframework.stereotype.Service;

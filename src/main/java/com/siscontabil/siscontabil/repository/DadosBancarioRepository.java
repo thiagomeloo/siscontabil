@@ -1,3 +1,5 @@
+package com.siscontabil.siscontabil.repository;
+
 import com.siscontabil.siscontabil.model.DadosBancario;
 
 import org.springframework.data.jpa.repository.JpaRepository;

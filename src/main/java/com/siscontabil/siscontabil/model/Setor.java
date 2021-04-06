@@ -8,7 +8,6 @@ import lombok.*;
 @AllArgsConstructor
 @Setter
 @Getter
-@Builder(toBuilder = true)
 
 //javaPersistence
 @Embeddable

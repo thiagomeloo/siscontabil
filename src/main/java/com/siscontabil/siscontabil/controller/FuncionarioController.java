@@ -3,7 +3,6 @@ package com.siscontabil.siscontabil.controller;
 import com.siscontabil.siscontabil.model.DadosBancario;
 import com.siscontabil.siscontabil.model.Endereco;
 import com.siscontabil.siscontabil.model.Funcionario;
-import com.siscontabil.siscontabil.model.FuncionarioFuncao;
 import com.siscontabil.siscontabil.service.serviceImplents.EnderecoServiceImpl;
 import com.siscontabil.siscontabil.service.serviceImplents.FuncionarioServiceImpl;
 import com.siscontabil.siscontabil.service.serviceImplents.DadosBancarioServiceImpl;

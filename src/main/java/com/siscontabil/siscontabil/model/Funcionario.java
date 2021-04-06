@@ -57,6 +57,9 @@ public class Funcionario {
   @Column(name = "data_admissao")
   private Date dataAdmissao;
 
+  @Column (name = "data_demissao")
+  private Date dataDemissao;
+  
   @ManyToOne
   @JoinColumn(name = "id_endereco")
   private Endereco endereco;
@@ -69,7 +72,8 @@ public class Funcionario {
   @JoinColumn(name = "id_dados_bancarios")
   private DadosBancario dadosBancario;
   
-
+  @Column(name = "status", columnDefinition = "boolean default true")
+  private boolean status = true;
   
   
 }

@@ -31,22 +31,13 @@ public class FuncionarioController {
     return mv;
   }
 
-  @PostMapping("/funcionaio/create")
-  public String saveFuncionario(Funcionario funcionario, Endereco endereco){
-      
-      Endereco e = enderecoService.save(endereco);
-      funcionario.setEndereco(e);
-      System.out.println(e.getId());
-      funcionarioService.save(funcionario);
-      return HOME_PAGE;
-  }
-
   @PostMapping({"/funcionario/create"})
   public String saveFuncionario( Funcionario funcionario,Endereco endereco, RedirectAttributes redirectAttributes){
     redirectAttributes.addAttribute("message_text","Sucesso ao cadastrar o funcionario");
     redirectAttributes.addAttribute("message_type","success");
-
-    enderecoService.save(endereco);
+    Endereco e = enderecoService.save(endereco);
+    funcionario.setEndereco(e);
+    //enderecoService.save(endereco);
     funcionarioService.save(funcionario);
     
     return HOME_PAGE;

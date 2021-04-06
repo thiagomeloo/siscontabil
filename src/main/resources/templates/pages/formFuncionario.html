@@ -17,64 +17,87 @@
   
   <div class="container-fluid">
     <h4 class="mt-4" th:text="${funcionario}? 'Atualizar Funcionário' : 'Cadastrar Funcionário'"></h4>
-    <form class="row g-3 form-floating" method="POST" >
+    <form class="row g-3 form-floating" method="POST" th:action="${funcionario}? '/funcionario/update' : ''">
       
       <h5 class="mt-4 mb-0 text-muted">Dados Pessoais</h5>
       <div class="col-md-6 form-floating">
-        <input type="text" class="form-control" name="nome" id="inputNome" placeholder="Nome" required>
+        <input type="text" class="form-control" name="nome" id="inputNome" placeholder="Nome" required
+        th:value="${funcionario?.nome}"
+        >
         <label for="inputNome">Nome</label>
       </div>
 
       <div class="col-md-6 form-floating">
-        <input type="text" class="form-control" name="CPF" id="inputText" placeholder="Cpf">
+        <input type="text" class="form-control" name="CPF" id="inputText" placeholder="Cpf"
+        th:value="${funcionario?.CPF}"
+        >
         <label for="inputCpf">Cpf</label>
       </div>
       <div class="col-md-4 form-floating">
-        <input type="text" class="form-control" name="RG" id="inputRg" placeholder="Rg">
+        <input type="text" class="form-control" name="RG" id="inputRg" placeholder="Rg"
+        th:value="${funcionario?.RG}"
+        >
         <label for="inputRg">Rg</label>
       </div>
       <div class="col-md-4 form-floating">
-        <input type="text" class="form-control" name="tituloEleitor" id="inputTituloEleitor" placeholder="Titulo Eleitor">
+        <input type="text" class="form-control" name="tituloEleitor" id="inputTituloEleitor" placeholder="Titulo Eleitor"
+        th:value="${funcionario?.tituloEleitor}"
+        >
         <label for="inputTituloEleitor">Titulo Eleitor</label>
       </div>
       <div class="col-md-4 form-floating">
         <select id="inputSexo" class="form-select" name="sexo" aria-label="Selecione o Sexo">
-          <option selected>Selecione</option>
-          <option>Masculino</option>
-          <option>Feminino</option>
+          <option th:selected= "${funcionario} ? false : true" disabled >Selecione</option>
+          <option th:selected= "${funcionario != null and funcionario.sexo == 'Masculino'} ? true : false">Masculino</option>
+          <option th:selected= "${funcionario != null and funcionario.sexo == 'Feminino'} ? true : false" >Feminino</option>
         </select>
         <label for="inputSexo" class="form-label">Sexo</label>
       </div>
 
       <div class="col-md-6 form-floating">
-        <input type="text" class="form-control" name="nomeMae" id="inputNomeMae" placeholder="Nome da Mãe">
+        <input type="text" class="form-control" name="nomeMae" id="inputNomeMae" placeholder="Nome da Mãe"
+        th:value="${funcionario?.nomeMae}"
+        >
         <label for="inputNomeMae">Nome da Mãe</label>
       </div>
       <div class="col-md-6 form-floating">
-        <input type="text" class="form-control" name="nomePai" id="inputNomePai" placeholder="Nome do Pai">
+        <input type="text" class="form-control" name="nomePai" id="inputNomePai" placeholder="Nome do Pai"
+        th:value="${funcionario?.nomePai}"
+        >
         <label for="inputNomePai">Nome do Pai</label>
       </div>
       <div class="col-md-4 form-floating">
-        <input type="text" class="form-control" name="nacionalidade" id="inputNacionalidade" placeholder="Nacionalidade">
+        <input type="text" class="form-control" name="nacionalidade" id="inputNacionalidade" placeholder="Nacionalidade"
+        th:value="${funcionario?.nacionalidade}"
+        >
         <label for="inputNacionalidade">Nacionalidade</label>
       </div>
       <div class="col-md-4 form-floating">
-        <input type="text" class="form-control" name="naturalidade" id="inputNaturalidade" placeholder="Naturalidade">
+        <input type="text" class="form-control" name="naturalidade" id="inputNaturalidade" placeholder="Naturalidade"
+        th:value="${funcionario?.naturalidade}"
+        >
         <label for="inputNaturalidade">Naturalidade</label>
       </div>
       <div class="col-md-4 form-floating">
-        <input type="text" class="form-control" name="escolaridade" id="inputEscolaridade" placeholder="Nivel de Escolaridade">
+        <input type="text" class="form-control" name="escolaridade" id="inputEscolaridade" placeholder="Nivel de Escolaridade"
+        th:value="${funcionario?.escolaridade}"
+        >
         <label for="inputEscolaridade">Nivel de Escolaridade</label>
       </div>
 
       <h5 class="mt-4 mb-0 text-muted">Dados Profissionais</h5>
 
-      <div class="col-md-2 form-floating">
-        <input type="date" class="form-control" name="dataAdmissao" id="inputAdmissao" placeholder="Admissao">
-        <label for="inputAdmissao" class="form-label">Data de Admissão</label>
+      <div class="col-md-3 form-floating">
+        <input type="date" class="form-control" name="dataAdmissao" id="inputAdmissao" placeholder="Admissao"
+        th:value="${#dates.format(funcionario?.dataAdmissao, 'yyyy-MM-dd')}"
+        >
+        <label for="inputAdmissao" class="form-label" >Data de Admissão</label>
       </div>
-      <div class="col-md-2 form-floating">
-        <input type="date" class="form-control" name="dataDemissao" id="inputDemissao" placeholder="Demissao">
+      <div class="col-md-3 form-floating">
+        <input type="date" class="form-control" name="dataDemissao" id="inputDemissao" placeholder="Demissao"
+        th:value="${#dates.format(funcionario?.dataDemissao, 'yyyy-MM-dd')}"
+        th:disabled="${funcionario}? false : true"
+        >
         <label for="inputDemissao" class="form-label">Data de Demissão</label>
       </div>
 
@@ -85,7 +108,7 @@
             th:each="funcao : ${allFuncao}"
             th:value="${funcao.id}"
             th:text="${funcao.cargo}"
-             
+            th:selected= "${funcionario?.funcao != null and funcionario?.funcao.id == funcao.id} ? true : false" 
           >...</option>
         </select>
         <label for="inputFuncao" class="form-label">Função</label>
@@ -95,23 +118,32 @@
       <h5 class="mt-4 mb-0 text-muted">Endereço</h5>
 
       <div class="col-md-6 form-floating">
-        <input type="text" class="form-control" name="logradouro" id="inputRua" placeholder="Rua">
+        <input type="text" class="form-control" name="logradouro" id="inputRua" placeholder="Rua"
+        th:value="${funcionario?.endereco?.logradouro}"
+        >
         <label for="inputRua" class="form-label">Rua</label>
       </div>
-      <div class="col-md-2 form-floating">
-        <input type="number" class="form-control" name="numero" id="inputNumero" placeholder="Numero">
+      <div class="col-md-3 form-floating">
+        <input type="number" class="form-control" name="numero" id="inputNumero" placeholder="Numero"
+        th:value="${funcionario?.endereco?.numero}"
+        >
         <label for="inputNumero" class="form-label">Numero</label>
       </div>
-      <div class="col-md-2 form-floating">
-        <input type="number" class="form-control" name="cep" id="inputCep" placeholder="Cep">
+      <div class="col-md-3 form-floating">
+        <input type="number" class="form-control" name="cep" id="inputCep" placeholder="Cep"
+        th:value="${funcionario?.endereco?.cep}">
         <label for="inputCep" class="form-label">CEP</label>
       </div>
       <div class="col-md-4 form-floating">
-        <input type="text" class="form-control" name="bairro" id="inputBairro" placeholder="Bairro">
+        <input type="text" class="form-control" name="bairro" id="inputBairro" placeholder="Bairro"
+        th:value="${funcionario?.endereco?.bairro}"
+        >
         <label for="inputBairro" class="form-label">Bairro</label>
       </div>
       <div class="col-md-4 form-floating">
-        <input type="text" class="form-control" name="cidade" id="inputCidade" placeholder="Cidade">
+        <input type="text" class="form-control" name="cidade" id="inputCidade" placeholder="Cidade"
+        th:value="${funcionario?.endereco?.cidade}"
+        >
         <label for="inputCidade" class="form-label">Cidade</label>
       </div>
       <div class="col-md-4 form-floating">
@@ -124,21 +156,33 @@
 
       <h5 class="mt-4 mb-0 text-muted">Dados Bancarios</h5>
 
-      <div class="col-md-4 form-floating">
-        <input type="text" class="form-control" name="agencia" id="inputAgencia" placeholder="Agencia">
+      <div class="col-md-3 form-floating">
+        <input type="text" class="form-control" name="agencia" id="inputAgencia" placeholder="Agencia"
+        th:value="${funcionario?.dadosBancario?.agencia}"
+        >
         <label for="inputAgencia" class="form-label">Agência</label>
       </div>
-      <div class="col-md-2 form-floating">
-        <input type="text" class="form-control" name="conta" id="inputConta" placeholder="Conta">
+      <div class="col-md-3 form-floating">
+        <input type="text" class="form-control" name="conta" id="inputConta" placeholder="Conta"
+        th:value="${funcionario?.dadosBancario?.conta}"
+        >
         <label for="inputConta" class="form-label">Nº da Conta</label>
       </div>
-      <div class="col-md-4 form-floating">
-        <input type="text" class="form-control" name="banco" id="inputBanco" placeholder="Banco">
+      <div class="col-md-6 form-floating">
+        <input type="text" class="form-control" name="banco" id="inputBanco" placeholder="Banco"
+        th:value="${funcionario?.dadosBancario?.banco}"
+        >
         <label for="inputBairro" class="form-label">Banco</label>
       </div>
 
+      <div th:if="${funcionario}">
+        <input type="hidden" th:value="${funcionario?.id}" name="id" />
+        <input type="hidden" th:value="${funcionario?.endereco?.idEndereco}" name="idEndereco" />
+        <input type="hidden" th:value="${funcionario?.dadosBancario?.idDadosBancario}" name="idDadosBancario" />
+      </div>
+
       <div class="col-12">
-        <button type="submit" class="btn btn-primary btn-lg">Cadastrar</button>
+        <button type="submit" class="btn btn-primary btn-lg" th:text="${funcionario}? 'Atualizar' : 'Cadastrar'"></button>
       </div>
     </form>
   </div>

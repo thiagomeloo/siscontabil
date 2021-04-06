@@ -8,8 +8,10 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import lombok.Data;
+import lombok.ToString;
 //lombok
 @Data
+@ToString
 //javaPersistence
 @Entity
 @Table(name = "TB_ENDERECO")
@@ -17,7 +19,7 @@ public class Endereco {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private long id;
+  private long idEndereco;
 
   @Column(name = "logradouro")
   private String logradouro;

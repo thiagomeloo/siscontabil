@@ -1,9 +1,13 @@
 package com.siscontabil.siscontabil.controller;
 
+import com.siscontabil.siscontabil.model.DadosBancario;
 import com.siscontabil.siscontabil.model.Endereco;
 import com.siscontabil.siscontabil.model.Funcionario;
+import com.siscontabil.siscontabil.model.FuncionarioFuncao;
 import com.siscontabil.siscontabil.service.serviceImplents.EnderecoServiceImpl;
 import com.siscontabil.siscontabil.service.serviceImplents.FuncionarioServiceImpl;
+import com.siscontabil.siscontabil.service.serviceImplents.DadosBancarioServiceImpl;
+import com.siscontabil.siscontabil.service.serviceImplents.FuncionarioFuncaoServiceImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,21 +27,31 @@ public class FuncionarioController {
   @Autowired
   EnderecoServiceImpl enderecoService;
 
+  @Autowired
+  DadosBancarioServiceImpl dadosBancarioService;
+
+  @Autowired
+  FuncionarioFuncaoServiceImpl funcionarioFuncaoService;
+
   @GetMapping("/funcionario/create")
   public ModelAndView getFormCreate(){
     ModelAndView mv = new ModelAndView("pages/formFuncionario");
-    mv.addObject("allEndereco", enderecoService.findAll());
-    mv.addObject("allFuncinarios", funcionarioService.findAll());
+    mv.addObject("allFuncao", funcionarioFuncaoService.findAll() );
     return mv;
-  }
+  } 
 
   @PostMapping({"/funcionario/create"})
-  public String saveFuncionario( Funcionario funcionario,Endereco endereco, RedirectAttributes redirectAttributes){
+  public String saveFuncionario( Funcionario funcionario,Endereco endereco, DadosBancario dadosBancario, 
+   RedirectAttributes redirectAttributes){
     redirectAttributes.addAttribute("message_text","Sucesso ao cadastrar o funcionario");
     redirectAttributes.addAttribute("message_type","success");
+    
     Endereco e = enderecoService.save(endereco);
+    DadosBancario d = dadosBancarioService.save(dadosBancario);
+    
+    funcionario.setDadosBancario(d);
     funcionario.setEndereco(e);
-    //enderecoService.save(endereco);
+    
     funcionarioService.save(funcionario);
     
     return HOME_PAGE;

@@ -9,12 +9,15 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.Data;
+import lombok.ToString;
 
 //lombok
 @Data
+@ToString
 //javaPersistence
 @Entity
 @Table(name = "TB_FUNCIONARIO_FUNCAO")
+
 public class FuncionarioFuncao {
   
   @Id

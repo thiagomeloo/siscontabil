@@ -34,7 +34,7 @@
         <label for="inputRg">Rg</label>
       </div>
       <div class="col-md-4 form-floating">
-        <input type="text" class="form-control" name="titulo_eleitor" id="inputTituloEleitor" placeholder="Titulo Eleitor">
+        <input type="text" class="form-control" name="tituloEleitor" id="inputTituloEleitor" placeholder="Titulo Eleitor">
         <label for="inputTituloEleitor">Titulo Eleitor</label>
       </div>
       <div class="col-md-4 form-floating">
@@ -70,12 +70,25 @@
       <h5 class="mt-4 mb-0 text-muted">Dados Profissionais</h5>
 
       <div class="col-md-2 form-floating">
-        <input type="text" class="form-control" name="data_Admissao" id="inputAdmissao" placeholder="Admissao">
+        <input type="date" class="form-control" name="" id="inputAdmissao" placeholder="Admissao">
         <label for="inputAdmissao" class="form-label">Data de Admissão</label>
       </div>
       <div class="col-md-2 form-floating">
-        <input type="text" class="form-control" name="data_Demissao" id="inputDemissao" placeholder="Demissao">
+        <input type="text" class="form-control" name="" id="inputDemissao" placeholder="Demissao">
         <label for="inputDemissao" class="form-label">Data de Demissão</label>
+      </div>
+
+      <div class="col-md-6 form-floating">
+        <select id="inputFuncao" class="form-select" name="funcao" required>
+          <option selected disabled value="">Selecione</option>
+          <option 
+            th:each="funcao : ${allFuncao}"
+            th:value="${funcao.id}"
+            th:text="${funcao.cargo}"
+             
+          >...</option>
+        </select>
+        <label for="inputFuncao" class="form-label">Função</label>
       </div>
     
       
@@ -88,6 +101,10 @@
       <div class="col-md-2 form-floating">
         <input type="number" class="form-control" name="numero" id="inputNumero" placeholder="Numero">
         <label for="inputNumero" class="form-label">Numero</label>
+      </div>
+      <div class="col-md-2 form-floating">
+        <input type="number" class="form-control" name="cep" id="inputCep" placeholder="Cep">
+        <label for="inputCep" class="form-label">CEP</label>
       </div>
       <div class="col-md-4 form-floating">
         <input type="text" class="form-control" name="bairro" id="inputBairro" placeholder="Bairro">

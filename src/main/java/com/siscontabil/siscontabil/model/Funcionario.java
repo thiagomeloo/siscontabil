@@ -11,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.Data;
 
 //lombok
@@ -54,9 +56,11 @@ public class Funcionario {
   @Column(name = "titulo_eleitor")
   private String tituloEleitor;
 
-    @Column(name = "data_admissao")
+  @DateTimeFormat(pattern = "yyyy-MM-dd")
+  @Column(name = "data_admissao")
   private Date dataAdmissao;
 
+  @DateTimeFormat(pattern = "yyyy-MM-dd")
   @Column (name = "data_demissao")
   private Date dataDemissao;
   

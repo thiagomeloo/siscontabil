@@ -32,6 +32,15 @@ public class FuncionarioController {
   @Autowired
   FuncionarioFuncaoServiceImpl funcionarioFuncaoService;
 
+  @GetMapping("/funcionario/")
+  public ModelAndView getFuncionariosFuncao(){
+    ModelAndView mv = new ModelAndView("pages/listaFuncionario");
+      mv.addObject("allFuncionario", funcionarioService.findAll());
+      System.out.println("AAAAAAAAA"+mv.toString());
+      return mv;
+  }
+
+
   @GetMapping("/funcionario/create")
   public ModelAndView getFormCreate(){
     ModelAndView mv = new ModelAndView("pages/formFuncionario");

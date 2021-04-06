@@ -38,7 +38,6 @@ public class FuncionarioController {
   public ModelAndView getFuncionariosFuncao(){
     ModelAndView mv = new ModelAndView("pages/listaFuncionario");
       mv.addObject("allFuncionario", funcionarioService.findAll());
-      System.out.println("AAAAAAAAA"+mv.toString());
       return mv;
   }
 

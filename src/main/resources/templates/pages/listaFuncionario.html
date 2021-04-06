@@ -43,12 +43,10 @@
           <td class="text-center"><span class="badge bg-success" th:text="${#dates.format(funcionario.dataAdmissao,'dd/MM/yyyy')}"></span></td>
           <td class="text-center"><span class="badge bg-danger" th:text="${funcionario.dataDemissao != null}? ${#dates.format(funcionario.dataDemissao,'dd/MM/yyyy')} : 'Não Consta'"></span></td>
           <td class="text-center">
-            <a href="#" class="btn btn-sm btn-warning" 
-            >
-                <i class="bi bi-eye"></i>
+            <a href="#" class="btn btn-sm btn-warning" >
+              <i class="bi bi-eye"></i>
             </a>
-            <a href="#" class="btn btn-sm btn-primary" 
-            >
+            <a th:href="@{'/funcionario/update/'+${funcionario.id}}" class="btn btn-sm btn-primary">
               <i class="bi bi-pencil"></i>
             </a>
             <a href="#" class="btn btn-sm btn-danger">

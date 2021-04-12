@@ -26,7 +26,7 @@ public class FolhaPagamento {
   private long id;
 
   @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-  private List<Funcionario> funcionarios;
+  private List<ContraCheque> contraCheques;
   
   @Column(name = "competencia")
   private String competencia;

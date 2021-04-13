@@ -30,6 +30,11 @@ public class SetorServiceImpl implements SetorService {
     return repository.findById(id).get();
   }
 
+  @Override
+  public List<Setor> findByNome(String nome) {
+    return repository.findByNome(nome);
+  }
+
   
   
 }

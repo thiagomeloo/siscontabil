@@ -12,5 +12,6 @@ public interface SetorService {
   public List<Setor> findAll();
   public Setor save(Setor setor);
   public Setor findById(Long id);
+  public List<Setor> findByNome(String nome);
   
 }

@@ -43,7 +43,7 @@ public class SetorServiceImplTest {
       .when(repository)
       .findByNome(this.setor.getNome());
 
-    List<Setor> setoresRetornados = repository.findByNome(this.setor.getNome());
+    List<Setor> setoresRetornados = setorService.findByNome(this.setor.getNome());
 
     assertEquals(1, setoresRetornados.size());
     assertEquals(this.setor.getNome(), setoresRetornados.get(0).getNome());

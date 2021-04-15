@@ -29,8 +29,8 @@
           >...</option>
         </select>
         <div class="input-group-prepend">
-          <button type="submit" class="btn btn-primary btn-lg" th:text="${funcao}? 'Atualizar' : 'Incluir Funcionário'"></button>
-          <button type="submit" class="btn btn-success btn-lg" th:text="${funcao}? 'Atualizar' : 'Lançar Folha'"></button>
+          <a href='/folha-pagamento/add-contracheque' class="btn btn-primary btn-lg" th:text="${funcao}? 'Atualizar' : 'Incluir Funcionário'"></a>
+          <a class="btn btn-success btn-lg" th:text="${funcao}? 'Atualizar' : 'Lançar Folha'"></a>
         </div> 
       </div>
     </form>
@@ -51,12 +51,12 @@
           </tr>
         </thead>
         <tbody>
-          <tr th:each="setor : ${allSetors}">
-            <td th:text="${setor.id}"></td>
-            <td th:text="${setor.nome}"></td>
-            <td th:text="${setor.descricao}"></td>
+          <tr th:each="contraCheque : ${allContraCheques}">
+            <td th:text="${contraCheque.comissao}"></td>
+            <!-- <td th:text="${setor.nome}"></td>
+            <td th:text="${setor.descricao}"></td> -->
             <td class="">
-              <a th:href="@{'/setor/update/'+${setor.id}}" class="btn btn-sm btn-primary">
+              <a th:href="@{'/setor/update/'+${contraCheque.id}}" class="btn btn-sm btn-primary">
                 <i class="bi bi-pencil"></i>
               </a>
               <a href="#" class="btn btn-sm btn-danger">

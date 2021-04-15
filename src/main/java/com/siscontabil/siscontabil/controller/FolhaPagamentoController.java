@@ -7,7 +7,12 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import com.siscontabil.siscontabil.model.ContraCheque;
+import com.siscontabil.siscontabil.service.FuncionarioService;
+import com.siscontabil.siscontabil.service.serviceImplents.FuncionarioFuncaoServiceImpl;
+import com.siscontabil.siscontabil.service.serviceImplents.FuncionarioServiceImpl;
+import com.siscontabil.siscontabil.service.serviceImplents.SetorServiceImpl;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,17 +23,22 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class FolhaPagamentoController {
   
+  @Autowired
+  SetorServiceImpl setorService;
+
+  @Autowired
+  FuncionarioServiceImpl funcionarioService;
+
   @GetMapping("/folha-pagamento/create")
   public String getFormFolhaPagamento(HttpSession session, Model model){
     if(session.getAttribute("contracheques") == null){
 
       model.addAttribute("allContraCheques", new ArrayList<ContraCheque>());
-
+      model.addAttribute("allSetor", setorService.findAll());
     }else{
 
       List<ContraCheque> contraCheques = contraCheques = (List<ContraCheque>) session.getAttribute("contracheques");
       model.addAttribute("allContraCheques", contraCheques);
-
     }
 
     return "pages/formFolhaPagamento";
@@ -36,6 +46,7 @@ public class FolhaPagamentoController {
 
   @GetMapping("/folha-pagamento/add-contracheque")
   public String getViewAddContraCheque(HttpSession session, Model model){
+    model.addAttribute("allFuncionarios", funcionarioService.findAll());
     return "pages/formContraCheque";
   }
   

@@ -19,14 +19,37 @@
     <form class="row g-3 form-floating needs-validation" method="POST">
 
       <h5 class="mt-4 mb-0 text-muted">Dados ContraCheque</h5>
+
       <div class="col-md-6 form-floating">
+        <select id="inputFuncionario" class="form-select" name="funcionario" required>
+          <option selected disabled value="">Selecione</option>
+          <option 
+            th:each="funcionario : ${allFuncionarios}"
+            th:value="${funcionario.id}"
+            th:text="${funcionario.nome}"
+          >...</option>
+        </select>
+        <label for="inputFuncionario" class="form-label">Funcionário</label>
+      </div>
+
+      <div class="col-md-2 form-floating">
         <input type="number" class="form-control" id="inputComissao" name="comissao" placeholder="Comissao" required
         >
         <label for="inputComissao">Comissão</label>
       </div>
-
+      <div class="col-md-2 form-floating">
+        <input type="number" class="form-control" id="inputComissao" name="descontoINSS" placeholder="Comissao" required
+        >
+        <label for="inputComissao">Desconto INSS %</label>
+      </div>
+      <div class="col-md-2 form-floating">
+        <input type="date" class="form-control" id="inputComissao" name="dataEmissao" placeholder="Comissao" required
+        >
+        <label for="inputComissao">Dat. Emissão</label>
+      </div>
+      
       <div class="col-12">
-        <button type="submit" class="btn btn-primary btn-lg" th:text="${setor}? 'Atualizar' : 'Cadastrar'"></button>
+        <button type="submit" class="btn btn-primary btn-lg" th:text="${setor}? 'Atualizar' : 'Incluir'"></button>
       </div>
 
     </form>

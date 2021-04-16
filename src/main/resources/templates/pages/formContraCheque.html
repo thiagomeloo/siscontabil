@@ -16,7 +16,7 @@
 
   <div class="container-fluid">
     <h4 class="mt-4"> Incluir Funcionario a Folha de Pagamento</h4>
-    <form class="row g-3 form-floating needs-validation" method="POST">
+    <form class="row g-3 form-floating needs-validation" method="POST" action="/folha-pagamento/add-contracheque/">
 
       <h5 class="mt-4 mb-0 text-muted">Dados ContraCheque</h5>
 
@@ -38,7 +38,7 @@
         <label for="inputComissao">Comissão</label>
       </div>
       <div class="col-md-2 form-floating">
-        <input type="number" class="form-control" id="inputComissao" name="descontoINSS" placeholder="Comissao" required
+        <input type="number" class="form-control" id="inputComissao" name="descontoINSS" placeholder="Comissao" min="0" max="100" onkeyup="VerifieldMinMax(this)" required
         >
         <label for="inputComissao">Desconto INSS %</label>
       </div>
@@ -47,7 +47,6 @@
         >
         <label for="inputComissao">Dat. Emissão</label>
       </div>
-      
       <div class="col-12">
         <button type="submit" class="btn btn-primary btn-lg" th:text="${setor}? 'Atualizar' : 'Incluir'"></button>
       </div>
@@ -55,7 +54,7 @@
     </form>
   </div>
   
-
+<script src="/js/inputMinMax.js"></script>
 <script src="/bootstrap-5.0/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

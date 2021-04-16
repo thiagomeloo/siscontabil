@@ -12,4 +12,6 @@ public interface FuncionarioService {
     public Funcionario save(Funcionario funcionario);
     public Funcionario findById(Long id);
     public List<Funcionario> findAll();
+    public List<Funcionario> allFuncionarioBySetor(Long idSetor);
+    
 }

@@ -30,6 +30,11 @@ public class FuncionarioServiceImpl implements FuncionarioService {
     return repository.findById(id).get();
   }
 
+  @Override
+  public List<Funcionario> allFuncionarioBySetor(Long idSetor) {
+    return repository.allFuncionarioBySetor(idSetor);
+  }
+
   
   
 }

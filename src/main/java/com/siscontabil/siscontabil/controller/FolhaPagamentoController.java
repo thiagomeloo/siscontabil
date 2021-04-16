@@ -7,8 +7,6 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import com.siscontabil.siscontabil.model.ContraCheque;
-import com.siscontabil.siscontabil.service.FuncionarioService;
-import com.siscontabil.siscontabil.service.serviceImplents.FuncionarioFuncaoServiceImpl;
 import com.siscontabil.siscontabil.service.serviceImplents.FuncionarioServiceImpl;
 import com.siscontabil.siscontabil.service.serviceImplents.SetorServiceImpl;
 

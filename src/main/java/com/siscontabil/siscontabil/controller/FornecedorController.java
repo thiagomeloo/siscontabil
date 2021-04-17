@@ -72,6 +72,8 @@ public class FornecedorController {
     
     if(fornecedor.isStatus() == false){
       fornecedor.setStatus(fornecedor.isStatus());
+    }else{
+      fornecedor.setStatus(true);
     }
     Endereco e = enderecoService.save(endereco);
     fornecedor.setEndereco(e);

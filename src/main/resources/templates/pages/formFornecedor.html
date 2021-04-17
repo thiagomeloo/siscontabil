@@ -14,7 +14,80 @@
 
   <div th:insert="fragments/menu :: menu"></div>
   
-  <P>Fornecedor</P>
+  <div class="container-fluid">
+    <h4 class="mt-4" th:text="${fornecedor}? 'Atualizar Fornecedor' : 'Cadastrar Fornecedor'"></h4>
+    <form class="row g-3 form-floating" method="POST" th:action="${fornecedor}? '/fornecedor/update' : ''">
+      
+      <h5 class="mt-4 mb-0 text-muted">Dados Do fornecedor</h5>
+      <div class="col-md-4 form-floating">
+        <input type="text" class="form-control" name="nome" id="inputNome" placeholder="Nome" required
+        th:value="${fornecedor?.nome}"
+        >
+        <label for="inputNome">Nome</label>
+      </div>
+
+      <div class="col-md-4 form-floating">
+        <input type="text" class="form-control" name="CNPJ" id="inputText" placeholder="CNPJ"
+        th:value="${fornecedor?.CNPJ}"
+        >
+        <label for="inputCNPJ">CNPJ</label>
+      </div>
+
+      <div class="form-check col-md-3">
+        <input th:disabled="${fornecedor}? false : true" name="status" class="form-check-input" type="checkbox" value="false" id="flexCheckChecked"
+        >
+        <label class="form-check-label" for="flexCheckChecked">Inativar</label>
+      </div>
+      
+      <h5 class="mt-4 mb-0 text-muted">Endereço</h5>
+
+      <div class="col-md-6 form-floating">
+        <input type="text" class="form-control" name="logradouro" id="inputRua" placeholder="Rua"
+        th:value="${fornecedor?.endereco?.logradouro}"
+        >
+        <label for="inputRua" class="form-label">Rua</label>
+      </div>
+      <div class="col-md-3 form-floating">
+        <input type="number" class="form-control" name="numero" id="inputNumero" placeholder="Numero"
+        th:value="${fornecedor?.endereco?.numero}"
+        >
+        <label for="inputNumero" class="form-label">Numero</label>
+      </div>
+      <div class="col-md-3 form-floating">
+        <input type="number" class="form-control" name="cep" id="inputCep" placeholder="Cep"
+        th:value="${fornecedor?.endereco?.cep}">
+        <label for="inputCep" class="form-label">CEP</label>
+      </div>
+      <div class="col-md-4 form-floating">
+        <input type="text" class="form-control" name="bairro" id="inputBairro" placeholder="Bairro"
+        th:value="${fornecedor?.endereco?.bairro}"
+        >
+        <label for="inputBairro" class="form-label">Bairro</label>
+      </div>
+      <div class="col-md-4 form-floating">
+        <input type="text" class="form-control" name="cidade" id="inputCidade" placeholder="Cidade"
+        th:value="${fornecedor?.endereco?.cidade}"
+        >
+        <label for="inputCidade" class="form-label">Cidade</label>
+      </div>
+      <div class="col-md-4 form-floating">
+        <select id="inputEstado" class="form-select" name="uf">
+          <option selected>Selecione</option>
+          <option>...</option>
+        </select>
+        <label for="inputEstado" class="form-label">Estado</label>
+      </div>
+
+      <div th:if="${fornecedor}">
+        <input type="hidden" th:value="${fornecedor.id}" name="id" />
+        <input type="hidden" th:value="${fornecedor.endereco?.idEndereco}" name="idEndereco" />
+      </div>
+
+      <div class="col-12">
+        <button type="submit" class="btn btn-primary btn-lg" th:text="${fornecedor}? 'Atualizar' : 'Cadastrar'"></button>
+      </div>
+    </form>
+  </div>
 
 
 <script src="/bootstrap-5.0/js/bootstrap.bundle.min.js"></script>

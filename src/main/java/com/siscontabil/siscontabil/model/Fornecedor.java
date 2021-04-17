@@ -33,7 +33,7 @@ public class Fornecedor {
   @JoinColumn(name = "id_endereco")
   private Endereco endereco;
 
-  @Column(name = "status")
-  private boolean status;
+  @Column(name = "status", columnDefinition = "boolean default true")
+  private boolean status = true;
   
 }

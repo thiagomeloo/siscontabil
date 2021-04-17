@@ -70,7 +70,9 @@ public class FornecedorController {
     redirectAttributes.addAttribute("message_text","Sucesso ao atualizar o fornecedor");
     redirectAttributes.addAttribute("message_type","success");
     
-    
+    if(fornecedor.isStatus() == false){
+      fornecedor.setStatus(fornecedor.isStatus());
+    }
     Endereco e = enderecoService.save(endereco);
     fornecedor.setEndereco(e);
     fornecedorService.save(fornecedor);

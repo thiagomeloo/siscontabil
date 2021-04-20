@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 public interface FolhaPagamentoService {
 
   public List<FolhaPagamento> findAll();
-  public FolhaPagamento save(FolhaPagamento setor);
+  public FolhaPagamento save(FolhaPagamento folhaPagamento);
   public FolhaPagamento findById(Long id);
   
 }

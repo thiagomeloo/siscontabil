@@ -31,6 +31,11 @@ public class FornecedorServiceImpl implements FornecedorService{
         return repository.findAll();
     }
 
+    @Override
+    public List<Fornecedor> allFornecedorAtivo() {
+        return repository.allFornecedorAtivo();
+    }
+
     
     
 }

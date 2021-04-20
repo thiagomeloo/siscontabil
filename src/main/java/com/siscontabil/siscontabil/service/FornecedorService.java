@@ -11,4 +11,5 @@ public interface FornecedorService {
     public Fornecedor save(Fornecedor fornecedor);
     public Fornecedor findById(Long id);
     public List<Fornecedor> findAll();
+    public List<Fornecedor> allFornecedorAtivo();
 }

@@ -17,6 +17,56 @@
   
   <div class="container-fluid">
     <h4 class="mt-4" th:text="${produto}? 'Atualizar Produto' : 'Cadastrar Produto'" ></h4>
+
+      <form class="row g-3 form-floating" method="POST" th:action="${produto}? '/produto/update' : ''">
+        
+        <h5 class="mt-4 mb-0 text-muted">Dados do Produto</h5>
+        <div class="col-md-5 form-floating">
+          <input type="text" class="form-control" name="descricao" id="inputDescricao" placeholder="descricao" required
+          th:value="${produto?.descricao}"
+          >
+          <label for="inputNome">Descrição</label>
+        </div>
+  
+        <div class="col-md-1 form-floating">
+          <input type="number" class="form-control" name="quantidade" id="inputQuantidade" placeholder="Quantidade"
+          th:value="${produto?.quantidade}" required
+          >
+          <label for="inputCpf">Quant.</label>
+        </div>
+        <div class="col-md-3 form-floating">
+          <input type="number" class="form-control" name="valorDeCusto" id="inputCusto" placeholder="valor De Custo"
+          th:value="${produto?.valorDeCusto}" required
+          >
+          <label for="inputRg">Valor de Custo</label>
+        </div>
+        <div class="col-md-3 form-floating">
+          <input type="number" class="form-control" name="valorDeSaida" id="inputSaida" placeholder="Valor de Saída"
+          th:value="${produto?.valorDeSaida}" required
+          >
+          <label for="inputSaida">Valor de Saída</label>
+        </div>
+      
+        <div class="col-md-6 form-floating">
+          <select id="inputFornecedor" class="form-select" name="fornecedor" required>
+            <option selected disabled value="">Selecione</option>
+            <option 
+              th:each="fornecedor : ${allFornecedorAtivo}"
+              th:value="${fornecedor.id}"
+              th:text="${fornecedor.nome}"
+              th:selected= "${produto?.fornecedor != null and produto?.fornecedor.id == fornecedor.id} ? true : false"
+            >...</option>
+          </select>
+          <label for="inputFornecedor" class="form-label">Fornecedor</label>
+        </div>
+
+        <div th:if="${produto}">
+          <input type="hidden" th:value="${produto?.id}" name="id" />
+        </div>
+
+        <div class="col-12">
+          <button type="submit" class="btn btn-primary btn-lg" th:text="${produto}? 'Atualizar' : 'Cadastrar'"></button>
+        </div>
   </div>
 
 

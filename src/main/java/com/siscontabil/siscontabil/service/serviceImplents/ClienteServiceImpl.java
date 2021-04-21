@@ -29,5 +29,16 @@ public class ClienteServiceImpl implements ClienteService {
     public Cliente findById(Long id) {
         return repository.findById(id).get();
     }
+
+    @Override
+    public List<Cliente> allClienteAtivo() {
+        
+        return repository.allClienteAtivo();
+    }
+
+    @Override
+    public List<Cliente> allClienteInativo() {
+        return repository.allClienteInativo();
+    }
     
 }

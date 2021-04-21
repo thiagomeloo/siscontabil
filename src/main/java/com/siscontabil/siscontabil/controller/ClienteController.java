@@ -25,10 +25,24 @@ ClienteServiceImpl clienteService;
 @Autowired
 EnderecoServiceImpl enderecoService;
 
-@GetMapping("/cliente/")
+@GetMapping("/cliente/list/")
 public ModelAndView getCliente(){
   ModelAndView mv = new ModelAndView("pages/listCliente");
     mv.addObject("allCliente", clienteService.findAll());
+    return mv;
+}
+
+@GetMapping("/cliente/list/ativo")
+public ModelAndView getClienteAtivo(){
+  ModelAndView mv = new ModelAndView("pages/listCliente");
+    mv.addObject("allCliente", clienteService.allClienteAtivo());
+    return mv;
+}
+
+@GetMapping("/cliente/list/inativo")
+public ModelAndView getClienteInativo(){
+  ModelAndView mv = new ModelAndView("pages/listCliente");
+    mv.addObject("allCliente", clienteService.allClienteInativo());
     return mv;
 }
 

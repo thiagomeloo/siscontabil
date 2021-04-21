@@ -52,6 +52,22 @@ public class FolhaPagamentoController {
   public String detailFolhaPagamento(@PathVariable("idFolhaPagamento") long idFolhaPagamento, Model model){
     FolhaPagamento folhaPagamento = folhaPagamentoService.findById(idFolhaPagamento);
     model.addAttribute("folhaPagamento", folhaPagamento);
+    
+    double totalProventos = 0;
+    double totalComissao = 0;
+    double totalDescontoINSS = 0;
+
+
+    List<ContraCheque> contraCheques = folhaPagamento.getContraCheques();
+    for(int i = 0; i < contraCheques.size(); i++){
+      totalProventos += contraCheques.get(i).getFuncionario().getFuncao().getSalario();
+      totalComissao += contraCheques.get(i).getComissao();
+      totalDescontoINSS += contraCheques.get(i).getDescontoINSS();
+    }
+
+    model.addAttribute("totalProventos", totalProventos);
+    model.addAttribute("totalComissao", totalComissao);
+    model.addAttribute("totalDescontoINSS", totalDescontoINSS);
     return "pages/detailsFolhaPagamento";
   }
 

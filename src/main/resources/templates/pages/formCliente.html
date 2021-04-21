@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Sistema Contabil</title>
+  <link rel="stylesheet" href="/bootstrap-5.0/css/bootstrap.min.css">
+
+
+</head>
+
+<body>
+
+  <div th:insert="fragments/menu :: menu"></div>
+  
+  <div class="container-fluid">
+    <h4 class="mt-4" th:text="${cliente}? 'Atualizar Cliente' : 'Cadastrar Cliente'"></h4>
+    <form class="row g-3 form-floating" method="POST" th:action="${cliente}? '/cliente/update' : ''">
+      
+      <h5 class="mt-4 mb-0 text-muted">Dados Pessoais</h5>
+      <div class="col-md-4 form-floating">
+        <input type="text" class="form-control" name="nome" id="inputNome" placeholder="Nome" required
+        th:value="${cliente?.nome}"
+        >
+        <label for="inputNome">Nome</label>
+      </div>
+
+      <div class="col-md-4 form-floating">
+        <input type="text" class="form-control" name="CPF" id="inputText" placeholder="Cpf"
+        th:value="${cliente?.CPF}"
+        >
+        <label for="inputCpf">Cpf</label>
+      </div>
+      
+      <div class="form-check col-md-3">
+        <input th:disabled="${cliente}? false : true" name="status" class="form-check-input" type="checkbox" value="false" id="flexCheckChecked"
+        th:checked="${cliente?.status==false}? true: false">
+        <label class="form-check-label" for="flexCheckChecked">Inativar</label>
+      </div>
+      <h5 class="mt-4 mb-0 text-muted">Endereço</h5>
+
+      <div class="col-md-6 form-floating">
+        <input type="text" class="form-control" name="logradouro" id="inputRua" placeholder="Rua"
+        th:value="${cliente?.endereco?.logradouro}"
+        >
+        <label for="inputRua" class="form-label">Rua</label>
+      </div>
+      <div class="col-md-3 form-floating">
+        <input type="number" class="form-control" name="numero" id="inputNumero" placeholder="Numero"
+        th:value="${cliente?.endereco?.numero}"
+        >
+        <label for="inputNumero" class="form-label">Numero</label>
+      </div>
+      <div class="col-md-3 form-floating">
+        <input type="number" class="form-control" name="cep" id="inputCep" placeholder="Cep"
+        th:value="${cliente?.endereco?.cep}">
+        <label for="inputCep" class="form-label">CEP</label>
+      </div>
+      <div class="col-md-4 form-floating">
+        <input type="text" class="form-control" name="bairro" id="inputBairro" placeholder="Bairro"
+        th:value="${cliente?.endereco?.bairro}"
+        >
+        <label for="inputBairro" class="form-label">Bairro</label>
+      </div>
+      <div class="col-md-4 form-floating">
+        <input type="text" class="form-control" name="cidade" id="inputCidade" placeholder="Cidade"
+        th:value="${cliente?.endereco?.cidade}"
+        >
+        <label for="inputCidade" class="form-label">Cidade</label>
+      </div>
+      <div class="col-md-4 form-floating">
+        <input type="text" class="form-control" name="UF" id="inputEstado" placeholder="Estado"
+        th:value="${cliente?.endereco?.UF}"
+        >
+        <label for="inputCidade" class="form-label">Estado</label>
+      </div>
+
+      <div th:if="${cliente}">
+        <input type="hidden" th:value="${cliente?.id}" name="id" />
+        <input type="hidden" th:value="${cliente?.endereco?.idEndereco}" name="idEndereco" />
+      </div>
+
+      <div class="col-12">
+        <button type="submit" class="btn btn-primary btn-lg" th:text="${cliente}? 'Atualizar' : 'Cadastrar'"></button>
+      </div>
+    </form>
+  </div>
+
+
+
+  <script src="/bootstrap-5.0/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

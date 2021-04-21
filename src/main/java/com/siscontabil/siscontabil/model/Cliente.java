@@ -22,14 +22,14 @@ public class Cliente {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long id;
 
-  @Column(name = "apelido")
-  private String apelido;
+  @Column(name = "nome")
+  private String nome;
 
-  @Column(name = "observacao")
-  private String observacao;
+  @Column(name = "cpf")
+  private String CPF;
 
-  @Column(name = "status")
-  private boolean status;
+  @Column(name = "status", columnDefinition = "boolean default true")
+  private boolean status = true;
 
   @ManyToOne
   @JoinColumn(name = "id_endereco")

@@ -23,6 +23,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 
 
@@ -39,6 +40,21 @@ public class FolhaPagamentoController {
 
   @Autowired
   FolhaPagamentoServiceImpl folhaPagamentoService;
+
+  @GetMapping("/folha-pagamento/")
+  public ModelAndView getFolhasPagamento(){
+    ModelAndView mv = new ModelAndView("pages/listaFolhaPagamento");
+      mv.addObject("allFolhasPagamentos", folhaPagamentoService.findAll());
+      return mv;
+  }
+
+  @GetMapping("/folha-pagamento/details/{idFolhaPagamento}")
+  public String detailFolhaPagamento(@PathVariable("idFolhaPagamento") long idFolhaPagamento, Model model){
+    FolhaPagamento folhaPagamento = folhaPagamentoService.findById(idFolhaPagamento);
+    model.addAttribute("folhaPagamento", folhaPagamento);
+    return "pages/detailsFolhaPagamento";
+  }
+
 
   @GetMapping("/folha-pagamento/create")
   public String getFormFolhaPagamento(HttpSession session, Model model){
@@ -74,6 +90,7 @@ public class FolhaPagamentoController {
     FolhaPagamento fPagamento = new FolhaPagamento();
     fPagamento.setContraCheques(contraCheques);
     fPagamento.setCompetencia(LocalDateTime.now().format(DateTimeFormatter.ofPattern("MM/yyyy")));
+    fPagamento.setSetor(setorService.findById((Long) session.getAttribute("idSetor")));
     folhaPagamentoService.save(fPagamento);
 
     session.removeAttribute("idSetor");

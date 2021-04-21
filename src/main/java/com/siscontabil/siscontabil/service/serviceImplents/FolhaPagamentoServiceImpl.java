@@ -17,8 +17,7 @@ public class FolhaPagamentoServiceImpl implements FolhaPagamentoService{
 
     @Override
     public List<FolhaPagamento> findAll() {
-        // TODO Auto-generated method stub
-        return null;
+        return repository.findAll();
     }
 
     @Override
@@ -28,8 +27,7 @@ public class FolhaPagamentoServiceImpl implements FolhaPagamentoService{
 
     @Override
     public FolhaPagamento findById(Long id) {
-        // TODO Auto-generated method stub
-        return null;
+        return repository.findById(id).get();
     }
 
 

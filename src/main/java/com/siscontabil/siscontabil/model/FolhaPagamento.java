@@ -9,6 +9,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -28,6 +30,10 @@ public class FolhaPagamento {
   @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   private List<ContraCheque> contraCheques;
   
+  @ManyToOne
+  @JoinColumn(name = "id_setor")
+  private Setor setor;
+
   @Column(name = "competencia")
   private String competencia;
   

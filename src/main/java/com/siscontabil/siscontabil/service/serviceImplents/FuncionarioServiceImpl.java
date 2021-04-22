@@ -35,6 +35,12 @@ public class FuncionarioServiceImpl implements FuncionarioService {
     return repository.allFuncionarioBySetor(idSetor);
   }
 
+  @Override
+  public List<Object[]> allFuncionarioAndSalarioBySetor(Long idSetor) {
+    
+    return repository.allFuncionarioAndSalarioBySetor(idSetor);
+  }
+
   
   
 }

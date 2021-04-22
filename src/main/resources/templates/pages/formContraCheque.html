@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="pt" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Sistema Contabil</title>
-    <link rel="stylesheet" href="/bootstrap-5.0/css/bootstrap.min.css">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Sistema Contabil</title>
+  <link rel="stylesheet" href="/bootstrap-5.0/css/bootstrap.min.css">
 
 
 </head>
+
 <body>
 
 
@@ -21,31 +23,27 @@
       <h5 class="mt-4 mb-0 text-muted">Dados ContraCheque</h5>
 
       <div class="col-md-6 form-floating">
-        <select id="inputFuncionario" class="form-select" name="funcionario" required>
+        <select id="inputFuncionario" class="form-select" name="funcionario" th:onchange="setDescontoINSS(this)"
+          required>
           <option selected disabled value="">Selecione</option>
-          <option 
-            th:each="funcionario : ${allFuncionarios}"
-            th:value="${funcionario.id}"
-            th:text="${funcionario.nome}"
-          >...</option>
+          <option th:each="funcionario : ${allFuncionarios}" th:value="${funcionario.id}" th:text="${funcionario.nome}">
+            ...</option>
         </select>
         <label for="inputFuncionario" class="form-label">Funcionário</label>
       </div>
 
       <div class="col-md-2 form-floating">
-        <input type="number" class="form-control" id="inputComissao" name="comissao" placeholder="Comissao" required
-        >
+        <input type="number" class="form-control" id="inputComissao" name="comissao" placeholder="Comissao" required>
         <label for="inputComissao">Comissão</label>
       </div>
       <div class="col-md-2 form-floating">
-        <input type="number" class="form-control" id="inputComissao" name="descontoINSS" placeholder="Comissao" min="0" max="100" onkeyup="VerifieldMinMax(this)" required
-        >
-        <label for="inputComissao">Desconto INSS %</label>
+        <input type="number" class="form-control" id="inputDescontoINSS" name="descontoINSS" placeholder="Comissao" min="0"
+          max="100" onkeyup="VerifieldMinMax(this)" required disabled>
+        <label for="inputDescontoINSS">Desconto INSS %</label>
       </div>
       <div class="col-md-2 form-floating">
-        <input type="date" class="form-control" id="inputComissao" name="dataEmissao" placeholder="Comissao" required
-        >
-        <label for="inputComissao">Dat. Emissão</label>
+        <input type="date" class="form-control" id="inputDataEmissao" name="dataEmissao" placeholder="Comissao" required>
+        <label for="inputDataEmissao">Dat. Emissão</label>
       </div>
       <div class="col-12">
         <button type="submit" class="btn btn-primary btn-lg" th:text="${setor}? 'Atualizar' : 'Incluir'"></button>
@@ -54,8 +52,38 @@
 
     </form>
   </div>
-  
-<script src="/js/inputMinMax.js"></script>
-<script src="/bootstrap-5.0/js/bootstrap.bundle.min.js"></script>
+
+  <script th:inline="javascript">
+
+    let allFuncionarios = /*[[${teste}]]*/[]
+    console.log(allFuncionarios)
+    allFuncionarios = allFuncionarios.map(function (element) {
+      return {"id":element[0], "salario":element[1]};
+    })
+
+    function setDescontoINSS(selected) {
+      let idSelect = selected.value
+      allFuncionarios.forEach(funcionario => {
+        if (funcionario.id == idSelect) {
+          let porcentagem = 0;
+          if (funcionario.salario <= 1100) {
+            porcentagem = 7.5;
+          } else if (funcionario.salario >= 1100.1 && funcionario.salario <= 2203.48) {
+            porcentagem = 9;
+          } else if (funcionario.salario >= 2203.49 && funcionario.salario <= 3305.22) {
+            porcentagem = 12;
+          } else if (funcionario.salario >= 3305.23) {
+            porcentagem = 14;
+          }
+          let input = document.getElementById("inputDescontoINSS").value = porcentagem
+        }
+      });
+    }
+
+  </script>
+
+  <script src="/js/inputMinMax.js"></script>
+  <script src="/bootstrap-5.0/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

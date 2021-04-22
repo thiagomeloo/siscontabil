@@ -13,5 +13,5 @@ public interface FuncionarioService {
     public Funcionario findById(Long id);
     public List<Funcionario> findAll();
     public List<Funcionario> allFuncionarioBySetor(Long idSetor);
-    
+    public List<Object[]> allFuncionarioAndSalarioBySetor(Long idSetor);
 }

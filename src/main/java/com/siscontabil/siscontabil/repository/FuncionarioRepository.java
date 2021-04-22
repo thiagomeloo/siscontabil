@@ -15,4 +15,7 @@ public interface FuncionarioRepository extends JpaRepository<Funcionario, Long> 
   @Query("select f from Funcionario f where f.funcao.setor.id = :idSetor")
   List<Funcionario> allFuncionarioBySetor(@Param("idSetor") Long idSetor);
 
+  @Query("select f.id, f.funcao.salario from Funcionario f where f.funcao.setor.id = :idSetor")
+  List<Object[]> allFuncionarioAndSalarioBySetor(@Param("idSetor") Long idSetor);
+
 }

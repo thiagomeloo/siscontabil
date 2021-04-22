@@ -5,6 +5,7 @@ import java.io.Console;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import com.siscontabil.siscontabil.model.ContraCheque;
 import com.siscontabil.siscontabil.model.FolhaPagamento;
 import com.siscontabil.siscontabil.model.Funcionario;
+import com.siscontabil.siscontabil.model.FuncionarioFuncao;
 import com.siscontabil.siscontabil.service.serviceImplents.FolhaPagamentoServiceImpl;
 import com.siscontabil.siscontabil.service.serviceImplents.FuncionarioServiceImpl;
 import com.siscontabil.siscontabil.service.serviceImplents.SetorServiceImpl;
@@ -139,8 +141,11 @@ public class FolhaPagamentoController {
       contraChequesInclusos = (List<ContraCheque>) session.getAttribute("contracheques");
     }
 
-    List<Funcionario> funcionarios = funcionarioService.allFuncionarioBySetor(idSetor);
 
+    model.addAttribute("teste", funcionarioService.allFuncionarioAndSalarioBySetor(idSetor));
+
+
+    List<Funcionario> funcionarios = funcionarioService.allFuncionarioBySetor(idSetor);
 
 
 

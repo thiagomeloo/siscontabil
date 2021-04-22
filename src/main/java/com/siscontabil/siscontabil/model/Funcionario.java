@@ -79,5 +79,18 @@ public class Funcionario {
   @Column(name = "status", columnDefinition = "boolean default true")
   private boolean status = true;
   
-  
+  public double getPorcetagemInss( ){
+    double porcentagem = 0;
+    if(this.funcao.getSalario() <= 1100){
+      porcentagem = 7.5;
+    }else if(this.funcao.getSalario() >= 1100.1 && this.funcao.getSalario() <= 2203.48 ){
+      porcentagem= 9;
+    }else if(this.funcao.getSalario() >= 2203.49 && this.funcao.getSalario() <= 3305.22){
+      porcentagem = 12;
+    }else if(this.funcao.getSalario() >= 3305.23){
+      porcentagem = 14;
+    }
+  return porcentagem;
+  }
+
 }

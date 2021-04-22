@@ -80,7 +80,7 @@
             <td th:text="${contraCheque.funcionario.funcao.salario}"></td>
             <td th:text="${contraCheque.comissao}"></td>
             <td th:text="${contraCheque.descontoINSS}"></td>
-            <td>#</td>
+            <td th:text="${contraCheque.getSalarioLiquido()}"></td>
             <td class="">
               <a th:href="@{'/folha-pagamento/contracheque/clear/'+${contraCheque.funcionario.id}}" class="btn btn-sm btn-danger">
                 <i class="bi bi-trash"></i>

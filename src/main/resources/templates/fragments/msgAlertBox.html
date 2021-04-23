@@ -1,0 +1,12 @@
+<div th:fragment="msgAlertBox">
+  <div th:if="${param.message_text}" class="alert alert-dismissible fade show"
+    th:classappend="${param.message_type} ?'alert-'+${param.message_type} : 'alert-primary' " role="alert">
+
+    <strong th:text="${param.message_text}"></strong>
+
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+
+  <script src="/js/clearAlert.js"></script>
+
+</div>

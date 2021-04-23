@@ -41,7 +41,6 @@ public class FolhaPagamentoController {
   @Autowired
   ContraChequeServiceImpl contraChequeService;
 
-
   /*
    * Lista todas as folhas de pagamento.
    * 
@@ -71,7 +70,7 @@ public class FolhaPagamentoController {
     double totalProventos = 0;
     double totalComissao = 0;
     double totalDescontoINSS = 0;
-    double valorTotal =0;
+    double valorTotal = 0;
 
     List<ContraCheque> contraCheques = folhaPagamento.getContraCheques();
     for (int i = 0; i < contraCheques.size(); i++) {
@@ -144,6 +143,20 @@ public class FolhaPagamentoController {
   }
 
   /*
+   * Limpa a sessão.
+   * 
+   * @param HttpSession sessao a ser limpada
+   * 
+   */
+  public void clearSession(HttpSession session) {
+    session.removeAttribute("idSetor");
+    session.removeAttribute("contracheques");
+    session.removeAttribute("contrachequesUpdate");
+    session.removeAttribute("contrachequesDelete");
+    session.removeAttribute("folhaPagamento");
+  }
+
+  /*
    * Limpa a sessão com os dados de folha de pagamento.
    * 
    * @return view com o formulário de criação de folha de pagamento.
@@ -151,10 +164,7 @@ public class FolhaPagamentoController {
    */
   @GetMapping("/folha-pagamento/clear")
   public String clearFolhaPagamento(HttpSession session) {
-    session.removeAttribute("idSetor");
-    session.removeAttribute("contracheques");
-    session.removeAttribute("contrachequesUpdate");
-    session.removeAttribute("contrachequesDelete");
+    clearSession(session);
     return "redirect:/folha-pagamento/create";
   }
 
@@ -173,7 +183,7 @@ public class FolhaPagamentoController {
     List<ContraCheque> contraCheques = new ArrayList<ContraCheque>();
     FolhaPagamento fPagamento = new FolhaPagamento();
 
-    if (session.getAttribute("idSetor") == null || session.getAttribute("contracheques") == null) {
+    if (session.getAttribute("idSetor") == null && session.getAttribute("folhaPagamento") == null) {
       redirectAttributes.addAttribute("message_text", "Impossivel salvar uma folha de pagamento vazia!");
       redirectAttributes.addAttribute("message_type", "danger");
       return "redirect:/folha-pagamento/create";
@@ -194,7 +204,7 @@ public class FolhaPagamentoController {
 
     folhaPagamentoService.save(fPagamento);
 
-    session.removeAttribute("idSetor");
+    clearSession(session);
 
     if (session.getAttribute("contrachequesDelete") != null) {
       List<ContraCheque> contraChequesDelete = (List<ContraCheque>) session.getAttribute("contrachequesDelete");
@@ -316,16 +326,29 @@ public class FolhaPagamentoController {
   @PostMapping("/folha-pagamento/add-contracheque")
   public String postAddContraCheque(HttpSession session, ContraCheque contraCheque, Model model) {
 
-    if (session.getAttribute("contracheques") == null) {
-      List<ContraCheque> contraCheques = new ArrayList<ContraCheque>();
+    List<ContraCheque> contraCheques = new ArrayList<ContraCheque>();
+
+    if (session.getAttribute("contrachequesUpdate") != null && session.getAttribute("folhaPagamento") != null) {
+
+      contraCheques = (List<ContraCheque>) session.getAttribute("contrachequesUpdate");
       contraCheques.add(contraCheque);
-      session.setAttribute("contracheques", contraCheques);
-    } else {
-      List<ContraCheque> contraCheques = (List<ContraCheque>) session.getAttribute("contracheques");
-      contraCheques.add(contraCheque);
-      session.setAttribute("contracheques", contraCheques);
+      session.setAttribute("contrachequesUpdate", contraCheques);
+
+      FolhaPagamento folhaPagamento = (FolhaPagamento) session.getAttribute("folhaPagamento");
+
+      return "redirect:/folha-pagamento/update/" + folhaPagamento.getId();
+
+    } else if (session.getAttribute("contracheques") != null) {
+
+      contraCheques = (List<ContraCheque>) session.getAttribute("contracheques");
+
     }
 
+    contraCheques.add(contraCheque);
+
+    session.setAttribute("contracheques", contraCheques);
+
     return "redirect:/folha-pagamento/create";
+
   }
 }

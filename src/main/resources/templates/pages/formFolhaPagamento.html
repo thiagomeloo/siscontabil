@@ -38,7 +38,7 @@
           th:href="${idSetor != null and #arrays.length(allContraCheques) > 0 }? @{'/folha-pagamento/add-contracheque/' + ${idSetor}} : '/folha-pagamento/add-contracheque/'">Incluir
           Funcionario</a>
         <button class="btn btn-success btn-lg" type="submit">Lançar Folha</button>
-        <a class="btn btn-secondary btn-lg" href="/folha-pagamento/clear">Limpar</a>
+        <a class="btn btn-secondary btn-lg" href="/folha-pagamento/clear">Cancelar</a>
       </div>
 
       <div th:if="${folhaPagamento}">

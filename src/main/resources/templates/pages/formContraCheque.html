@@ -55,7 +55,7 @@
 
   <script th:inline="javascript">
 
-    let allFuncionarios = /*[[${teste}]]*/[]
+    let allFuncionarios = /*[[${funcSalario}]]*/[]
     console.log(allFuncionarios)
     allFuncionarios = allFuncionarios.map(function (element) {
       return {"id":element[0], "salario":element[1]};

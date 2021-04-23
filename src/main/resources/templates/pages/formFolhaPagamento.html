@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt" xmlns:th="http://www.thymeleaf.org">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,88 +11,88 @@
 
 
 </head>
+
 <body>
 
 
   <div th:insert="fragments/menu :: menu"></div>
-  
+
   <div class="container-fluid">
     <h4 class="mt-4"> Folha de Pagamento</h4>
-    <form class="row g-3 form-floating needs-validation form-folhaPagamento" 
-      method="POST" 
-      action="/folha-pagamento/save/"
-    >
+    <form class="row g-3 form-floating needs-validation form-folhaPagamento" method="POST"
+      action="/folha-pagamento/save/">
       <div class="col-md-6 form-floating">
-        <select id="inputSetor" 
-          class="form-select" 
-          name="setor" 
-          required 
-          onchange="setUrl(this.selectedIndex)"
-          th:disabled="${#arrays.length(allContraCheques) > 0}? true : false"
-        >
+        <select id="inputSetor" class="form-select" name="setor" required onchange="setUrl(this.selectedIndex)"
+          th:disabled="${#arrays.length(allContraCheques) > 0}? true : false">
           <option selected disabled value="">Selecione</option>
-          <option 
-            th:each="setor : ${allSetor}"
-            th:value="${setor.id}"
-            th:text="${setor.nome}"
-            th:selected= "${idSetor != null and #arrays.length(allContraCheques) > 0 and setor.id == idSetor} ? true : false" 
-          >...</option>
+          <option th:each="setor : ${allSetor}" th:value="${setor.id}" th:text="${setor.nome}"
+            th:selected="${idSetor != null and #arrays.length(allContraCheques) > 0 and setor.id == idSetor} ? true : false">
+            ...</option>
         </select>
         <div class="invalid-feedback">Escolha um Setor antes de prosseguir!</div>
         <label for="inputSetor" class="form-label">Setor</label>
       </div>
-        <div class="col-md-6 ">
-          <a class="btn btn-primary btn-lg add-contracheque" onclick="incluirFuncionario(event,this)" th:href="${idSetor != null and #arrays.length(allContraCheques) > 0 }? @{'/folha-pagamento/add-contracheque/' + ${idSetor}} : '/folha-pagamento/add-contracheque/'">Incluir Funcionario</a>
-          <button class="btn btn-success btn-lg" type="submit">Lançar Folha</button>
-          <a class="btn btn-secondary btn-lg" href="/folha-pagamento/clear" >Limpar</a>
-      </div> 
-     
+
+      <div class="col-md-6">
+        <a class="btn btn-primary btn-lg add-contracheque" onclick="incluirFuncionario(event,this)"
+          th:href="${idSetor != null and #arrays.length(allContraCheques) > 0 }? @{'/folha-pagamento/add-contracheque/' + ${idSetor}} : '/folha-pagamento/add-contracheque/'">Incluir
+          Funcionario</a>
+        <button class="btn btn-success btn-lg" type="submit">Lançar Folha</button>
+        <a class="btn btn-secondary btn-lg" href="/folha-pagamento/clear">Limpar</a>
+      </div>
+
+      <div th:if="${folhaPagamento}">
+        <input type="hidden" th:value="${folhaPagamento?.id}" name="Id" />
+      </div>
+
     </form>
   </div>
 
   <div class="container-fluid">
     <h4 class="mt-4">Funcionários Incluidos</h4>
     <table class="table table-striped table-hover">
-        <thead class="text-center">
-          <tr>
-            <th scope="col">Id Funcionario</th>
-            <th scope="col">Nome</th>
-            <th scope="col">Cargo</th>
-            <th scope="col">Agencia</th>
-            <th scope="col">Conta</th>
-            <th scope="col">Banco</th>
-            <th scope="col">Emissão</th>
-            <th scope="col">Salario Base</th>
-            <th scope="col">Comissão</th>
-            <th scope="col">Desconto INSS</th>
-            <th scope="col">Salario Liquido</th>
-            <th scope="col">#</th>
-          </tr>
-        </thead>
-        <tbody class="text-center">
-          <tr th:each="contraCheque : ${allContraCheques}">
-            <td th:text="${contraCheque.funcionario.id}"></td>
-            <td th:text="${contraCheque.funcionario.nome}"></td>
-            <td th:text="${contraCheque.funcionario.funcao.cargo}"></td>
-            <td th:text="${contraCheque.funcionario.dadosBancario.agencia}"></td>
-            <td th:text="${contraCheque.funcionario.dadosBancario.conta}"></td>
-            <td th:text="${contraCheque.funcionario.dadosBancario.banco}"></td>
-            <td th:text="${#dates.format(contraCheque.dataEmissao,'dd/MM/yyyy')}"></td>
-            <td th:text="${contraCheque.funcionario.funcao.salario}"></td>
-            <td th:text="${contraCheque.comissao}"></td>
-            <td th:text="${contraCheque.descontoINSS}"></td>
-            <td th:text="${contraCheque.getSalarioLiquido()}"></td>
-            <td class="">
-              <a th:href="@{'/folha-pagamento/contracheque/clear/'+${contraCheque.funcionario.id}}" class="btn btn-sm btn-danger">
-                <i class="bi bi-trash"></i>
-              </a>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <thead class="text-center">
+        <tr>
+          <th scope="col">Id Funcionario</th>
+          <th scope="col">Nome</th>
+          <th scope="col">Cargo</th>
+          <th scope="col">Agencia</th>
+          <th scope="col">Conta</th>
+          <th scope="col">Banco</th>
+          <th scope="col">Emissão</th>
+          <th scope="col">Salario Base</th>
+          <th scope="col">Comissão</th>
+          <th scope="col">Desconto INSS</th>
+          <th scope="col">Salario Liquido</th>
+          <th scope="col">#</th>
+        </tr>
+      </thead>
+      <tbody class="text-center">
+        <tr th:each="contraCheque : ${allContraCheques}">
+          <td th:text="${contraCheque.funcionario.id}"></td>
+          <td th:text="${contraCheque.funcionario.nome}"></td>
+          <td th:text="${contraCheque.funcionario.funcao.cargo}"></td>
+          <td th:text="${contraCheque.funcionario.dadosBancario.agencia}"></td>
+          <td th:text="${contraCheque.funcionario.dadosBancario.conta}"></td>
+          <td th:text="${contraCheque.funcionario.dadosBancario.banco}"></td>
+          <td th:text="${#dates.format(contraCheque.dataEmissao,'dd/MM/yyyy')}"></td>
+          <td th:text="${contraCheque.funcionario.funcao.salario}"></td>
+          <td th:text="${contraCheque.comissao}"></td>
+          <td th:text="${contraCheque.descontoINSS}"></td>
+          <td th:text="${contraCheque.getSalarioLiquido()}"></td>
+          <td class="">
+            <a th:href="@{'/folha-pagamento/contracheque/clear/'+${contraCheque.funcionario.id}}"
+              class="btn btn-sm btn-danger">
+              <i class="bi bi-trash"></i>
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
-<script src="/js/incluirFuncionario.js"></script>
-<script src="/js/setUrlButtonInFormFolhaPagamento.js"></script>
-<script src="/bootstrap-5.0/js/bootstrap.bundle.min.js"></script>
+  <script src="/js/incluirFuncionario.js"></script>
+  <script src="/js/setUrlButtonInFormFolhaPagamento.js"></script>
+  <script src="/bootstrap-5.0/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

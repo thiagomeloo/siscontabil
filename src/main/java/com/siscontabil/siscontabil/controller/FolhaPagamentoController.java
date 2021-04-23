@@ -41,6 +41,13 @@ public class FolhaPagamentoController {
   @Autowired
   ContraChequeServiceImpl contraChequeService;
 
+
+  /*
+   * Lista todas as folhas de pagamento.
+   * 
+   * @return view com a lista de todas as folhas de pagamento.
+   * 
+   */
   @GetMapping("/folha-pagamento/")
   public ModelAndView getFolhasPagamento() {
     ModelAndView mv = new ModelAndView("pages/listaFolhaPagamento");
@@ -48,6 +55,14 @@ public class FolhaPagamentoController {
     return mv;
   }
 
+  /*
+   * Exibir detalhes da folha de pagamento.
+   * 
+   * @param idFolhaPagamento id da folha de pagamento a ser detalhada.
+   * 
+   * @return view com detalhes da folha de pagamento.
+   * 
+   */
   @GetMapping("/folha-pagamento/details/{idFolhaPagamento}")
   public String detailFolhaPagamento(@PathVariable("idFolhaPagamento") long idFolhaPagamento, Model model) {
     FolhaPagamento folhaPagamento = folhaPagamentoService.findById(idFolhaPagamento);
@@ -70,6 +85,12 @@ public class FolhaPagamentoController {
     return "pages/detailsFolhaPagamento";
   }
 
+  /*
+   * Exibir formulario de criacao de folha de pagamento
+   * 
+   * @return view com o formulário de criação de folha de pagamento.
+   * 
+   */
   @GetMapping("/folha-pagamento/create")
   public String getFormFolhaPagamento(HttpSession session, Model model) {
 
@@ -90,6 +111,12 @@ public class FolhaPagamentoController {
     return "pages/formFolhaPagamento";
   }
 
+  /*
+   * Exibir formulario de atualização de folha de pagamento.
+   * 
+   * @return view com o formulário de atualização de folha de pagamento.
+   * 
+   */
   @GetMapping("/folha-pagamento/update/{idFolhaPagamento}")
   public String getFormUpdateFolhaPagamento(@PathVariable("idFolhaPagamento") long idFolhaPagamento,
       HttpSession session, Model model) {
@@ -113,6 +140,12 @@ public class FolhaPagamentoController {
     return "pages/formFolhaPagamento";
   }
 
+  /*
+   * Limpa a sessão com os dados de folha de pagamento.
+   * 
+   * @return view com o formulário de criação de folha de pagamento.
+   * 
+   */
   @GetMapping("/folha-pagamento/clear")
   public String clearFolhaPagamento(HttpSession session) {
     session.removeAttribute("idSetor");
@@ -122,15 +155,24 @@ public class FolhaPagamentoController {
     return "redirect:/folha-pagamento/create";
   }
 
+  /*
+   * Persiste a folha de pagamento no banco de dados.
+   * 
+   * @return view HomePage em caso de sucesso.
+   * 
+   * @return view create folha de pagamento se caso a lista de contracheques ou o
+   * id do setor estiverem vazios .
+   * 
+   */
   @PostMapping("/folha-pagamento/save")
   public String saveFolhaPagamento(HttpSession session, RedirectAttributes redirectAttributes) {
 
     List<ContraCheque> contraCheques = new ArrayList<ContraCheque>();
     FolhaPagamento fPagamento = new FolhaPagamento();
 
-    if(session.getAttribute("idSetor") == null || session.getAttribute("contracheques") == null){
-      redirectAttributes.addAttribute("message_text","Impossivel salvar uma folha de pagamento vazia!");
-      redirectAttributes.addAttribute("message_type","danger");
+    if (session.getAttribute("idSetor") == null || session.getAttribute("contracheques") == null) {
+      redirectAttributes.addAttribute("message_text", "Impossivel salvar uma folha de pagamento vazia!");
+      redirectAttributes.addAttribute("message_type", "danger");
       return "redirect:/folha-pagamento/create";
     }
 
@@ -152,15 +194,28 @@ public class FolhaPagamentoController {
     session.removeAttribute("idSetor");
 
     if (session.getAttribute("contrachequesDelete") != null) {
-     List<ContraCheque> contraChequesDelete = (List<ContraCheque>) session.getAttribute("contrachequesDelete");
-     for(int i = 0; i < contraChequesDelete.size(); i++){
-       contraChequeService.deleteById(contraChequesDelete.get(i).getId());
-     } 
+      List<ContraCheque> contraChequesDelete = (List<ContraCheque>) session.getAttribute("contrachequesDelete");
+      for (int i = 0; i < contraChequesDelete.size(); i++) {
+        contraChequeService.deleteById(contraChequesDelete.get(i).getId());
+      }
     }
 
     return HOME_PAGE;
   }
 
+  /*
+   * Remove um contraCheque da lista de contraCheques da sessão.
+   * 
+   * @param idFuncionario id do funcionario a ser removido da lista de
+   * contracheques da sessão.
+   * 
+   * @return view com o formulário de criação de folha de pagamento caso o
+   * processo de criação da folha esteja em andamento.
+   * 
+   * @return view com o formulário de atualização de folha de pagamento caso o
+   * processo de atualização da folha esteja em andamento.
+   * 
+   */
   @GetMapping("/folha-pagamento/contracheque/clear/{idFuncionario}")
   public String clearContraCheque(@PathVariable("idFuncionario") long idFuncionario, HttpSession session) {
 
@@ -177,7 +232,7 @@ public class FolhaPagamentoController {
           if (session.getAttribute("contrachequesDelete") == null) {
             contraChequesDelete.add(contraCheque);
             session.setAttribute("contrachequesDelete", contraChequesDelete);
-          }else{
+          } else {
             contraChequesDelete = (List<ContraCheque>) session.getAttribute("contrachequesDelete");
             contraChequesDelete.add(contraCheque);
             session.setAttribute("contrachequesDelete", contraChequesDelete);
@@ -209,6 +264,16 @@ public class FolhaPagamentoController {
 
   }
 
+  /*
+   * Exibe o formulario de criação de contraCheque a ser adicionado a folha de
+   * pagamento.
+   * 
+   * @param idSetor, id do setor escolhido para geração da folha.
+   * 
+   * @return view formulario de criação de contraCheque listando pelo setor os
+   * funcionarios a serem escolhidos.
+   * 
+   */
   @GetMapping("/folha-pagamento/add-contracheque/{idSetor}")
   public String getViewAddContraCheque(@PathVariable("idSetor") long idSetor, HttpSession session, Model model) {
 
@@ -237,6 +302,14 @@ public class FolhaPagamentoController {
     return "pages/formContraCheque";
   }
 
+  /*
+   * Adiciona na sessão o contraCheque criado.
+   * 
+   * @param ContraCheque, contraCheque a ser adicionado na sessão.
+   * 
+   * @return view formulario de criação de folha de pagamentos.
+   * 
+   */
   @PostMapping("/folha-pagamento/add-contracheque")
   public String postAddContraCheque(HttpSession session, ContraCheque contraCheque, Model model) {
 

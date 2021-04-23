@@ -71,17 +71,20 @@ public class FolhaPagamentoController {
     double totalProventos = 0;
     double totalComissao = 0;
     double totalDescontoINSS = 0;
+    double valorTotal =0;
 
     List<ContraCheque> contraCheques = folhaPagamento.getContraCheques();
     for (int i = 0; i < contraCheques.size(); i++) {
       totalProventos += contraCheques.get(i).getFuncionario().getFuncao().getSalario();
       totalComissao += contraCheques.get(i).getComissao();
-      totalDescontoINSS += contraCheques.get(i).getDescontoINSS();
+      totalDescontoINSS += contraCheques.get(i).getDescontoDinheiro();
+      valorTotal += contraCheques.get(i).getSalarioLiquido();
     }
 
     model.addAttribute("totalProventos", totalProventos);
     model.addAttribute("totalComissao", totalComissao);
     model.addAttribute("totalDescontoINSS", totalDescontoINSS);
+    model.addAttribute("valorTotal", valorTotal);
     return "pages/detailsFolhaPagamento";
   }
 

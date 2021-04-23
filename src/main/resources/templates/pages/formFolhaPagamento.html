@@ -62,7 +62,8 @@
           <th scope="col">Emissão</th>
           <th scope="col">Salario Base</th>
           <th scope="col">Comissão</th>
-          <th scope="col">Desconto INSS</th>
+          <th scope="col">Desconto INSS %</th>
+          <th scope="col">Desconto INSS R$</th>
           <th scope="col">Salario Liquido</th>
           <th scope="col">#</th>
         </tr>
@@ -79,6 +80,7 @@
           <td th:text="${contraCheque.funcionario.funcao.salario}"></td>
           <td th:text="${contraCheque.comissao}"></td>
           <td th:text="${contraCheque.descontoINSS}"></td>
+          <td th:text="${contraCheque.getDescontoDinheiro()}"></td>
           <td th:text="${contraCheque.getSalarioLiquido()}"></td>
           <td class="">
             <a th:href="@{'/folha-pagamento/contracheque/clear/'+${contraCheque.funcionario.id}}"

@@ -43,4 +43,15 @@ public class ContraCheque {
     salarioLiquido = (salario-desconto)+this.getComissao();
     return salarioLiquido;
   }
+
+  public double getDescontoDinheiro(){
+    double salario = this.funcionario.getFuncao().getSalario();
+    double desconto =0;
+    if(salario >= 6433.57){
+      desconto = (6433.57/100)*this.funcionario.getPorcetagemInss();
+    }else{
+      desconto = (salario/100)*this.funcionario.getPorcetagemInss();
+    }
+    return desconto;
+  }
 }

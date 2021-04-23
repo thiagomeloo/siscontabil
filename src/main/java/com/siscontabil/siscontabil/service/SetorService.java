@@ -13,5 +13,5 @@ public interface SetorService {
   public Setor save(Setor setor);
   public Setor findById(Long id);
   public List<Setor> findByNome(String nome);
-  
+  public List<Setor> allSetorNotContainsFolhaPagamentoByCompetencia(String competencia);
 }

@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class FolhaPagamentoController {
@@ -122,10 +123,16 @@ public class FolhaPagamentoController {
   }
 
   @PostMapping("/folha-pagamento/save")
-  public String saveFolhaPagamento(HttpSession session) {
+  public String saveFolhaPagamento(HttpSession session, RedirectAttributes redirectAttributes) {
 
     List<ContraCheque> contraCheques = new ArrayList<ContraCheque>();
     FolhaPagamento fPagamento = new FolhaPagamento();
+
+    if(session.getAttribute("idSetor") == null || session.getAttribute("contracheques") == null){
+      redirectAttributes.addAttribute("message_text","Impossivel salvar uma folha de pagamento vazia!");
+      redirectAttributes.addAttribute("message_type","danger");
+      return "redirect:/folha-pagamento/create";
+    }
 
     if (session.getAttribute("folhaPagamento") != null) {
       fPagamento = (FolhaPagamento) session.getAttribute("folhaPagamento");

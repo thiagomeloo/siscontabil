@@ -35,6 +35,11 @@ public class SetorServiceImpl implements SetorService {
     return repository.findByNome(nome);
   }
 
+  @Override
+  public List<Setor> allSetorNotContainsFolhaPagamentoByCompetencia(String competencia) {
+    return repository.allSetorNotContainsFolhaPagamentoByCompetencia(competencia);
+  }
+
   
   
 }

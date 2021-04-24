@@ -40,7 +40,12 @@ public class FolhaPagamentoController {
 
   @Autowired
   ContraChequeServiceImpl contraChequeService;
-
+  /*
+   * exibir relatório de folhas mensais.
+   * 
+   * @return view com todas as folhas de todos os meses.
+   * 
+   */
   @GetMapping("/folha-pagamento/report/")
   public String reportFolhaPagamento( Model model) {
     
@@ -61,12 +66,18 @@ public class FolhaPagamentoController {
     model.addAttribute("quantEmpregadoTotal", quantEmpregadoTotal);
     return "pages/reportFolhaPagamento";
   }
-
+/*
+   * exibir relatório de folhas mensais.
+   * 
+   * @return view com toodas as folhas de um  mes.
+   * 
+   */
   @PostMapping("/folha-pagamento/report/")
   public String reportFolhaPagamentoMes( Model model, FolhaPagamento f) {
     String mes= f.getCompetencia().substring(6,7);
     String ano = f.getCompetencia().substring(0, 4);
-    List<FolhaPagamento> folhaPagamento = folhaPagamentoService.allFolhaPagamentoMEs(mes+"/"+ano);
+    f.setCompetencia(mes+"/"+ano);
+    List<FolhaPagamento> folhaPagamento = folhaPagamentoService.allFolhaPagamentoMes(mes+"/"+ano);
     model.addAttribute("folhaPagamento", folhaPagamento);
     model.addAttribute("folha", f);
     double valorTotal =0;
@@ -93,7 +104,7 @@ public class FolhaPagamentoController {
     double valorTotal =0;
     double ValorTotalPorFolha = 0;
     int quantEmpregadoTotal =0;
-    System.out.println(folhaPagamento.size()+"vaiiiiiiii");
+    
     for(int i =0; i<folhaPagamento.size();i++){
       valorTotal += folhaPagamento.get(i).getValorTotal();
       quantEmpregadoTotal += folhaPagamento.get(i).getQuantEmpregado();

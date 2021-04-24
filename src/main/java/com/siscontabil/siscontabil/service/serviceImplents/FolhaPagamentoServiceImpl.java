@@ -36,7 +36,7 @@ public class FolhaPagamentoServiceImpl implements FolhaPagamentoService{
     }
 
     @Override
-    public List<FolhaPagamento> allFolhaPagamentoMEs(String competencia) {
+    public List<FolhaPagamento> allFolhaPagamentoMes(String competencia) {
         return repository.allFolhaPagamentoMes(competencia);
     }
 

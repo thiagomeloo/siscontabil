@@ -13,5 +13,5 @@ public interface FolhaPagamentoService {
   public FolhaPagamento save(FolhaPagamento folhaPagamento);
   public FolhaPagamento findById(Long id);
   public List<FolhaPagamento> allFolhaPagamentoCompetencia( String competencia);
-  public List<FolhaPagamento> allFolhaPagamentoMEs(String competencia);
+  public List<FolhaPagamento> allFolhaPagamentoMes(String competencia);
 }

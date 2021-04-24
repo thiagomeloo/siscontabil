@@ -41,6 +41,28 @@ public class FolhaPagamentoController {
   @Autowired
   ContraChequeServiceImpl contraChequeService;
 
+  @GetMapping("/folha-pagamento/report/")
+  public String reportFolhaPagamento( Model model) {
+    
+    List<FolhaPagamento> folhaPagamento = folhaPagamentoService.findAll();
+    model.addAttribute("folhaPagamento", folhaPagamento);
+    
+    double valorTotal =0;
+    double ValorTotalPorFolha = 0;
+    int quantEmpregadoTotal =0;
+    
+    for(int i =0; i<folhaPagamento.size();i++){
+      valorTotal += folhaPagamento.get(i).getValorTotal();
+      quantEmpregadoTotal += folhaPagamento.get(i).getQuantEmpregado();
+    }
+
+    
+
+    model.addAttribute("ValorTotalPorFolha", ValorTotalPorFolha);
+    model.addAttribute("valorTotal", valorTotal);
+    model.addAttribute("quantEmpregadoTotal", quantEmpregadoTotal);
+    return "pages/reportFolhaPagamento";
+  }
   /*
    * Lista todas as folhas de pagamento.
    * 

@@ -36,7 +36,22 @@ public class FolhaPagamento {
 
   @Column(name = "competencia")
   private String competencia;
+
+  public double getValorTotal(){
+    double total =0;
+    for(int i =0; i<this.contraCheques.size();i++){
+      total += contraCheques.get(i).getSalarioLiquido();
+    }
+    return total;
+  }
   
+  public int getQuantEmpregado(){
+    int quant = 0;
+      for(int i = 0; i < this.contraCheques.size();i++){
+        quant++;
+      }
+    return quant;
+  }
 }
 
 

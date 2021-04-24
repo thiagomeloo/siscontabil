@@ -50,18 +50,59 @@ public class FolhaPagamentoController {
     double valorTotal =0;
     double ValorTotalPorFolha = 0;
     int quantEmpregadoTotal =0;
+
+    for(int i =0; i<folhaPagamento.size();i++){
+      valorTotal += folhaPagamento.get(i).getValorTotal();
+      quantEmpregadoTotal += folhaPagamento.get(i).getQuantEmpregado();
+    }
     
+    model.addAttribute("ValorTotalPorFolha", ValorTotalPorFolha);
+    model.addAttribute("valorTotal", valorTotal);
+    model.addAttribute("quantEmpregadoTotal", quantEmpregadoTotal);
+    return "pages/reportFolhaPagamento";
+  }
+
+  @PostMapping("/folha-pagamento/report/")
+  public String reportFolhaPagamentoMes( Model model, FolhaPagamento f) {
+    String mes= f.getCompetencia().substring(6,7);
+    String ano = f.getCompetencia().substring(0, 4);
+    List<FolhaPagamento> folhaPagamento = folhaPagamentoService.allFolhaPagamentoMEs(mes+"/"+ano);
+    model.addAttribute("folhaPagamento", folhaPagamento);
+    model.addAttribute("folha", f);
+    double valorTotal =0;
+    double ValorTotalPorFolha = 0;
+    int quantEmpregadoTotal =0;
+
+    for(int i =0; i<folhaPagamento.size();i++){
+      valorTotal += folhaPagamento.get(i).getValorTotal();
+      quantEmpregadoTotal += folhaPagamento.get(i).getQuantEmpregado();
+    }
+    
+    model.addAttribute("ValorTotalPorFolha", ValorTotalPorFolha);
+    model.addAttribute("valorTotal", valorTotal);
+    model.addAttribute("quantEmpregadoTotal", quantEmpregadoTotal);
+    return "pages/reportFolhaPagamento";
+  }
+  
+  @GetMapping("/folha-pagamento/report/anual")
+  public String reportFolhaPagamentoAnual(Model model) {
+    
+    List<FolhaPagamento> folhaPagamento = folhaPagamentoService.allFolhaPagamentoCompetencia("04/2021");
+    model.addAttribute("folhaPagamento", folhaPagamento);
+    
+    double valorTotal =0;
+    double ValorTotalPorFolha = 0;
+    int quantEmpregadoTotal =0;
+    System.out.println(folhaPagamento.size()+"vaiiiiiiii");
     for(int i =0; i<folhaPagamento.size();i++){
       valorTotal += folhaPagamento.get(i).getValorTotal();
       quantEmpregadoTotal += folhaPagamento.get(i).getQuantEmpregado();
     }
 
-    
-
     model.addAttribute("ValorTotalPorFolha", ValorTotalPorFolha);
     model.addAttribute("valorTotal", valorTotal);
     model.addAttribute("quantEmpregadoTotal", quantEmpregadoTotal);
-    return "pages/reportFolhaPagamento";
+    return "pages/reportFolhaPagamentoAnual";
   }
   /*
    * Lista todas as folhas de pagamento.

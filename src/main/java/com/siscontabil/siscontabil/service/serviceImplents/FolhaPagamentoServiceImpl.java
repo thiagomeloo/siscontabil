@@ -30,6 +30,16 @@ public class FolhaPagamentoServiceImpl implements FolhaPagamentoService{
         return repository.findById(id).get();
     }
 
+    @Override
+    public List<FolhaPagamento> allFolhaPagamentoCompetencia( String competencia) {
+        return repository.allFolhaPagamentoCompetencia(competencia);
+    }
+
+    @Override
+    public List<FolhaPagamento> allFolhaPagamentoMEs(String competencia) {
+        return repository.allFolhaPagamentoMes(competencia);
+    }
+
 
 
     

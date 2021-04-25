@@ -37,6 +37,9 @@ public class FolhaPagamento {
   @Column(name = "competencia")
   private String competencia;
 
+  @Column(name = "status", columnDefinition = "boolean default true")
+  private boolean status = true;
+
   public double getValorTotal(){
     double total =0;
     for(int i =0; i<this.contraCheques.size();i++){

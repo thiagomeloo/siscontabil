@@ -125,13 +125,13 @@ public class FolhaPagamentoController {
    * @return view com a lista de todas as folhas de pagamento.
    * 
    */
+
   @GetMapping("/folha-pagamento/")
   public ModelAndView getFolhasPagamento() {
     ModelAndView mv = new ModelAndView("pages/listaFolhaPagamento");
     mv.addObject("allFolhasPagamentos", folhaPagamentoService.findAll());
     return mv;
   }
-
   /*
    * Exibir detalhes da folha de pagamento.
    * 
@@ -429,4 +429,37 @@ public class FolhaPagamentoController {
     return "redirect:/folha-pagamento/create";
 
   }
+
+  @GetMapping("/folha-pagamento/pagar/todos")
+  public ModelAndView getFolhaPagarTodos() {
+    ModelAndView mv = new ModelAndView("pages/listFolhaPagar");
+    mv.addObject("allFolhasPagamentos", folhaPagamentoService.findAll());
+    return mv;
+  }
+  @GetMapping("/folha-pagamento/pagar")
+  public ModelAndView getFolhaPagar() {
+    ModelAndView mv = new ModelAndView("pages/listFolhaPagar");
+    mv.addObject("allFolhasPagamentos", folhaPagamentoService.allFolhaPagar());
+    return mv;
+  }
+  @GetMapping("/folha-pagamento/pagar/pago")
+  public ModelAndView getFolhaPago() {
+    ModelAndView mv = new ModelAndView("pages/listFolhaPagar");
+    mv.addObject("allFolhasPagamentos", folhaPagamentoService.allFolhaPago());
+    return mv;
+  }
+  @PostMapping({"/folha-pagamento/pagar/update"})
+  public String updateFolhaPagar(FolhaPagamento f,
+   RedirectAttributes redirectAttributes){
+    
+    f.setStatus(false);
+    folhaPagamentoService.save(f);
+
+
+    redirectAttributes.addAttribute("message_text","Sucesso ao realizar Pagamento da Folha");
+    redirectAttributes.addAttribute("message_type","success");
+    return HOME_PAGE;
+
+  }
+
 }

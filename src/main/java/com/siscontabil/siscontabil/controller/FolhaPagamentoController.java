@@ -99,16 +99,21 @@ public class FolhaPagamentoController {
   @GetMapping("/folha-pagamento/report/anual")
   public String reportFolhaPagamentoAnual(Model model) {
     
+    FolhaPagamentoAnual folhaAnual = new FolhaPagamentoAnual(folhaPagamentoService.findAll());
 
-    FolhaPagamentoAnual folhaAnual = new FolhaPagamentoAnual(folhaPagamentoService.allFolhaPagamentoCompetencia("2021"));
+    model.addAttribute("folhaAnual", folhaAnual);
+    model.addAttribute("ValorTotalPorFolha", 1);
+    model.addAttribute("valorTotal", folhaAnual.getValorTotal());
+    model.addAttribute("quantEmpregadoTotal", folhaAnual.getQuantEmpregadoTotal());
+    return "pages/reportFolhaPagamentoAnual";
+  }
+
+  @PostMapping("/folha-pagamento/report/anual")
+  public String reportFolhaPagamentoAno(Model model, FolhaPagamento f) {
     
-    for (int i = 1; i < 12; i++) {
-     System.out.println("MES " + i + " --- " +  folhaAnual.getValorFolhaByMes(i));
-     System.out.println(folhaAnual.getQuantEmpregadoByMes(i));
+    FolhaPagamentoAnual folhaAnual = new FolhaPagamentoAnual(folhaPagamentoService.allFolhaPagamentoCompetencia(f.getCompetencia()));
 
-      
-    }
-
+    model.addAttribute("competencia", f.getCompetencia());
     model.addAttribute("folhaAnual", folhaAnual);
     model.addAttribute("ValorTotalPorFolha", 1);
     model.addAttribute("valorTotal", folhaAnual.getValorTotal());

@@ -18,13 +18,24 @@
   <div class="container-fluid">
     <h2 class="mt-4 mb-4">Relatório Anual</h2>
 
+    <form class="row g-3 form-floating" method="POST">
+      <div class="col-md-3 form-floating mb-4">
+        <input type="number" min="0" class="form-control" name="competencia" id="inputCompetencia" placeholder="Competencia"
+          >
+        <label for="inputCompetencia" class="form-label">filtrar por Ano</label>
+      </div>
+      <div class="col-md-6">
+        <button type="submit" class="btn btn-primary btn-lg">Filtar</button>
+      </div>
+    </form>
+
     <div class="d-flex gap-2 mb-4">
       
       <div class="col-md-4 d-flex border p-4 h4">
         <strong class="me-3">
           Competência:
         </strong>
-        <span class="badge bg-success" th:text="as"></span>
+        <span class="badge bg-success" th:text="${competencia != null ? competencia : 'Geral'}"></span>
       </div>
 
       <div class="col-md-4 d-flex border p-4 h4">
@@ -36,7 +47,7 @@
 
       <div class="col-md-4 d-flex border p-4 h4">
         <strong class="me-3">
-          Valor Total das Folhas:
+          Total das Folhas (Ano):
         </strong>
         <span class="badge bg-danger" th:text="'R$' + ${valorTotal != null ? valorTotal : ' '}"></span>
       </div>
@@ -47,16 +58,19 @@
     <table class="table table-striped table-hover text-center">
       <thead>
         <tr>
-          <th scope="col">id</th>
-          <th scope="col">Setor</th>
-          <th scope="col">Competencia</th>
+          <th scope="col">Mês</th>
+          <th scope="col">Total De Folhas</th>
           <th scope="col">Nº de Empregados</th>
-          <th scope="col">Valor Total da Folha</th>
+          <th scope="col">Valor Total das Folhas (Mês) R$</th>
         </tr>
       </thead>
       <tbody>
-        <tr th:each="folha : ${folhaAnual}" >
-          <td th:text="${folha.getQuantEmpregadoByMes(1)}"></td>
+        <tr th:each="folha, i: ${folhaAnual.getAllFolhas()}" >
+          <td th:text="${i.count}"></td>
+          <td >quantidade de folha do mes</td>
+          <td th:text="${folhaAnual.getQuantEmpregadoByMes(i.count)}"></td>
+          <td th:text="${folhaAnual.getValorFolhaByMes(i.count)}"></td>
+          
 
         </tr>
       </tbody>

@@ -67,11 +67,9 @@
       <tbody>
         <tr th:each="folha, i: ${folhaAnual.getAllFolhas()}" >
           <td th:text="${i.count}"></td>
-          <td >quantidade de folha do mes</td>
-          <td th:text="${folhaAnual.getQuantEmpregadoByMes(i.count)}"></td>
-          <td th:text="${folhaAnual.getValorFolhaByMes(i.count)}"></td>
-          
-
+          <td th:text="${folhaAnual.getQuantTotalFolhasByMes(i.count)}"></td>
+          <td th:text="${folhaAnual.getQuantTotalEmpregadosFolhaByMes(i.count)}"></td>
+          <td th:text="${folhaAnual.getValorTotalFolhaByMes(i.count)}"></td>
         </tr>
       </tbody>
     </table>

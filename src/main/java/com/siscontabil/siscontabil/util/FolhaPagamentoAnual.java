@@ -3,172 +3,154 @@ package com.siscontabil.siscontabil.util;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.siscontabil.siscontabil.model.ContraCheque;
 import com.siscontabil.siscontabil.model.FolhaPagamento;
-import com.siscontabil.siscontabil.model.Funcionario;
-import com.siscontabil.siscontabil.model.FuncionarioFuncao;
 
 public class FolhaPagamentoAnual {
-  
+
   private List<List<FolhaPagamento>> listFolhaGroupByMes = new ArrayList<List<FolhaPagamento>>();
 
+  public FolhaPagamentoAnual() {
+    generateList();
+  }
 
-  public FolhaPagamentoAnual(){
-    for (int i = 0; i <= 12; i++) {
-      listFolhaGroupByMes.add(new ArrayList<FolhaPagamento>());
+  public FolhaPagamentoAnual(List<FolhaPagamento> folhaPagamentos) {
+    generateList();
+    for (int i = 0; i < folhaPagamentos.size(); i++) {
+
+      FolhaPagamento folhaPagamento = folhaPagamentos.get(i);
+
+      // verifica se e diferente de null
+      if (folhaPagamento != null && folhaPagamento.getCompetencia() != null) {
+
+        String[] str = folhaPagamento.getCompetencia().split("/");
+        int mes = Integer.parseInt(str[0]);
+
+        // valida o mes e adiciona
+        if (validMes(mes)) {
+          add(mes, folhaPagamento);
+
+        }
+
+      }
+
+    }
+
+  }
+
+  private void generateList() {
+    for (int i = 0; i < 12; i++) {
+      this.listFolhaGroupByMes.add(new ArrayList<FolhaPagamento>());
     }
   }
 
-  public FolhaPagamentoAnual(List<FolhaPagamento> folhasPagamento){
-    for (int i = 0; i <= 12; i++) {
-      listFolhaGroupByMes.add(new ArrayList<FolhaPagamento>());
+  public int getSize() {
+    return this.listFolhaGroupByMes.size();
+  }
+
+  public boolean validMes(int mes) {
+    if (mes < 0 || mes > 12) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  public void add(int mes, FolhaPagamento folhaPagamento) {
+    mes--;
+    if (validMes(mes)) {
+      List<FolhaPagamento> f = this.listFolhaGroupByMes.get(mes);
+      f.add(folhaPagamento);
+      this.listFolhaGroupByMes.set(mes, f);
     }
 
-    for (int i = 0; i < folhasPagamento.size(); i++) {
-      FolhaPagamento folhaPagamento = folhasPagamento.get(i);
-      String[] str = folhaPagamento.getCompetencia().split("/");
-      int mes = Integer.parseInt(str[0]);
-      add(mes, folhaPagamento);
+  }
+
+  public List<FolhaPagamento> getFolhasByMes(int mes) {
+    mes--;
+    if (validMes(mes)) {
+      return this.listFolhaGroupByMes.get(mes);
     }
+    return null;
 
   }
 
-  public void add(int mes,FolhaPagamento folhaPagamento){
-    List<FolhaPagamento> f = listFolhaGroupByMes.get(mes);
-    f.add(folhaPagamento);
-    listFolhaGroupByMes.set(mes, f);
-  }
+  public double getValorTotalFolhaByMes(int mes) {
+    mes--;
+    if (validMes(mes)) {
+      try {
 
-  public List<FolhaPagamento> getFolhaByMes(int mes){
-    return listFolhaGroupByMes.get(mes);
-  }
+        double valorTotalFolhasDoMes = 0;
+        List<FolhaPagamento> f = this.listFolhaGroupByMes.get(mes);
+        for (int i = 0; i < f.size(); i++) {
+          valorTotalFolhasDoMes += f.get(i).getValorTotal();
+        }
+        return valorTotalFolhasDoMes;
 
-  public double getValorFolhaByMes(int mes){
-    double valorTotalMes = 0;
-    List<FolhaPagamento> f = listFolhaGroupByMes.get(mes);
-    for (int i = 0; i < f.size() ; i++) {
-      valorTotalMes += f.get(i).getValorTotal();
+      } catch (Exception e) {
+
+        return 0;
+
+      }
+
     }
-    return valorTotalMes;
+    return 0;
   }
 
-  public double getValorTotal(){
+  public int getQuantTotalFolhasByMes(int mes){
+    mes --;
+    if(validMes(mes)){
+      int qtdFolhasMes = 0;
+      List<FolhaPagamento> f = this.listFolhaGroupByMes.get(mes);
+      for (int i = 0; i < f.size(); i++) {
+        qtdFolhasMes++;
+      }
+      return qtdFolhasMes;
+    }
+    return 0;
+  }
+
+  public double getValorTotal() {
     double valorTotalAnual = 0;
-    for (int i = 0; i < listFolhaGroupByMes.size() ; i++) {
-      valorTotalAnual += getValorFolhaByMes(i);
+    for (int i = 0; i < this.listFolhaGroupByMes.size() + 1; i++) {
+      if (validMes(i)) {
+        valorTotalAnual += getValorTotalFolhaByMes(i);
+      }
     }
     return valorTotalAnual;
   }
 
-  public int getQuantEmpregadoByMes(int mes){
-    int qtdEmpregadosTotal = 0;
-    List<FolhaPagamento> f = listFolhaGroupByMes.get(mes);
-    for (int i = 0; i < f.size() ; i++) {
-      qtdEmpregadosTotal += f.get(i).getQuantEmpregado();
+  public int getQuantTotalEmpregadosFolhaByMes(int mes) {
+    mes--;
+    if (validMes(mes)) {
+
+      int qtdEmpregadosTotal = 0;
+      List<FolhaPagamento> f = this.listFolhaGroupByMes.get(mes);
+
+      for (int i = 0; i < f.size(); i++) {
+        qtdEmpregadosTotal += f.get(i).getQuantEmpregado();
+      }
+      return qtdEmpregadosTotal;
     }
-    return qtdEmpregadosTotal;
+
+    return 0;
   }
 
-  public int getQuantEmpregadoTotal(){
+  public int getQuantEmpregadoTotal() {
     int valorTotalEmpregados = 0;
-    for (int i = 0; i < listFolhaGroupByMes.size() ; i++) {
-      valorTotalEmpregados += getQuantEmpregadoByMes(i);
+    
+    for (int i = 0; i < this.listFolhaGroupByMes.size() + 1; i++) {
+      
+      if (validMes(i)) {
+        valorTotalEmpregados += getQuantTotalEmpregadosFolhaByMes(i);
+      }
+
     }
     return valorTotalEmpregados;
   }
 
   public  List<List<FolhaPagamento>>  getAllFolhas(){
-
     return this.listFolhaGroupByMes;
   }
-  public static void main(String[] args) {
 
-    FolhaPagamento fp1 = new FolhaPagamento();
-    fp1.setId(1);
-    fp1.setCompetencia("01/2021");
-
-    FolhaPagamento fp2 = new FolhaPagamento();
-    fp2.setId(2);
-    fp2.setCompetencia("02/2021");
-
-    FolhaPagamento fp3 = new FolhaPagamento();
-    fp3.setId(3);
-    fp3.setCompetencia("03/2021");
-
-    FolhaPagamento fp4 = new FolhaPagamento();
-    fp4.setId(4);
-    fp4.setCompetencia("04/2021");
-
-    FolhaPagamento fp5 = new FolhaPagamento();
-    fp5.setId(5);
-    fp5.setCompetencia("05/2021");
-
-    FolhaPagamento fp6 = new FolhaPagamento();
-    fp6.setId(6);
-    fp6.setCompetencia("06/2021");
-
-    FolhaPagamento fp7 = new FolhaPagamento();
-    fp7.setId(7);
-    fp7.setCompetencia("07/2021");
-
-    FolhaPagamento fp8 = new FolhaPagamento();
-    fp8.setId(8);
-    fp8.setCompetencia("08/2021");
-
-    FolhaPagamento fp9 = new FolhaPagamento();
-    fp9.setId(9);
-    fp9.setCompetencia("09/2021");
-
-    FolhaPagamento fp10 = new FolhaPagamento();
-    fp10.setId(10);
-    fp10.setCompetencia("10/2021");
-
-    FolhaPagamento fp11 = new FolhaPagamento();
-    fp11.setId(4);
-    fp11.setCompetencia("11/2021");
-
-    FolhaPagamento fp12 = new FolhaPagamento();
-    fp12.setId(12);
-    fp12.setCompetencia("12/2021");
-    List<ContraCheque> c = new ArrayList<ContraCheque>();
-    ContraCheque ct = new ContraCheque();
-    Funcionario func = new Funcionario();
-    FuncionarioFuncao ffc = new FuncionarioFuncao();
-    ffc.setSalario(100);
-    func.setFuncao(ffc);
-    ct.setFuncionario(func);
-    ct.setComissao(200);
-    c.add(ct);
-
-    fp12.setContraCheques(c);
-
-    
-    List<FolhaPagamento> lista = new ArrayList<FolhaPagamento>();
-    lista.add(fp1);
-    lista.add(fp2);
-    lista.add(fp3);
-    lista.add(fp4);
-    lista.add(fp5);
-    lista.add(fp6);
-    lista.add(fp7);
-    lista.add(fp8);
-    lista.add(fp9);
-    lista.add(fp10);
-    lista.add(fp11);
-    lista.add(fp12);
-
-
-
-
-    FolhaPagamentoAnual folhaAnual = new FolhaPagamentoAnual(lista);
-    
-
-    System.out.println(folhaAnual.getValorFolhaByMes(1));
-    
-    
-
-  }
 
 }
-
-

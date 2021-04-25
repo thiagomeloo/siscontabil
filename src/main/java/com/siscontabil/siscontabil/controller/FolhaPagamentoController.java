@@ -102,7 +102,6 @@ public class FolhaPagamentoController {
     FolhaPagamentoAnual folhaAnual = new FolhaPagamentoAnual(folhaPagamentoService.findAll());
 
     model.addAttribute("folhaAnual", folhaAnual);
-    model.addAttribute("ValorTotalPorFolha", 1);
     model.addAttribute("valorTotal", folhaAnual.getValorTotal());
     model.addAttribute("quantEmpregadoTotal", folhaAnual.getQuantEmpregadoTotal());
     return "pages/reportFolhaPagamentoAnual";
@@ -113,11 +112,10 @@ public class FolhaPagamentoController {
     
     FolhaPagamentoAnual folhaAnual = new FolhaPagamentoAnual(folhaPagamentoService.allFolhaPagamentoCompetencia(f.getCompetencia()));
 
-    model.addAttribute("competencia", f.getCompetencia());
     model.addAttribute("folhaAnual", folhaAnual);
-    model.addAttribute("ValorTotalPorFolha", 1);
     model.addAttribute("valorTotal", folhaAnual.getValorTotal());
     model.addAttribute("quantEmpregadoTotal", folhaAnual.getQuantEmpregadoTotal());
+
     return "pages/reportFolhaPagamentoAnual";
   }
 

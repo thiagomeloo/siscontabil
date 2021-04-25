@@ -10,6 +10,8 @@ import javax.servlet.http.HttpSession;
 import com.siscontabil.siscontabil.model.ContraCheque;
 import com.siscontabil.siscontabil.model.FolhaPagamento;
 import com.siscontabil.siscontabil.model.Funcionario;
+import com.siscontabil.siscontabil.model.Setor;
+import com.siscontabil.siscontabil.service.FolhaPagamentoService;
 import com.siscontabil.siscontabil.service.serviceImplents.ContraChequeServiceImpl;
 import com.siscontabil.siscontabil.service.serviceImplents.FolhaPagamentoServiceImpl;
 import com.siscontabil.siscontabil.service.serviceImplents.FuncionarioServiceImpl;
@@ -436,22 +438,26 @@ public class FolhaPagamentoController {
     mv.addObject("allFolhasPagamentos", folhaPagamentoService.findAll());
     return mv;
   }
+  
   @GetMapping("/folha-pagamento/pagar")
   public ModelAndView getFolhaPagar() {
     ModelAndView mv = new ModelAndView("pages/listFolhaPagar");
     mv.addObject("allFolhasPagamentos", folhaPagamentoService.allFolhaPagar());
     return mv;
   }
+  
   @GetMapping("/folha-pagamento/pagar/pago")
   public ModelAndView getFolhaPago() {
     ModelAndView mv = new ModelAndView("pages/listFolhaPagar");
     mv.addObject("allFolhasPagamentos", folhaPagamentoService.allFolhaPago());
     return mv;
   }
-  @PostMapping({"/folha-pagamento/pagar/update"})
-  public String updateFolhaPagar(FolhaPagamento f,
+  
+  @GetMapping({"/folha-pagamento/pagar/update/{idFolhaPagamento}"})
+  public String updateFolhaPagar(@PathVariable("idFolhaPagamento") long idFolhaPagamento,
    RedirectAttributes redirectAttributes){
     
+    FolhaPagamento f = folhaPagamentoService.findById(idFolhaPagamento);
     f.setStatus(false);
     folhaPagamentoService.save(f);
 
@@ -462,4 +468,27 @@ public class FolhaPagamentoController {
 
   }
 
+  @GetMapping("/folha-pagamento/details/pagar/{idFolhaPagamento}")
+  public String detailFolhaPagamentopagar(@PathVariable("idFolhaPagamento") long idFolhaPagamento, Model model) {
+    FolhaPagamento folhaPagamento = folhaPagamentoService.findById(idFolhaPagamento);
+    model.addAttribute("folhaPagamento", folhaPagamento);
+
+    double totalProventos = 0;
+    double totalComissao = 0;
+    double totalDescontoINSS = 0;
+    double valorTotal = 0;
+
+    List<ContraCheque> contraCheques = folhaPagamento.getContraCheques();
+    for (int i = 0; i < contraCheques.size(); i++) {
+      totalProventos += contraCheques.get(i).getFuncionario().getFuncao().getSalario();
+      totalComissao += contraCheques.get(i).getComissao();
+      totalDescontoINSS += contraCheques.get(i).getDescontoDinheiro();
+      valorTotal += contraCheques.get(i).getSalarioLiquido();
+    }
+    model.addAttribute("totalProventos", totalProventos);
+    model.addAttribute("totalComissao", totalComissao);
+    model.addAttribute("totalDescontoINSS", totalDescontoINSS);
+    model.addAttribute("valorTotal", valorTotal);
+    return "pages/detailsFolhaPagamentoPagar";
+  }
 }

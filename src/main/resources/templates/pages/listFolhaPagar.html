@@ -48,16 +48,13 @@
             <td><span th:class=" ${folhaPagmento.status == true}? 'badge bg-danger' : 'badge bg-success' " 
               th:text="${folhaPagmento.status == true}? 'A pagar': 'Pago' "></span></td>
             <td>
-              <form method="POST" th:action="${folhaPagmento}? '/folha-pagamento/pagar/update' : ''">
-                <div th:if="${folhaPagmento}">
-                  <input type="hidden" th:value="${folhaPagmento.id}" name="id" />
-                  <input type="hidden" th:value="${folhaPagmento.competencia}" name="competencia" />
-                  <input type="hidden" th:value="${folhaPagmento.setor.id}" name="setor" />
-                </div>
-                <button   class="btn btn-sm btn-warning" th:disabled="${folhaPagmento.status == true}? false:true">
-                  <i class="bi bi-wallet2"></i>
-                </button>
-              </form>
+              <a th:href="@{'/folha-pagamento/details/'+${folhaPagmento.id}}" class="btn btn-sm btn-warning" >
+                <i class="bi bi-eye"></i>
+              </a>
+              <a th:href="@{'/folha-pagamento/pagar/update/'+${folhaPagmento.id}}" 
+               th:class="${folhaPagmento.status == true}? 'btn btn-sm btn-primary':'btn btn-sm btn-primary disabled'">
+                <i class="bi bi-wallet2"></i>
+              </a>
             </td>
           </tr>
         </tbody>

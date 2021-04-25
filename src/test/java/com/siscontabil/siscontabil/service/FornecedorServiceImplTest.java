@@ -8,11 +8,8 @@ import java.util.List;
 
 import com.siscontabil.siscontabil.model.Endereco;
 import com.siscontabil.siscontabil.model.Fornecedor;
-import com.siscontabil.siscontabil.model.Setor;
 import com.siscontabil.siscontabil.repository.FornecedorRepository;
-import com.siscontabil.siscontabil.repository.SetorRepository;
 import com.siscontabil.siscontabil.service.serviceImplents.FornecedorServiceImpl;
-import com.siscontabil.siscontabil.service.serviceImplents.SetorServiceImpl;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

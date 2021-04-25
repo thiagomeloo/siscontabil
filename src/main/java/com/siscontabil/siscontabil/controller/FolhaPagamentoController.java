@@ -14,6 +14,7 @@ import com.siscontabil.siscontabil.service.serviceImplents.ContraChequeServiceIm
 import com.siscontabil.siscontabil.service.serviceImplents.FolhaPagamentoServiceImpl;
 import com.siscontabil.siscontabil.service.serviceImplents.FuncionarioServiceImpl;
 import com.siscontabil.siscontabil.service.serviceImplents.SetorServiceImpl;
+import com.siscontabil.siscontabil.util.FolhaPagamentoAnual;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -98,23 +99,23 @@ public class FolhaPagamentoController {
   @GetMapping("/folha-pagamento/report/anual")
   public String reportFolhaPagamentoAnual(Model model) {
     
-    List<FolhaPagamento> folhaPagamento = folhaPagamentoService.allFolhaPagamentoCompetencia("04/2021");
-    model.addAttribute("folhaPagamento", folhaPagamento);
+
+    FolhaPagamentoAnual folhaAnual = new FolhaPagamentoAnual(folhaPagamentoService.allFolhaPagamentoCompetencia("2021"));
     
-    double valorTotal =0;
-    double ValorTotalPorFolha = 0;
-    int quantEmpregadoTotal =0;
-    
-    for(int i =0; i<folhaPagamento.size();i++){
-      valorTotal += folhaPagamento.get(i).getValorTotal();
-      quantEmpregadoTotal += folhaPagamento.get(i).getQuantEmpregado();
+    for (int i = 1; i < 12; i++) {
+     System.out.println("MES " + i + " --- " +  folhaAnual.getValorFolhaByMes(i));
+     System.out.println(folhaAnual.getQuantEmpregadoByMes(i));
+
+      
     }
 
-    model.addAttribute("ValorTotalPorFolha", ValorTotalPorFolha);
-    model.addAttribute("valorTotal", valorTotal);
-    model.addAttribute("quantEmpregadoTotal", quantEmpregadoTotal);
+    model.addAttribute("folhaAnual", folhaAnual);
+    model.addAttribute("ValorTotalPorFolha", 1);
+    model.addAttribute("valorTotal", folhaAnual.getValorTotal());
+    model.addAttribute("quantEmpregadoTotal", folhaAnual.getQuantEmpregadoTotal());
     return "pages/reportFolhaPagamentoAnual";
   }
+
   /*
    * Lista todas as folhas de pagamento.
    * 

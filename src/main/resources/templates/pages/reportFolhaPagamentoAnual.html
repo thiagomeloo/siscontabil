@@ -24,7 +24,7 @@
         <strong class="me-3">
           Competência:
         </strong>
-        <span class="badge bg-success" th:text="${folhaPagamento[0]?.competencia}"></span>
+        <span class="badge bg-success" th:text="as"></span>
       </div>
 
       <div class="col-md-4 d-flex border p-4 h4">
@@ -55,12 +55,9 @@
         </tr>
       </thead>
       <tbody>
-        <tr th:each="folhaPagamento : ${folhaPagamento}" >
-          <td th:text="${folhaPagamento.id}"></td>
-          <td th:text="${folhaPagamento.setor.nome}"></td>
-          <td th:text="${folhaPagamento.competencia}"></td>
-          <td th:text="${folhaPagamento.getQuantEmpregado()}"></td>
-          <td th:text="${folhaPagamento.getValorTotal()}"></td>
+        <tr th:each="folha : ${folhaAnual}" >
+          <td th:text="${folha.getQuantEmpregadoByMes(1)}"></td>
+
         </tr>
       </tbody>
     </table>

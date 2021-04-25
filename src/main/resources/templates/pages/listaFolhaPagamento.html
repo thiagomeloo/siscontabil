@@ -36,7 +36,8 @@
               <a th:href="@{'/folha-pagamento/details/'+${folhaPagmento.id}}" class="btn btn-sm btn-warning" >
                 <i class="bi bi-eye"></i>
               </a>
-              <a th:href="@{'/folha-pagamento/update/'+${folhaPagmento.id}}" class="btn btn-sm btn-primary">
+              <a th:href="@{'/folha-pagamento/update/'+${folhaPagmento.id}}" 
+               th:class="${folhaPagmento.status == true}? 'btn btn-sm btn-primary':'btn btn-sm btn-primary disabled'">
                 <i class="bi bi-pencil"></i>
               </a>
             </td>

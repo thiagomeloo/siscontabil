@@ -16,7 +16,7 @@
   <div th:insert="fragments/menu :: menu"></div>
 
   <div class="container-fluid">
-    <h2 class="mt-4 mb-4">Relatório Mensal</h2>
+    <h2 class="mt-4 mb-4">Relatório Anual</h2>
 
     <div class="d-flex gap-2 mb-4">
       
@@ -24,7 +24,7 @@
         <strong class="me-3">
           Competência:
         </strong>
-        <span class="badge bg-success" th:text="${folhaPagamento[0].competencia}"></span>
+        <span class="badge bg-success" th:text="${folhaPagamento[0]?.competencia}"></span>
       </div>
 
       <div class="col-md-4 d-flex border p-4 h4">
@@ -49,6 +49,7 @@
         <tr>
           <th scope="col">id</th>
           <th scope="col">Setor</th>
+          <th scope="col">Competencia</th>
           <th scope="col">Nº de Empregados</th>
           <th scope="col">Valor Total da Folha</th>
         </tr>
@@ -57,6 +58,7 @@
         <tr th:each="folhaPagamento : ${folhaPagamento}" >
           <td th:text="${folhaPagamento.id}"></td>
           <td th:text="${folhaPagamento.setor.nome}"></td>
+          <td th:text="${folhaPagamento.competencia}"></td>
           <td th:text="${folhaPagamento.getQuantEmpregado()}"></td>
           <td th:text="${folhaPagamento.getValorTotal()}"></td>
         </tr>

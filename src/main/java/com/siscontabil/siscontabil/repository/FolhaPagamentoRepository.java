@@ -19,4 +19,6 @@ public interface FolhaPagamentoRepository extends JpaRepository<FolhaPagamento, 
 
     @Query("select f from FolhaPagamento f where f.competencia like '%'||:competencia")
     List<FolhaPagamento> allFolhaPagamentoMes(@Param("competencia") String competencia);
+
+
 }

@@ -18,12 +18,14 @@ public class Autentication {
 
   public boolean isAutenticated(HttpSession session) {
 
-    if (session.getAttribute("user") != null) {
+    if(session.getAttribute("user") != null) {
 
       return true;
 
     } else {
+
       return false;
+      
     }
 
   }
@@ -32,7 +34,10 @@ public class Autentication {
     if (isAutenticated(session)) {
 
       Usuario user = (Usuario) session.getAttribute("user");
-      if (user.getTipoUsuario() == permission || user.getTipoUsuario() == ADMIN) {
+
+      String tipo = user.getTipoUsuario();
+
+      if (tipo.equals(permission) || tipo.equals(ADMIN)) {
         return pageSucess;
       }
       return ROUTER_LOGIN;
@@ -45,7 +50,8 @@ public class Autentication {
 
       Usuario user = (Usuario) session.getAttribute("user");
       for (int i = 0; i < permission.length; i++) {
-        if (user.getTipoUsuario() == permission[i] || user.getTipoUsuario() == ADMIN) {
+        String tipo = user.getTipoUsuario();
+        if (tipo.equals(permission[i]) || tipo.equals(ADMIN)) {
           return pageSucess;
         }
       }

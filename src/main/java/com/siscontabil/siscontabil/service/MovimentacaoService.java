@@ -1,6 +1,5 @@
 package com.siscontabil.siscontabil.service;
 
-import java.util.Date;
 import java.util.List;
 
 import com.siscontabil.siscontabil.model.Movimentacao;

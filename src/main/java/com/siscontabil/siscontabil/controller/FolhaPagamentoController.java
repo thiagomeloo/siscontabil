@@ -17,6 +17,7 @@ import com.siscontabil.siscontabil.service.serviceImplents.FolhaPagamentoService
 import com.siscontabil.siscontabil.service.serviceImplents.FuncionarioServiceImpl;
 import com.siscontabil.siscontabil.service.serviceImplents.MovimentacaoServiceImpl;
 import com.siscontabil.siscontabil.service.serviceImplents.SetorServiceImpl;
+import com.siscontabil.siscontabil.util.Autentication;
 import com.siscontabil.siscontabil.util.FolhaPagamentoAnual;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +49,8 @@ public class FolhaPagamentoController {
   @Autowired
   MovimentacaoServiceImpl movimentacaoService;
 
+  Autentication auth = new Autentication();
+
   /*
    * exibir relatório de folhas mensais.
    * 
@@ -55,75 +58,97 @@ public class FolhaPagamentoController {
    * 
    */
   @GetMapping("/folha-pagamento/report/")
-  public String reportFolhaPagamento( Model model) {
-    
-    List<FolhaPagamento> folhaPagamento = folhaPagamentoService.findAll();
-    model.addAttribute("folhaPagamento", folhaPagamento);
-    
-    double valorTotal =0;
-    double ValorTotalPorFolha = 0;
-    int quantEmpregadoTotal =0;
+  public String reportFolhaPagamento(HttpSession session, Model model) {
 
-    for(int i =0; i<folhaPagamento.size();i++){
-      valorTotal += folhaPagamento.get(i).getValorTotal();
-      quantEmpregadoTotal += folhaPagamento.get(i).getQuantEmpregado();
+    String url = auth.getUrl(session, "pages/reportFolhaPagamento");
+
+    if (auth.isAutenticated(session)) {
+      List<FolhaPagamento> folhaPagamento = folhaPagamentoService.findAll();
+      model.addAttribute("folhaPagamento", folhaPagamento);
+
+      double valorTotal = 0;
+      double ValorTotalPorFolha = 0;
+      int quantEmpregadoTotal = 0;
+
+      for (int i = 0; i < folhaPagamento.size(); i++) {
+        valorTotal += folhaPagamento.get(i).getValorTotal();
+        quantEmpregadoTotal += folhaPagamento.get(i).getQuantEmpregado();
+      }
+
+      model.addAttribute("ValorTotalPorFolha", ValorTotalPorFolha);
+      model.addAttribute("valorTotal", valorTotal);
+      model.addAttribute("quantEmpregadoTotal", quantEmpregadoTotal);
     }
-    
-    model.addAttribute("ValorTotalPorFolha", ValorTotalPorFolha);
-    model.addAttribute("valorTotal", valorTotal);
-    model.addAttribute("quantEmpregadoTotal", quantEmpregadoTotal);
-    return "pages/reportFolhaPagamento";
+
+    return url;
   }
-/*
+
+  /*
    * exibir relatório de folhas mensais.
    * 
-   * @return view com toodas as folhas de um  mes.
+   * @return view com toodas as folhas de um mes.
    * 
    */
   @PostMapping("/folha-pagamento/report/")
-  public String reportFolhaPagamentoMes( Model model, FolhaPagamento f) {
-    String mes= f.getCompetencia().substring(6,7);
-    String ano = f.getCompetencia().substring(0, 4);
-    f.setCompetencia(mes+"/"+ano);
-    List<FolhaPagamento> folhaPagamento = folhaPagamentoService.allFolhaPagamentoMes(mes+"/"+ano);
-    model.addAttribute("folhaPagamento", folhaPagamento);
-    model.addAttribute("folha", f);
-    double valorTotal =0;
-    double ValorTotalPorFolha = 0;
-    int quantEmpregadoTotal =0;
+  public String reportFolhaPagamentoMes(HttpSession session, Model model, FolhaPagamento f) {
 
-    for(int i =0; i<folhaPagamento.size();i++){
-      valorTotal += folhaPagamento.get(i).getValorTotal();
-      quantEmpregadoTotal += folhaPagamento.get(i).getQuantEmpregado();
+    String url = auth.getUrl(session, "pages/reportFolhaPagamento");
+
+    if (auth.isAutenticated(session)) {
+      String mes = f.getCompetencia().substring(6, 7);
+      String ano = f.getCompetencia().substring(0, 4);
+      f.setCompetencia(mes + "/" + ano);
+      List<FolhaPagamento> folhaPagamento = folhaPagamentoService.allFolhaPagamentoMes(mes + "/" + ano);
+      model.addAttribute("folhaPagamento", folhaPagamento);
+      model.addAttribute("folha", f);
+      double valorTotal = 0;
+      double ValorTotalPorFolha = 0;
+      int quantEmpregadoTotal = 0;
+
+      for (int i = 0; i < folhaPagamento.size(); i++) {
+        valorTotal += folhaPagamento.get(i).getValorTotal();
+        quantEmpregadoTotal += folhaPagamento.get(i).getQuantEmpregado();
+      }
+
+      model.addAttribute("ValorTotalPorFolha", ValorTotalPorFolha);
+      model.addAttribute("valorTotal", valorTotal);
+      model.addAttribute("quantEmpregadoTotal", quantEmpregadoTotal);
     }
-    
-    model.addAttribute("ValorTotalPorFolha", ValorTotalPorFolha);
-    model.addAttribute("valorTotal", valorTotal);
-    model.addAttribute("quantEmpregadoTotal", quantEmpregadoTotal);
-    return "pages/reportFolhaPagamento";
-  }
-  
-  @GetMapping("/folha-pagamento/report/anual")
-  public String reportFolhaPagamentoAnual(Model model) {
-    
-    FolhaPagamentoAnual folhaAnual = new FolhaPagamentoAnual(folhaPagamentoService.findAll());
 
-    model.addAttribute("folhaAnual", folhaAnual);
-    model.addAttribute("valorTotal", folhaAnual.getValorTotal());
-    model.addAttribute("quantEmpregadoTotal", folhaAnual.getQuantEmpregadoTotal());
-    return "pages/reportFolhaPagamentoAnual";
+    return url;
+  }
+
+  @GetMapping("/folha-pagamento/report/anual")
+  public String reportFolhaPagamentoAnual(HttpSession session, Model model) {
+
+    String url = auth.getUrl(session, "pages/reportFolhaPagamentoAnual");
+
+    if (auth.isAutenticated(session)) {
+      FolhaPagamentoAnual folhaAnual = new FolhaPagamentoAnual(folhaPagamentoService.findAll());
+
+      model.addAttribute("folhaAnual", folhaAnual);
+      model.addAttribute("valorTotal", folhaAnual.getValorTotal());
+      model.addAttribute("quantEmpregadoTotal", folhaAnual.getQuantEmpregadoTotal());
+    }
+
+    return url;
   }
 
   @PostMapping("/folha-pagamento/report/anual")
-  public String reportFolhaPagamentoAno(Model model, FolhaPagamento f) {
-    
-    FolhaPagamentoAnual folhaAnual = new FolhaPagamentoAnual(folhaPagamentoService.allFolhaPagamentoCompetencia(f.getCompetencia()));
+  public String reportFolhaPagamentoAno(HttpSession session, Model model, FolhaPagamento f) {
 
-    model.addAttribute("folhaAnual", folhaAnual);
-    model.addAttribute("valorTotal", folhaAnual.getValorTotal());
-    model.addAttribute("quantEmpregadoTotal", folhaAnual.getQuantEmpregadoTotal());
+    String url = auth.getUrl(session, "pages/reportFolhaPagamentoAnual");
 
-    return "pages/reportFolhaPagamentoAnual";
+    if (auth.isAutenticated(session)) {
+      FolhaPagamentoAnual folhaAnual = new FolhaPagamentoAnual(
+          folhaPagamentoService.allFolhaPagamentoCompetencia(f.getCompetencia()));
+
+      model.addAttribute("folhaAnual", folhaAnual);
+      model.addAttribute("valorTotal", folhaAnual.getValorTotal());
+      model.addAttribute("quantEmpregadoTotal", folhaAnual.getQuantEmpregadoTotal());
+    }
+
+    return url;
   }
 
   /*
@@ -134,11 +159,16 @@ public class FolhaPagamentoController {
    */
 
   @GetMapping("/folha-pagamento/")
-  public ModelAndView getFolhasPagamento() {
-    ModelAndView mv = new ModelAndView("pages/listaFolhaPagamento");
-    mv.addObject("allFolhasPagamentos", folhaPagamentoService.findAll());
-    return mv;
+  public String getFolhasPagamento(HttpSession session, Model model) {
+
+    String url = auth.getUrl(session, "pages/listaFolhaPagamento");
+    if (auth.isAutenticated(session)) {
+      model.addAttribute("allFolhasPagamentos", folhaPagamentoService.findAll());
+    }
+
+    return url;
   }
+
   /*
    * Exibir detalhes da folha de pagamento.
    * 
@@ -148,28 +178,34 @@ public class FolhaPagamentoController {
    * 
    */
   @GetMapping("/folha-pagamento/details/{idFolhaPagamento}")
-  public String detailFolhaPagamento(@PathVariable("idFolhaPagamento") long idFolhaPagamento, Model model) {
-    FolhaPagamento folhaPagamento = folhaPagamentoService.findById(idFolhaPagamento);
-    model.addAttribute("folhaPagamento", folhaPagamento);
+  public String detailFolhaPagamento(@PathVariable("idFolhaPagamento") long idFolhaPagamento, Model model,
+      HttpSession session) {
 
-    double totalProventos = 0;
-    double totalComissao = 0;
-    double totalDescontoINSS = 0;
-    double valorTotal = 0;
+    String url = auth.getUrl(session, "pages/detailsFolhaPagamento");
+    if (auth.isAutenticated(session)) {
+      FolhaPagamento folhaPagamento = folhaPagamentoService.findById(idFolhaPagamento);
+      model.addAttribute("folhaPagamento", folhaPagamento);
 
-    List<ContraCheque> contraCheques = folhaPagamento.getContraCheques();
-    for (int i = 0; i < contraCheques.size(); i++) {
-      totalProventos += contraCheques.get(i).getFuncionario().getFuncao().getSalario();
-      totalComissao += contraCheques.get(i).getComissao();
-      totalDescontoINSS += contraCheques.get(i).getDescontoDinheiro();
-      valorTotal += contraCheques.get(i).getSalarioLiquido();
+      double totalProventos = 0;
+      double totalComissao = 0;
+      double totalDescontoINSS = 0;
+      double valorTotal = 0;
+
+      List<ContraCheque> contraCheques = folhaPagamento.getContraCheques();
+      for (int i = 0; i < contraCheques.size(); i++) {
+        totalProventos += contraCheques.get(i).getFuncionario().getFuncao().getSalario();
+        totalComissao += contraCheques.get(i).getComissao();
+        totalDescontoINSS += contraCheques.get(i).getDescontoDinheiro();
+        valorTotal += contraCheques.get(i).getSalarioLiquido();
+      }
+
+      model.addAttribute("totalProventos", totalProventos);
+      model.addAttribute("totalComissao", totalComissao);
+      model.addAttribute("totalDescontoINSS", totalDescontoINSS);
+      model.addAttribute("valorTotal", valorTotal);
     }
 
-    model.addAttribute("totalProventos", totalProventos);
-    model.addAttribute("totalComissao", totalComissao);
-    model.addAttribute("totalDescontoINSS", totalDescontoINSS);
-    model.addAttribute("valorTotal", valorTotal);
-    return "pages/detailsFolhaPagamento";
+    return url;
   }
 
   /*
@@ -181,21 +217,24 @@ public class FolhaPagamentoController {
   @GetMapping("/folha-pagamento/create")
   public String getFormFolhaPagamento(HttpSession session, Model model) {
 
-    model.addAttribute("allSetor", setorService.findAll());
+    String url = auth.getUrl(session, "pages/formFolhaPagamento");
+    if (auth.isAutenticated(session)) {
+      model.addAttribute("allSetor", setorService.findAll());
 
-    if (session.getAttribute("contracheques") == null) {
-      model.addAttribute("allContraCheques", new ArrayList<ContraCheque>());
-    } else {
+      if (session.getAttribute("contracheques") == null) {
+        model.addAttribute("allContraCheques", new ArrayList<ContraCheque>());
+      } else {
 
-      List<ContraCheque> contraCheques = contraCheques = (List<ContraCheque>) session.getAttribute("contracheques");
-      model.addAttribute("allContraCheques", contraCheques);
+        List<ContraCheque> contraCheques = contraCheques = (List<ContraCheque>) session.getAttribute("contracheques");
+        model.addAttribute("allContraCheques", contraCheques);
+      }
+
+      if (session.getAttribute("idSetor") != null) {
+        model.addAttribute("idSetor", session.getAttribute("idSetor"));
+      }
     }
 
-    if (session.getAttribute("idSetor") != null) {
-      model.addAttribute("idSetor", session.getAttribute("idSetor"));
-    }
-
-    return "pages/formFolhaPagamento";
+    return url;
   }
 
   /*
@@ -208,23 +247,26 @@ public class FolhaPagamentoController {
   public String getFormUpdateFolhaPagamento(@PathVariable("idFolhaPagamento") long idFolhaPagamento,
       HttpSession session, Model model) {
 
-    model.addAttribute("allSetor", setorService.findAll());
-    FolhaPagamento folhaPagamento = folhaPagamentoService.findById(idFolhaPagamento);
+    String url = auth.getUrl(session, "pages/formFolhaPagamento");
+    if (auth.isAutenticated(session)) {
+      model.addAttribute("allSetor", setorService.findAll());
+      FolhaPagamento folhaPagamento = folhaPagamentoService.findById(idFolhaPagamento);
 
-    model.addAttribute("folhaPagamento", folhaPagamento);
+      model.addAttribute("folhaPagamento", folhaPagamento);
 
-    if (session.getAttribute("contrachequesUpdate") != null) {
-      model.addAttribute("allContraCheques", session.getAttribute("contrachequesUpdate"));
-    } else {
-      model.addAttribute("allContraCheques", folhaPagamento.getContraCheques());
-      session.setAttribute("contrachequesUpdate", folhaPagamento.getContraCheques());
+      if (session.getAttribute("contrachequesUpdate") != null) {
+        model.addAttribute("allContraCheques", session.getAttribute("contrachequesUpdate"));
+      } else {
+        model.addAttribute("allContraCheques", folhaPagamento.getContraCheques());
+        session.setAttribute("contrachequesUpdate", folhaPagamento.getContraCheques());
+      }
+
+      model.addAttribute("idSetor", folhaPagamento.getSetor().getId());
+
+      session.setAttribute("folhaPagamento", folhaPagamento);
     }
 
-    model.addAttribute("idSetor", folhaPagamento.getSetor().getId());
-
-    session.setAttribute("folhaPagamento", folhaPagamento);
-
-    return "pages/formFolhaPagamento";
+    return url;
   }
 
   /*
@@ -249,8 +291,11 @@ public class FolhaPagamentoController {
    */
   @GetMapping("/folha-pagamento/clear")
   public String clearFolhaPagamento(HttpSession session) {
-    clearSession(session);
-    return "redirect:/folha-pagamento/create";
+    String url = auth.getUrl(session, "redirect:/folha-pagamento/create");
+    if (auth.isAutenticated(session)) {
+      clearSession(session);
+    }
+    return url;
   }
 
   /*
@@ -265,40 +310,45 @@ public class FolhaPagamentoController {
   @PostMapping("/folha-pagamento/save")
   public String saveFolhaPagamento(HttpSession session, RedirectAttributes redirectAttributes) {
 
-    List<ContraCheque> contraCheques = new ArrayList<ContraCheque>();
-    FolhaPagamento fPagamento = new FolhaPagamento();
+    String url = auth.getUrl(session, HOME_PAGE);
+    if (auth.isAutenticated(session)) {
 
-    if (session.getAttribute("idSetor") == null && session.getAttribute("folhaPagamento") == null) {
-      redirectAttributes.addAttribute("message_text", "Impossivel salvar uma folha de pagamento vazia!");
-      redirectAttributes.addAttribute("message_type", "danger");
-      return "redirect:/folha-pagamento/create";
-    }
+      List<ContraCheque> contraCheques = new ArrayList<ContraCheque>();
+      FolhaPagamento fPagamento = new FolhaPagamento();
 
-    if (session.getAttribute("folhaPagamento") != null) {
-      fPagamento = (FolhaPagamento) session.getAttribute("folhaPagamento");
-      contraCheques = (List<ContraCheque>) session.getAttribute("contrachequesUpdate");
-      fPagamento.setContraCheques(contraCheques);
-      session.removeAttribute("contrachequesUpdate");
-    } else {
-      contraCheques = (List<ContraCheque>) session.getAttribute("contracheques");
-      fPagamento.setContraCheques(contraCheques);
-      fPagamento.setCompetencia(LocalDateTime.now().format(DateTimeFormatter.ofPattern("MM/yyyy")));
-      fPagamento.setSetor(setorService.findById((Long) session.getAttribute("idSetor")));
-      session.removeAttribute("contracheques");
-    }
-
-    folhaPagamentoService.save(fPagamento);
-
-    clearSession(session);
-
-    if (session.getAttribute("contrachequesDelete") != null) {
-      List<ContraCheque> contraChequesDelete = (List<ContraCheque>) session.getAttribute("contrachequesDelete");
-      for (int i = 0; i < contraChequesDelete.size(); i++) {
-        contraChequeService.deleteById(contraChequesDelete.get(i).getId());
+      if (session.getAttribute("idSetor") == null && session.getAttribute("folhaPagamento") == null) {
+        redirectAttributes.addAttribute("message_text", "Impossivel salvar uma folha de pagamento vazia!");
+        redirectAttributes.addAttribute("message_type", "danger");
+        return "redirect:/folha-pagamento/create";
       }
+
+      if (session.getAttribute("folhaPagamento") != null) {
+        fPagamento = (FolhaPagamento) session.getAttribute("folhaPagamento");
+        contraCheques = (List<ContraCheque>) session.getAttribute("contrachequesUpdate");
+        fPagamento.setContraCheques(contraCheques);
+        session.removeAttribute("contrachequesUpdate");
+      } else {
+        contraCheques = (List<ContraCheque>) session.getAttribute("contracheques");
+        fPagamento.setContraCheques(contraCheques);
+        fPagamento.setCompetencia(LocalDateTime.now().format(DateTimeFormatter.ofPattern("MM/yyyy")));
+        fPagamento.setSetor(setorService.findById((Long) session.getAttribute("idSetor")));
+        session.removeAttribute("contracheques");
+      }
+
+      folhaPagamentoService.save(fPagamento);
+
+      clearSession(session);
+
+      if (session.getAttribute("contrachequesDelete") != null) {
+        List<ContraCheque> contraChequesDelete = (List<ContraCheque>) session.getAttribute("contrachequesDelete");
+        for (int i = 0; i < contraChequesDelete.size(); i++) {
+          contraChequeService.deleteById(contraChequesDelete.get(i).getId());
+        }
+      }
+
     }
 
-    return HOME_PAGE;
+    return url;
   }
 
   /*
@@ -317,48 +367,55 @@ public class FolhaPagamentoController {
   @GetMapping("/folha-pagamento/contracheque/clear/{idFuncionario}")
   public String clearContraCheque(@PathVariable("idFuncionario") long idFuncionario, HttpSession session) {
 
-    List<ContraCheque> contraCheques = new ArrayList<ContraCheque>();
+    String url = auth.getUrl(session, HOME_PAGE);
+    if (auth.isAutenticated(session)) {
 
-    if (session.getAttribute("folhaPagamento") != null) {
-      FolhaPagamento folhaPagamento = (FolhaPagamento) session.getAttribute("folhaPagamento");
-      contraCheques = (List<ContraCheque>) session.getAttribute("contrachequesUpdate");
-      for (int i = 0; i < contraCheques.size(); i++) {
-        ContraCheque contraCheque = contraCheques.get(i);
-        if (contraCheque.getFuncionario().getId() == idFuncionario) {
+      List<ContraCheque> contraCheques = new ArrayList<ContraCheque>();
 
-          List<ContraCheque> contraChequesDelete = new ArrayList<ContraCheque>();
-          if (session.getAttribute("contrachequesDelete") == null) {
-            contraChequesDelete.add(contraCheque);
-            session.setAttribute("contrachequesDelete", contraChequesDelete);
-          } else {
-            contraChequesDelete = (List<ContraCheque>) session.getAttribute("contrachequesDelete");
-            contraChequesDelete.add(contraCheque);
-            session.setAttribute("contrachequesDelete", contraChequesDelete);
+      if (session.getAttribute("folhaPagamento") != null) {
+        FolhaPagamento folhaPagamento = (FolhaPagamento) session.getAttribute("folhaPagamento");
+        contraCheques = (List<ContraCheque>) session.getAttribute("contrachequesUpdate");
+        for (int i = 0; i < contraCheques.size(); i++) {
+          ContraCheque contraCheque = contraCheques.get(i);
+          if (contraCheque.getFuncionario().getId() == idFuncionario) {
+
+            List<ContraCheque> contraChequesDelete = new ArrayList<ContraCheque>();
+            if (session.getAttribute("contrachequesDelete") == null) {
+              contraChequesDelete.add(contraCheque);
+              session.setAttribute("contrachequesDelete", contraChequesDelete);
+            } else {
+              contraChequesDelete = (List<ContraCheque>) session.getAttribute("contrachequesDelete");
+              contraChequesDelete.add(contraCheque);
+              session.setAttribute("contrachequesDelete", contraChequesDelete);
+            }
+
+            contraCheques.remove(i);
+            session.setAttribute("contrachequesUpdate", contraCheques);
+            break;
+          }
+        }
+
+        return "redirect:/folha-pagamento/update/" + folhaPagamento.getId();
+
+      } else {
+
+        contraCheques = (List<ContraCheque>) session.getAttribute("contracheques");
+
+        for (int i = 0; i < contraCheques.size(); i++) {
+          ContraCheque contraCheque = contraCheques.get(i);
+          if (contraCheque.getFuncionario().getId() == idFuncionario) {
+            contraCheques.remove(i);
+            session.setAttribute("contracheques", contraCheques);
+            break;
           }
 
-          contraCheques.remove(i);
-          session.setAttribute("contrachequesUpdate", contraCheques);
-          break;
         }
+        return "redirect:/folha-pagamento/create";
       }
 
-      return "redirect:/folha-pagamento/update/" + folhaPagamento.getId();
-
-    } else {
-
-      contraCheques = (List<ContraCheque>) session.getAttribute("contracheques");
-
-      for (int i = 0; i < contraCheques.size(); i++) {
-        ContraCheque contraCheque = contraCheques.get(i);
-        if (contraCheque.getFuncionario().getId() == idFuncionario) {
-          contraCheques.remove(i);
-          session.setAttribute("contracheques", contraCheques);
-          break;
-        }
-
-      }
-      return "redirect:/folha-pagamento/create";
     }
+
+    return url;
 
   }
 
@@ -375,29 +432,34 @@ public class FolhaPagamentoController {
   @GetMapping("/folha-pagamento/add-contracheque/{idSetor}")
   public String getViewAddContraCheque(@PathVariable("idSetor") long idSetor, HttpSession session, Model model) {
 
-    List<ContraCheque> contraChequesInclusos = new ArrayList<ContraCheque>();
-    if (session.getAttribute("contracheques") != null) {
-      contraChequesInclusos = (List<ContraCheque>) session.getAttribute("contracheques");
-    } else if (session.getAttribute("contrachequesUpdate") != null) {
-      contraChequesInclusos = (List<ContraCheque>) session.getAttribute("contrachequesUpdate");
-    }
+    String url = auth.getUrl(session, "pages/formContraCheque");
+    if (auth.isAutenticated(session)) {
 
-    model.addAttribute("funcSalario", funcionarioService.allFuncionarioAndSalarioBySetor(idSetor));
-
-    List<Funcionario> funcionarios = funcionarioService.allFuncionarioBySetor(idSetor);
-
-    for (int i = 0; i < contraChequesInclusos.size(); i++) {
-      for (int j = 0; j < funcionarios.size(); j++) {
-        if (contraChequesInclusos.get(i).getFuncionario().getId() == funcionarios.get(j).getId()) {
-          funcionarios.remove(j);
-        }
+      List<ContraCheque> contraChequesInclusos = new ArrayList<ContraCheque>();
+      if (session.getAttribute("contracheques") != null) {
+        contraChequesInclusos = (List<ContraCheque>) session.getAttribute("contracheques");
+      } else if (session.getAttribute("contrachequesUpdate") != null) {
+        contraChequesInclusos = (List<ContraCheque>) session.getAttribute("contrachequesUpdate");
       }
 
+      model.addAttribute("funcSalario", funcionarioService.allFuncionarioAndSalarioBySetor(idSetor));
+
+      List<Funcionario> funcionarios = funcionarioService.allFuncionarioBySetor(idSetor);
+
+      for (int i = 0; i < contraChequesInclusos.size(); i++) {
+        for (int j = 0; j < funcionarios.size(); j++) {
+          if (contraChequesInclusos.get(i).getFuncionario().getId() == funcionarios.get(j).getId()) {
+            funcionarios.remove(j);
+          }
+        }
+
+      }
+
+      model.addAttribute("allFuncionarios", funcionarios);
+      session.setAttribute("idSetor", idSetor);
     }
 
-    model.addAttribute("allFuncionarios", funcionarios);
-    session.setAttribute("idSetor", idSetor);
-    return "pages/formContraCheque";
+    return url;
   }
 
   /*
@@ -411,95 +473,119 @@ public class FolhaPagamentoController {
   @PostMapping("/folha-pagamento/add-contracheque")
   public String postAddContraCheque(HttpSession session, ContraCheque contraCheque, Model model) {
 
-    List<ContraCheque> contraCheques = new ArrayList<ContraCheque>();
+    String url = auth.getUrl(session, "redirect:/folha-pagamento/create");
+    if (auth.isAutenticated(session)) {
 
-    if (session.getAttribute("contrachequesUpdate") != null && session.getAttribute("folhaPagamento") != null) {
+      List<ContraCheque> contraCheques = new ArrayList<ContraCheque>();
 
-      contraCheques = (List<ContraCheque>) session.getAttribute("contrachequesUpdate");
+      if (session.getAttribute("contrachequesUpdate") != null && session.getAttribute("folhaPagamento") != null) {
+
+        contraCheques = (List<ContraCheque>) session.getAttribute("contrachequesUpdate");
+        contraCheques.add(contraCheque);
+        session.setAttribute("contrachequesUpdate", contraCheques);
+
+        FolhaPagamento folhaPagamento = (FolhaPagamento) session.getAttribute("folhaPagamento");
+
+        return "redirect:/folha-pagamento/update/" + folhaPagamento.getId();
+
+      } else if (session.getAttribute("contracheques") != null) {
+
+        contraCheques = (List<ContraCheque>) session.getAttribute("contracheques");
+
+      }
+
       contraCheques.add(contraCheque);
-      session.setAttribute("contrachequesUpdate", contraCheques);
 
-      FolhaPagamento folhaPagamento = (FolhaPagamento) session.getAttribute("folhaPagamento");
-
-      return "redirect:/folha-pagamento/update/" + folhaPagamento.getId();
-
-    } else if (session.getAttribute("contracheques") != null) {
-
-      contraCheques = (List<ContraCheque>) session.getAttribute("contracheques");
+      session.setAttribute("contracheques", contraCheques);
 
     }
 
-    contraCheques.add(contraCheque);
-
-    session.setAttribute("contracheques", contraCheques);
-
-    return "redirect:/folha-pagamento/create";
+    return url;
 
   }
 
   @GetMapping("/folha-pagamento/pagar/todos")
-  public ModelAndView getFolhaPagarTodos() {
-    ModelAndView mv = new ModelAndView("pages/listFolhaPagar");
-    mv.addObject("allFolhasPagamentos", folhaPagamentoService.findAll());
-    return mv;
+  public String getFolhaPagarTodos(HttpSession session, Model model) {
+
+    String url = auth.getUrl(session, "pages/listFolhaPagar");
+    if (auth.isAutenticated(session)) {
+      model.addAttribute("allFolhasPagamentos", folhaPagamentoService.findAll());
+    }
+    return url;
   }
-  
+
   @GetMapping("/folha-pagamento/pagar")
-  public ModelAndView getFolhaPagar() {
-    ModelAndView mv = new ModelAndView("pages/listFolhaPagar");
-    mv.addObject("allFolhasPagamentos", folhaPagamentoService.allFolhaPagar());
-    return mv;
+  public String getFolhaPagar(HttpSession session, Model model) {
+
+    String url = auth.getUrl(session, "pages/listFolhaPagar");
+    if (auth.isAutenticated(session)) {
+      model.addAttribute("allFolhasPagamentos", folhaPagamentoService.allFolhaPagar());
+    }
+    return url;
   }
-  
+
   @GetMapping("/folha-pagamento/pagar/pago")
-  public ModelAndView getFolhaPago() {
-    ModelAndView mv = new ModelAndView("pages/listFolhaPagar");
-    mv.addObject("allFolhasPagamentos", folhaPagamentoService.allFolhaPago());
-    return mv;
+  public String getFolhaPago(HttpSession session, Model model) {
+    String url = auth.getUrl(session, "pages/listFolhaPagar");
+    if (auth.isAutenticated(session)) {
+      model.addAttribute("allFolhasPagamentos", folhaPagamentoService.allFolhaPago());
+    }
+    return url;
   }
-  
-  @GetMapping({"/folha-pagamento/pagar/update/{idFolhaPagamento}"})
-  public String updateFolhaPagar(@PathVariable("idFolhaPagamento") long idFolhaPagamento,
-   RedirectAttributes redirectAttributes){
-    
-    FolhaPagamento f = folhaPagamentoService.findById(idFolhaPagamento);
-    f.setStatus(false);
-    folhaPagamentoService.save(f);
-   
-    Movimentacao movimentacao = new Movimentacao();
-    movimentacao.setTipo("Saida");
-    movimentacao.setDescricao("| pagamento | Id folha pagamento: "+ f.getId() + " | Setor: "+ f.getSetor().getNome());
-    movimentacao.setValor(f.getValorTotalComINSS());
-    movimentacao.setDataMovimentacao(new Date());
-    movimentacaoService.save(movimentacao);
-    
-    redirectAttributes.addAttribute("message_text","Sucesso ao realizar Pagamento da Folha");
-    redirectAttributes.addAttribute("message_type","success");
-    return HOME_PAGE;
+
+  @GetMapping({ "/folha-pagamento/pagar/update/{idFolhaPagamento}" })
+  public String updateFolhaPagar(@PathVariable("idFolhaPagamento") long idFolhaPagamento, HttpSession session,
+      RedirectAttributes redirectAttributes) {
+
+    String url = auth.getUrl(session, HOME_PAGE);
+    if (auth.isAutenticated(session)) {
+      FolhaPagamento f = folhaPagamentoService.findById(idFolhaPagamento);
+      f.setStatus(false);
+      folhaPagamentoService.save(f);
+
+      Movimentacao movimentacao = new Movimentacao();
+      movimentacao.setTipo("Saida");
+      movimentacao
+          .setDescricao("| pagamento | Id folha pagamento: " + f.getId() + " | Setor: " + f.getSetor().getNome());
+      movimentacao.setValor(f.getValorTotalComINSS());
+      movimentacao.setDataMovimentacao(new Date());
+      movimentacaoService.save(movimentacao);
+
+      redirectAttributes.addAttribute("message_text", "Sucesso ao realizar Pagamento da Folha");
+      redirectAttributes.addAttribute("message_type", "success");
+    }
+
+    return url;
 
   }
 
   @GetMapping("/folha-pagamento/details/pagar/{idFolhaPagamento}")
-  public String detailFolhaPagamentopagar(@PathVariable("idFolhaPagamento") long idFolhaPagamento, Model model) {
-    FolhaPagamento folhaPagamento = folhaPagamentoService.findById(idFolhaPagamento);
-    model.addAttribute("folhaPagamento", folhaPagamento);
+  public String detailFolhaPagamentopagar(@PathVariable("idFolhaPagamento") long idFolhaPagamento, Model model,
+      HttpSession session) {
 
-    double totalProventos = 0;
-    double totalComissao = 0;
-    double totalDescontoINSS = 0;
-    double valorTotal = 0;
+    String url = auth.getUrl(session, "pages/detailsFolhaPagamentoPagar");
+    if (auth.isAutenticated(session)) {
+      FolhaPagamento folhaPagamento = folhaPagamentoService.findById(idFolhaPagamento);
+      model.addAttribute("folhaPagamento", folhaPagamento);
 
-    List<ContraCheque> contraCheques = folhaPagamento.getContraCheques();
-    for (int i = 0; i < contraCheques.size(); i++) {
-      totalProventos += contraCheques.get(i).getFuncionario().getFuncao().getSalario();
-      totalComissao += contraCheques.get(i).getComissao();
-      totalDescontoINSS += contraCheques.get(i).getDescontoDinheiro();
-      valorTotal += contraCheques.get(i).getSalarioLiquido();
+      double totalProventos = 0;
+      double totalComissao = 0;
+      double totalDescontoINSS = 0;
+      double valorTotal = 0;
+
+      List<ContraCheque> contraCheques = folhaPagamento.getContraCheques();
+      for (int i = 0; i < contraCheques.size(); i++) {
+        totalProventos += contraCheques.get(i).getFuncionario().getFuncao().getSalario();
+        totalComissao += contraCheques.get(i).getComissao();
+        totalDescontoINSS += contraCheques.get(i).getDescontoDinheiro();
+        valorTotal += contraCheques.get(i).getSalarioLiquido();
+      }
+      model.addAttribute("totalProventos", totalProventos);
+      model.addAttribute("totalComissao", totalComissao);
+      model.addAttribute("totalDescontoINSS", totalDescontoINSS);
+      model.addAttribute("valorTotal", valorTotal);
     }
-    model.addAttribute("totalProventos", totalProventos);
-    model.addAttribute("totalComissao", totalComissao);
-    model.addAttribute("totalDescontoINSS", totalDescontoINSS);
-    model.addAttribute("valorTotal", valorTotal);
-    return "pages/detailsFolhaPagamentoPagar";
+
+    return url;
   }
 }

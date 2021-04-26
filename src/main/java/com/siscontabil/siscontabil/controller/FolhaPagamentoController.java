@@ -3,6 +3,7 @@ package com.siscontabil.siscontabil.controller;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -10,11 +11,11 @@ import javax.servlet.http.HttpSession;
 import com.siscontabil.siscontabil.model.ContraCheque;
 import com.siscontabil.siscontabil.model.FolhaPagamento;
 import com.siscontabil.siscontabil.model.Funcionario;
-import com.siscontabil.siscontabil.model.Setor;
-import com.siscontabil.siscontabil.service.FolhaPagamentoService;
+import com.siscontabil.siscontabil.model.Movimentacao;
 import com.siscontabil.siscontabil.service.serviceImplents.ContraChequeServiceImpl;
 import com.siscontabil.siscontabil.service.serviceImplents.FolhaPagamentoServiceImpl;
 import com.siscontabil.siscontabil.service.serviceImplents.FuncionarioServiceImpl;
+import com.siscontabil.siscontabil.service.serviceImplents.MovimentacaoServiceImpl;
 import com.siscontabil.siscontabil.service.serviceImplents.SetorServiceImpl;
 import com.siscontabil.siscontabil.util.FolhaPagamentoAnual;
 
@@ -43,6 +44,10 @@ public class FolhaPagamentoController {
 
   @Autowired
   ContraChequeServiceImpl contraChequeService;
+
+  @Autowired
+  MovimentacaoServiceImpl movimentacaoService;
+
   /*
    * exibir relatório de folhas mensais.
    * 
@@ -460,8 +465,14 @@ public class FolhaPagamentoController {
     FolhaPagamento f = folhaPagamentoService.findById(idFolhaPagamento);
     f.setStatus(false);
     folhaPagamentoService.save(f);
-
-
+   
+    Movimentacao movimentacao = new Movimentacao();
+    movimentacao.setTipo("Saida");
+    movimentacao.setDescricao("| pagamento | Id folha pagamento: "+ f.getId() + " | Setor: "+ f.getSetor().getNome());
+    movimentacao.setValor(f.getValorTotalComINSS());
+    movimentacao.setDataMovimentacao(new Date());
+    movimentacaoService.save(movimentacao);
+    
     redirectAttributes.addAttribute("message_text","Sucesso ao realizar Pagamento da Folha");
     redirectAttributes.addAttribute("message_type","success");
     return HOME_PAGE;

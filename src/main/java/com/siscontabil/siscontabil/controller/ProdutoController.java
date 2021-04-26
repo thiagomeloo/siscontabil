@@ -1,7 +1,11 @@
 package com.siscontabil.siscontabil.controller;
 
+import java.util.Date;
+
+import com.siscontabil.siscontabil.model.Movimentacao;
 import com.siscontabil.siscontabil.model.Produto;
 import com.siscontabil.siscontabil.service.serviceImplents.FornecedorServiceImpl;
+import com.siscontabil.siscontabil.service.serviceImplents.MovimentacaoServiceImpl;
 import com.siscontabil.siscontabil.service.serviceImplents.ProdutoServiceImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +27,9 @@ public class ProdutoController {
 
     @Autowired
     FornecedorServiceImpl fornecedorService;
+
+    @Autowired
+    MovimentacaoServiceImpl movimentacaoService;
 
     @GetMapping("/produto/list")
   public ModelAndView getListProduto(){
@@ -46,6 +53,13 @@ public class ProdutoController {
       redirectAttributes.addAttribute("message_type","success");
   
       produtoService.save(produto);
+
+      Movimentacao movimentacao = new Movimentacao();
+      movimentacao.setTipo("Saida");
+      movimentacao.setDescricao("| cadastro | Id produto: "+ produto.getId() + " | Nome: "+ produto.getDescricao());
+      movimentacao.setValor(produto.getValorDeCusto());
+      movimentacao.setDataMovimentacao(new Date());
+      movimentacaoService.save(movimentacao);
       
       return HOME_PAGE;
     }
@@ -65,7 +79,30 @@ public class ProdutoController {
       redirectAttributes.addAttribute("message_text","Sucesso ao atualizar o produto");
       redirectAttributes.addAttribute("message_type","success");
       
+      Produto produtoOld = produtoService.findById(produto.getId());
+      double oldProduto = produtoOld.getValorDeCusto();
+
       produtoService.save(produto);
+
+      Movimentacao movimentacao = new Movimentacao();
+
+      double valor = 0;
+
+      double newProduto = produto.getValorDeCusto();
+
+
+      if(newProduto > oldProduto){
+        valor = newProduto - oldProduto;
+        movimentacao.setTipo("Saida");
+      }else{
+        movimentacao.setTipo("Entrada");
+        valor = oldProduto - newProduto;
+      }
+
+      movimentacao.setDescricao("| update | Id produto: "+ produto.getId() + " | Nome: "+ produto.getDescricao());
+      movimentacao.setValor(valor);
+      movimentacao.setDataMovimentacao(new Date());
+      movimentacaoService.save(movimentacao);
     
       return HOME_PAGE;
     }

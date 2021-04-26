@@ -27,6 +27,9 @@ public class Movimentacao {
   @Column(name = "tipo")
   private String tipo;
 
+  @Column(name = "descricao")
+  private String descricao;
+
   @Column(name = "valor")
   private double valor;
 

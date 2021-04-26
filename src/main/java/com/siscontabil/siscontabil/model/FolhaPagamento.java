@@ -51,6 +51,14 @@ public class FolhaPagamento {
     }
     return total;
   }
+
+  public double getValorTotalComINSS(){
+    double total = 0;
+    for (int i = 0; i < this.contraCheques.size(); i++) {
+      total += contraCheques.get(i).getFuncionario().getFuncao().getSalario() + contraCheques.get(i).getComissao();
+    }
+    return total;
+  }
   
   public int getQuantEmpregado(){
     int quant = 0;

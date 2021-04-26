@@ -15,7 +15,7 @@
   <div th:insert="fragments/menu :: menu"></div>
   
   <div class="container-fluid">
-    <h4 class="mt-4" th:text="${produto != null}? 'Atualizar Produto' : 'Cadastrar Produto'" ></h4>
+    <h4 class="mt-4" th:text="${produto}? 'Atualizar Produto' : 'Cadastrar Produto'" ></h4>
 
       <form class="row g-3 form-floating" method="POST" th:action="${produto}? '/produto/update' : ''">
         
@@ -53,13 +53,13 @@
               th:each="fornecedor : ${allFornecedorAtivo}"
               th:value="${fornecedor.id}"
               th:text="${fornecedor.nome}"
-              th:selected= "${produto?.fornecedor != null and produto?.fornecedor.id == fornecedor.id} ? true : false"
+              th:selected= "${produto?.fornecedor != null and produto?.fornecedor.id == fornecedor?.id} ? true : false"
             >...</option>
           </select>
           <label for="inputFornecedor" class="form-label">Fornecedor</label>
         </div>
 
-        <div th:if="${produto != null}">
+        <div th:if="${produto}">
           <input type="hidden" th:value="${produto?.id}" name="id" />
         </div>
 

@@ -2,11 +2,14 @@ package com.siscontabil.siscontabil.controller;
 
 import java.util.Date;
 
+import javax.servlet.http.HttpSession;
+
 import com.siscontabil.siscontabil.model.Movimentacao;
 import com.siscontabil.siscontabil.model.Produto;
 import com.siscontabil.siscontabil.service.serviceImplents.FornecedorServiceImpl;
 import com.siscontabil.siscontabil.service.serviceImplents.MovimentacaoServiceImpl;
 import com.siscontabil.siscontabil.service.serviceImplents.ProdutoServiceImpl;
+import com.siscontabil.siscontabil.util.Autentication;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,62 +25,93 @@ public class ProdutoController {
 
   private static final String HOME_PAGE = "redirect:/";
 
-    @Autowired
-    ProdutoServiceImpl produtoService;
+  @Autowired
+  ProdutoServiceImpl produtoService;
 
-    @Autowired
-    FornecedorServiceImpl fornecedorService;
+  @Autowired
+  FornecedorServiceImpl fornecedorService;
 
-    @Autowired
-    MovimentacaoServiceImpl movimentacaoService;
+  @Autowired
+  MovimentacaoServiceImpl movimentacaoService;
 
-    @GetMapping("/produto/list")
-  public ModelAndView getListProduto(){
-    ModelAndView mv = new ModelAndView("pages/listProduto");
-    mv.addObject("allProduto", produtoService.findAll());
-    return mv;
-  }
+  Autentication auth = new Autentication();
 
-    @GetMapping("/produto/create")
-    public ModelAndView getListFornecedor(){
-      ModelAndView mv = new ModelAndView("pages/formProduto");
-      mv.addObject("allFornecedorAtivo", fornecedorService.allFornecedorAtivo());
-      return mv;
+  @GetMapping("/produto/list")
+  public String getListProduto(HttpSession session, Model model) {
+
+    String url = auth.getUrl(session, "pages/listProduto");
+
+    if (auth.isAutenticated(session)) {
+      model.addAttribute("allProduto", produtoService.findAll());
+
     }
 
-    @PostMapping({"/produto/create"})
-    public String saveFuncionario( Produto produto,RedirectAttributes redirectAttributes){
+    return url;
 
-      redirectAttributes.addAttribute("message_text","Sucesso ao cadastrar o produto");
-      redirectAttributes.addAttribute("message_type","success");
-  
+  }
+
+  @GetMapping("/produto/create")
+  public String getListFornecedor(HttpSession session, Model model) {
+
+    String url = auth.getUrl(session, "pages/formProduto");
+
+    if (auth.isAutenticated(session)) {
+      model.addAttribute("allFornecedorAtivo", fornecedorService.allFornecedorAtivo());
+
+    }
+
+    return url;
+  }
+
+  @PostMapping({ "/produto/create" })
+  public String saveFuncionario(Produto produto, RedirectAttributes redirectAttributes, HttpSession session) {
+
+    String url = auth.getUrl(session, HOME_PAGE);
+
+    if (auth.isAutenticated(session)) {
+      redirectAttributes.addAttribute("message_text", "Sucesso ao cadastrar o produto");
+      redirectAttributes.addAttribute("message_type", "success");
+
       produtoService.save(produto);
 
       Movimentacao movimentacao = new Movimentacao();
       movimentacao.setTipo("Saida");
-      movimentacao.setDescricao("| cadastro | Id produto: "+ produto.getId() + " | Nome: "+ produto.getDescricao());
-      movimentacao.setValor(produto.getValorDeCusto()*produto.getQuantidade());
+      movimentacao.setDescricao("| cadastro | Id produto: " + produto.getId() + " | Nome: " + produto.getDescricao());
+      movimentacao.setValor(produto.getValorDeCusto() * produto.getQuantidade());
       movimentacao.setDataMovimentacao(new Date());
       movimentacaoService.save(movimentacao);
-      
-      return HOME_PAGE;
     }
 
-    @GetMapping("/produto/update/{id}")
-    public String getFormUpdate(@PathVariable("id") long id, Model model){
+    return url;
+  }
+
+  @GetMapping("/produto/update/{id}")
+  public String getFormUpdate(@PathVariable("id") long id, Model model, HttpSession session) {
+
+    String url = auth.getUrl(session, "pages/formProduto");
+
+    if (auth.isAutenticated(session)) {
+
       try {
-        model.addAttribute("produto",produtoService.findById(id));
+        model.addAttribute("produto", produtoService.findById(id));
         model.addAttribute("allFornecedorAtivo", fornecedorService.allFornecedorAtivo());
       } catch (Exception e) {
         return HOME_PAGE;
       }
-      return "pages/formProduto";
     }
-    @PostMapping({"/produto/update"})
-    public String updateProduto( Produto produto,RedirectAttributes redirectAttributes){
-      redirectAttributes.addAttribute("message_text","Sucesso ao atualizar o produto");
-      redirectAttributes.addAttribute("message_type","success");
-      
+
+    return url;
+  }
+
+  @PostMapping({ "/produto/update" })
+  public String updateProduto(Produto produto, RedirectAttributes redirectAttributes, HttpSession session) {
+
+    String url = auth.getUrl(session, HOME_PAGE);
+
+    if (auth.isAutenticated(session)) {
+      redirectAttributes.addAttribute("message_text", "Sucesso ao atualizar o produto");
+      redirectAttributes.addAttribute("message_type", "success");
+
       Produto produtoOld = produtoService.findById(produto.getId());
       double oldProduto = produtoOld.getValorDeCusto();
 
@@ -89,20 +123,20 @@ public class ProdutoController {
 
       double newProduto = produto.getValorDeCusto();
 
-
-      if(newProduto > oldProduto){
-        valor = (newProduto - oldProduto)*produto.getQuantidade();
+      if (newProduto > oldProduto) {
+        valor = (newProduto - oldProduto) * produto.getQuantidade();
         movimentacao.setTipo("Saida");
-      }else{
+      } else {
         movimentacao.setTipo("Entrada");
-        valor = (oldProduto - newProduto)*produto.getQuantidade();
+        valor = (oldProduto - newProduto) * produto.getQuantidade();
       }
 
-      movimentacao.setDescricao("| update | Id produto: "+ produto.getId() + " | Nome: "+ produto.getDescricao());
+      movimentacao.setDescricao("| update | Id produto: " + produto.getId() + " | Nome: " + produto.getDescricao());
       movimentacao.setValor(valor);
       movimentacao.setDataMovimentacao(new Date());
       movimentacaoService.save(movimentacao);
-    
-      return HOME_PAGE;
     }
+
+    return url;
+  }
 }

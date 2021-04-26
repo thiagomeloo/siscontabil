@@ -57,9 +57,9 @@ public class ClienteServiceImplTest {
     this.cliente.setStatus(false);
     doReturn(this.clientes)
       .when(repository)
-      .allClienteAtivo();
+      .allClienteInativo();
 
-    List<Cliente> clientesRetornados = clienteService.allClienteAtivo();
+    List<Cliente> clientesRetornados = clienteService.allClienteInativo();
 
     assertEquals(1, clientesRetornados.size());
     assertEquals(false, clientesRetornados.get(0).isStatus());

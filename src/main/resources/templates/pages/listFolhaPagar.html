@@ -48,7 +48,7 @@
             <td><span th:class=" ${folhaPagmento.status == true}? 'badge bg-danger' : 'badge bg-success' " 
               th:text="${folhaPagmento.status == true}? 'A pagar': 'Pago' "></span></td>
             <td>
-              <a th:href="@{'/folha-pagamento/details/pagar/'+${folhaPagmento.id}}" class="btn btn-sm btn-warning" >
+              <a th:href="@{'/folha-pagamento/details/'+${folhaPagmento.id}}" class="btn btn-sm btn-warning" >
                 <i class="bi bi-eye"></i>
               </a>
               <a th:href="@{'/folha-pagamento/pagar/update/'+${folhaPagmento.id}}" 

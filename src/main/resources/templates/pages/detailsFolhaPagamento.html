@@ -20,46 +20,54 @@
 
     <div class="d-flex gap-2 mb-4">
       
-      <div class="d-flex border p-3">
+      <div class="d-flex border p-2">
         <strong class="me-2">
           Competência:
         </strong>
         <span class="badge bg-success" th:text="${folhaPagamento?.competencia}"></span>
       </div>
 
-      <div class="d-flex border p-3">
+      <div class="d-flex border p-2">
         <strong class="me-2">
           Setor:
         </strong>
         <span class="badge bg-secondary" th:text="${folhaPagamento?.setor.nome}"></span>
       </div>
 
-      <div class="d-flex border p-3">
+      <div class="d-flex border p-2">
         <strong class="me-2">
           Total Proventos:
         </strong>
         <span class="badge bg-info" th:text="${totalProventos != null ? totalProventos : ' '}"></span>
       </div>
 
-      <div class="d-flex border p-3">
+      <div class="d-flex border p-2">
         <strong class="me-2">
           Total Comissões:
         </strong>
         <span class="badge bg-warning" th:text="${totalComissao != null ? totalComissao : ' '}"></span>
       </div>
 
-      <div class="d-flex border p-3">
+      <div class="d-flex border p-2">
         <strong class="me-2">
           Total Desconto(INSS):
         </strong>
         <span class="badge bg-danger" th:text="${totalDescontoINSS != null ? totalDescontoINSS : ' '}"></span>
       </div>
 
-      <div class="d-flex border p-3">
+      <div class="d-flex border p-2">
         <strong class="me-2">
           Valor Total:
         </strong>
         <span class="badge bg-primary" th:text="${valorTotal != null ? valorTotal : ' '}"></span>
+      </div>
+
+      <div class="d-flex border p-2">
+        <strong class="me-2">
+          Status
+        </strong>
+        <span th:class=" ${folhaPagamento?.status == true}? 'badge bg-danger' : 'badge bg-success' "
+         th:text="${folhaPagamento?.status == true}? 'A pagar': 'Pago' "></span>
       </div>
 
     </div>

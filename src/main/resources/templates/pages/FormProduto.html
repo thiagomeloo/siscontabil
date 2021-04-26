@@ -15,7 +15,7 @@
   <div th:insert="fragments/menu :: menu"></div>
   
   <div class="container-fluid">
-    <h4 class="mt-4" th:text="${produto}? 'Atualizar Produto' : 'Cadastrar Produto'" ></h4>
+    <h4 class="mt-4" th:text="${produto != null}? 'Atualizar Produto' : 'Cadastrar Produto'" ></h4>
 
       <form class="row g-3 form-floating" method="POST" th:action="${produto}? '/produto/update' : ''">
         
@@ -59,7 +59,7 @@
           <label for="inputFornecedor" class="form-label">Fornecedor</label>
         </div>
 
-        <div th:if="${produto}">
+        <div th:if="${produto != null}">
           <input type="hidden" th:value="${produto?.id}" name="id" />
         </div>
 

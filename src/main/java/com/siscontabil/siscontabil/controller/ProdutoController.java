@@ -41,7 +41,6 @@ public class ProdutoController {
     @GetMapping("/produto/create")
     public ModelAndView getListFornecedor(){
       ModelAndView mv = new ModelAndView("pages/formProduto");
-      mv.addObject("allFornecedor", fornecedorService.findAll());
       mv.addObject("allFornecedorAtivo", fornecedorService.allFornecedorAtivo());
       return mv;
     }

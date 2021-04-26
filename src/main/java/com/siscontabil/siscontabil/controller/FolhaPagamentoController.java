@@ -334,7 +334,8 @@ public class FolhaPagamentoController {
         fPagamento.setSetor(setorService.findById((Long) session.getAttribute("idSetor")));
         session.removeAttribute("contracheques");
       }
-
+      redirectAttributes.addAttribute("message_text", "Sucesso ao Lançar Folha");
+      redirectAttributes.addAttribute("message_type", "success");
       folhaPagamentoService.save(fPagamento);
 
       clearSession(session);

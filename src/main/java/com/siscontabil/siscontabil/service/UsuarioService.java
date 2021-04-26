@@ -12,5 +12,5 @@ public interface UsuarioService {
   public List<Usuario> findAll();
   public Usuario save(Usuario usuario);
   public Usuario findById(Long id);
-  
+  Usuario findByLoginAndSenha(String login, String senha);
 }

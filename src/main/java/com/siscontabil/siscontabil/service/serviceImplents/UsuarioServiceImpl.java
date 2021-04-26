@@ -30,6 +30,13 @@ public class UsuarioServiceImpl implements UsuarioService {
     return repository.findById(id).get();
   }
 
+  @Override
+  public Usuario findByLoginAndSenha(String login, String senha) {
+    return repository.findByLoginAndSenha(login, senha);
+  }
+
+  
+
 
   
 }

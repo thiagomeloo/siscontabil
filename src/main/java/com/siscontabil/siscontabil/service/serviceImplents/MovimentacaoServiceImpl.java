@@ -1,5 +1,6 @@
 package com.siscontabil.siscontabil.service.serviceImplents;
 
+import java.util.Date;
 import java.util.List;
 
 import com.siscontabil.siscontabil.model.Movimentacao;
@@ -28,6 +29,11 @@ public class MovimentacaoServiceImpl implements MovimentacaoService {
   @Override
   public Movimentacao findById(Long id) {
     return repository.findById(id).get();
+  }
+
+  @Override
+  public List<Movimentacao> allMovimentacaoDate(String dataInicial, String dataFinal) {
+    return repository.allMovimentacaoDate(dataInicial, dataFinal);
   }
 
  

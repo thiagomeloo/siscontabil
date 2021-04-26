@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Sistema Contabil</title>
+  <link rel="stylesheet" href="/bootstrap-5.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css">
+
+</head>
+
+<body>
+
+  <div th:insert="fragments/menu :: menu"></div>
+
+  <div class="container-fluid">
+    <h2 class="mt-4 mb-4">Relatório De Lançamento</h2>
+
+    <div class="d-flex gap-2 mb-4">
+
+      <div class="col-md-4 d-flex border p-4 h4">
+        <strong class="me-3">
+          Total de Entrada:
+        </strong>
+        <span class="badge bg-success" th:text="'R$' + ${valorTotalEntrada != null ? valorTotalEntrada : ' '}"></span>
+      </div>
+
+      <div class="col-md-4 d-flex border p-4 h4">
+        <strong class="me-3">
+          Total de Saída:
+        </strong>
+        <span class="badge bg-danger" th:text="'R$' + ${valorTotalSaida != null ? valorTotalSaida : ' '}"></span>
+      </div>
+
+
+    </div>
+
+    <table class="table table-striped table-hover text-center">
+      <thead>
+        <tr>
+          <th scope="col">id</th>
+          <th scope="col">Tipo</th>
+          <th scope="col">Descriçao</th>
+          <th scope="col">Valor</th>
+          <th scope="col">Data da Movimentação</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="report : ${allReport}">
+          <td th:text="${report.id}"></td>
+          <td th:text="${report.tipo}"></td>
+          <td th:text="${report.descricao}"></td>
+          <td th:text="${report.valor}"></td>
+          <td th:text="${report.dataMovimentacao}"></td>
+          
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+
+
+
+  <script src="/bootstrap-5.0/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

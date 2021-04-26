@@ -57,7 +57,7 @@ public class ProdutoController {
       Movimentacao movimentacao = new Movimentacao();
       movimentacao.setTipo("Saida");
       movimentacao.setDescricao("| cadastro | Id produto: "+ produto.getId() + " | Nome: "+ produto.getDescricao());
-      movimentacao.setValor(produto.getValorDeCusto());
+      movimentacao.setValor(produto.getValorDeCusto()*produto.getQuantidade());
       movimentacao.setDataMovimentacao(new Date());
       movimentacaoService.save(movimentacao);
       
@@ -92,11 +92,11 @@ public class ProdutoController {
 
 
       if(newProduto > oldProduto){
-        valor = newProduto - oldProduto;
+        valor = (newProduto - oldProduto)*produto.getQuantidade();
         movimentacao.setTipo("Saida");
       }else{
         movimentacao.setTipo("Entrada");
-        valor = oldProduto - newProduto;
+        valor = (oldProduto - newProduto)*produto.getQuantidade();
       }
 
       movimentacao.setDescricao("| update | Id produto: "+ produto.getId() + " | Nome: "+ produto.getDescricao());

@@ -32,7 +32,7 @@ public class FornecedorController {
   @GetMapping("/fornecedor/list")
   public String getListFornecedor(HttpSession session, Model model) {
 
-    String url = auth.getUrl(session, "pages/listFornecedor");
+    String url = auth.getUrl(session, "pages/listFornecedor", auth.FINANCEIRO);
 
     if (auth.isAutenticated(session)) {
       model.addAttribute("allFornecedor", fornecedorService.findAll());
@@ -44,7 +44,7 @@ public class FornecedorController {
   @GetMapping("/fornecedor/create")
   public String getFormFornecedor(HttpSession session, Model model) {
 
-    String url = auth.getUrl(session, "pages/formFornecedor");
+    String url = auth.getUrl(session, "pages/formFornecedor",auth.FINANCEIRO);
 
     if (auth.isAutenticated(session)) {
       model.addAttribute("allFornecedor", fornecedorService.findAll());
@@ -57,7 +57,7 @@ public class FornecedorController {
   public String saveFuncionario(Fornecedor fornecedor, Endereco endereco, RedirectAttributes redirectAttributes,
       HttpSession session) {
 
-    String url = auth.getUrl(session, HOME_PAGE);
+    String url = auth.getUrl(session, HOME_PAGE, auth.FINANCEIRO);
 
     if (auth.isAutenticated(session)) {
       redirectAttributes.addAttribute("message_text", "Sucesso ao cadastrar o fornecedor");
@@ -74,7 +74,7 @@ public class FornecedorController {
   @GetMapping("/fornecedor/update/{id}")
   public String getFormUpdate(@PathVariable("id") long id, Model model, HttpSession session) {
 
-    String url = auth.getUrl(session, "pages/formFornecedor");
+    String url = auth.getUrl(session, "pages/formFornecedor", auth.FINANCEIRO);
 
     if (auth.isAutenticated(session)) {
       try {
@@ -91,7 +91,7 @@ public class FornecedorController {
   public String updateFuncionario(Fornecedor fornecedor, Endereco endereco, RedirectAttributes redirectAttributes,
       HttpSession session) {
 
-    String url = auth.getUrl(session, HOME_PAGE);
+    String url = auth.getUrl(session, HOME_PAGE, auth.FINANCEIRO);
 
     if (auth.isAutenticated(session)) {
 

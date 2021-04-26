@@ -24,7 +24,7 @@ public class ReportController {
   @GetMapping("/report/mensal")
   public String getReport(Model model, HttpSession session) {
 
-    String url = auth.getUrl(session, "pages/reportLançamento");
+    String url = auth.getUrl(session, "pages/reportLançamento",auth.FINANCEIRO);
 
     if (auth.isAutenticated(session)) {
       List<Movimentacao> m = movimentacaoService.findAll();

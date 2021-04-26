@@ -6,6 +6,7 @@ import com.siscontabil.siscontabil.model.Usuario;
 import com.siscontabil.siscontabil.util.Autentication;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -29,22 +30,23 @@ public class IndexController {
     return "pages/login";
   }
 
-  @RequestMapping("/login/teste")
-  public String getTeste(HttpSession session){
-    if(auth.isAutenticated(session)){
-      session.removeAttribute("user");
-      return "pages/login";
-    }
-
+  @PostMapping("/login")
+  public String getTeste(HttpSession session, Usuario usuario){
+    // busca usuario = usuario
     Usuario user = new Usuario();
-    user.setTipoUsuario("Aministrador");
-
+    user.setTipoUsuario("admin");
     session.setAttribute("user", user);
-
     return "redirect:/";
 
   }
 
+  @RequestMapping("/logout")
+  public String getLogout(HttpSession session){
+    if(auth.isAutenticated(session)){
+      session.removeAttribute("user");
+    }
+    return "redirect:/login";
+  }
 }
 
 

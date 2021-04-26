@@ -41,7 +41,7 @@ public class FuncionarioController {
   @GetMapping("/funcionario/")
   public String getFuncionariosFuncao(HttpSession session, Model model) {
 
-    String url = auth.getUrl(session, "pages/listaFuncionario");
+    String url = auth.getUrl(session, "pages/listaFuncionario", auth.CONTABILIDADE);
 
     if (auth.isAutenticated(session)) {
       model.addAttribute("allFuncionario", funcionarioService.findAll());
@@ -53,7 +53,7 @@ public class FuncionarioController {
   @GetMapping("/funcionario/create")
   public String getFormCreate(HttpSession session, Model model) {
 
-    String url = auth.getUrl(session, "pages/formFuncionario");
+    String url = auth.getUrl(session, "pages/formFuncionario", auth.CONTABILIDADE);
 
     if (auth.isAutenticated(session)) {
       model.addAttribute("allFuncao", funcionarioFuncaoService.findAll());
@@ -66,7 +66,7 @@ public class FuncionarioController {
   public String saveFuncionario(Funcionario funcionario, Endereco endereco, DadosBancario dadosBancario,
       RedirectAttributes redirectAttributes, HttpSession session) {
 
-    String url = auth.getUrl(session, HOME_PAGE);
+    String url = auth.getUrl(session, HOME_PAGE, auth.CONTABILIDADE);
 
     if (auth.isAutenticated(session)) {
       redirectAttributes.addAttribute("message_text", "Sucesso ao cadastrar o funcionario");
@@ -87,7 +87,7 @@ public class FuncionarioController {
   @GetMapping("/funcionario/update/{id}")
   public String getFormUpdate(@PathVariable("id") long id, Model model, HttpSession session) {
 
-    String url = auth.getUrl(session, "pages/formFuncionario");
+    String url = auth.getUrl(session, "pages/formFuncionario", auth.CONTABILIDADE);
 
     if (auth.isAutenticated(session)) {
       try {
@@ -105,7 +105,7 @@ public class FuncionarioController {
   public String updateFuncionario(Funcionario funcionario, Endereco endereco, DadosBancario dadosBancario,
       RedirectAttributes redirectAttributes, HttpSession session) {
 
-    String url = auth.getUrl(session, HOME_PAGE);
+    String url = auth.getUrl(session, HOME_PAGE, auth.CONTABILIDADE);
 
     if (auth.isAutenticated(session)) {
       enderecoService.save(endereco);

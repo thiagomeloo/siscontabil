@@ -59,7 +59,7 @@ public class FolhaPagamentoController {
   @GetMapping("/folha-pagamento/report/")
   public String reportFolhaPagamento(HttpSession session, Model model) {
 
-    String url = auth.getUrl(session, "pages/reportFolhaPagamento");
+    String url = auth.getUrl(session, "pages/reportFolhaPagamento",auth.CONTABILIDADE);
 
     if (auth.isAutenticated(session)) {
       List<FolhaPagamento> folhaPagamento = folhaPagamentoService.findAll();
@@ -91,7 +91,7 @@ public class FolhaPagamentoController {
   @PostMapping("/folha-pagamento/report/")
   public String reportFolhaPagamentoMes(HttpSession session, Model model, FolhaPagamento f) {
 
-    String url = auth.getUrl(session, "pages/reportFolhaPagamento");
+    String url = auth.getUrl(session, "pages/reportFolhaPagamento",auth.CONTABILIDADE);
 
     if (auth.isAutenticated(session)) {
       String mes = f.getCompetencia().substring(6, 7);
@@ -120,7 +120,7 @@ public class FolhaPagamentoController {
   @GetMapping("/folha-pagamento/report/anual")
   public String reportFolhaPagamentoAnual(HttpSession session, Model model) {
 
-    String url = auth.getUrl(session, "pages/reportFolhaPagamentoAnual");
+    String url = auth.getUrl(session, "pages/reportFolhaPagamentoAnual",auth.CONTABILIDADE);
 
     if (auth.isAutenticated(session)) {
       FolhaPagamentoAnual folhaAnual = new FolhaPagamentoAnual(folhaPagamentoService.findAll());
@@ -136,7 +136,7 @@ public class FolhaPagamentoController {
   @PostMapping("/folha-pagamento/report/anual")
   public String reportFolhaPagamentoAno(HttpSession session, Model model, FolhaPagamento f) {
 
-    String url = auth.getUrl(session, "pages/reportFolhaPagamentoAnual");
+    String url = auth.getUrl(session, "pages/reportFolhaPagamentoAnual",auth.CONTABILIDADE);
 
     if (auth.isAutenticated(session)) {
       FolhaPagamentoAnual folhaAnual = new FolhaPagamentoAnual(
@@ -160,7 +160,7 @@ public class FolhaPagamentoController {
   @GetMapping("/folha-pagamento/")
   public String getFolhasPagamento(HttpSession session, Model model) {
 
-    String url = auth.getUrl(session, "pages/listaFolhaPagamento");
+    String url = auth.getUrl(session, "pages/listaFolhaPagamento",auth.CONTABILIDADE);
     if (auth.isAutenticated(session)) {
       model.addAttribute("allFolhasPagamentos", folhaPagamentoService.findAll());
     }
@@ -179,8 +179,8 @@ public class FolhaPagamentoController {
   @GetMapping("/folha-pagamento/details/{idFolhaPagamento}")
   public String detailFolhaPagamento(@PathVariable("idFolhaPagamento") long idFolhaPagamento, Model model,
       HttpSession session) {
-
-    String url = auth.getUrl(session, "pages/detailsFolhaPagamento");
+    String[] permissions = {auth.FINANCEIRO, auth.CONTABILIDADE};
+    String url = auth.getUrl(session, "pages/detailsFolhaPagamento",permissions);
     if (auth.isAutenticated(session)) {
       FolhaPagamento folhaPagamento = folhaPagamentoService.findById(idFolhaPagamento);
       model.addAttribute("folhaPagamento", folhaPagamento);
@@ -216,7 +216,7 @@ public class FolhaPagamentoController {
   @GetMapping("/folha-pagamento/create")
   public String getFormFolhaPagamento(HttpSession session, Model model) {
 
-    String url = auth.getUrl(session, "pages/formFolhaPagamento");
+    String url = auth.getUrl(session, "pages/formFolhaPagamento",auth.CONTABILIDADE);
     if (auth.isAutenticated(session)) {
       model.addAttribute("allSetor", setorService.findAll());
 
@@ -246,7 +246,7 @@ public class FolhaPagamentoController {
   public String getFormUpdateFolhaPagamento(@PathVariable("idFolhaPagamento") long idFolhaPagamento,
       HttpSession session, Model model) {
 
-    String url = auth.getUrl(session, "pages/formFolhaPagamento");
+    String url = auth.getUrl(session, "pages/formFolhaPagamento", auth.CONTABILIDADE);
     if (auth.isAutenticated(session)) {
       model.addAttribute("allSetor", setorService.findAll());
       FolhaPagamento folhaPagamento = folhaPagamentoService.findById(idFolhaPagamento);
@@ -290,7 +290,7 @@ public class FolhaPagamentoController {
    */
   @GetMapping("/folha-pagamento/clear")
   public String clearFolhaPagamento(HttpSession session) {
-    String url = auth.getUrl(session, "redirect:/folha-pagamento/create");
+    String url = auth.getUrl(session, "redirect:/folha-pagamento/create",auth.CONTABILIDADE);
     if (auth.isAutenticated(session)) {
       clearSession(session);
     }
@@ -309,7 +309,7 @@ public class FolhaPagamentoController {
   @PostMapping("/folha-pagamento/save")
   public String saveFolhaPagamento(HttpSession session, RedirectAttributes redirectAttributes) {
 
-    String url = auth.getUrl(session, HOME_PAGE);
+    String url = auth.getUrl(session, HOME_PAGE,auth.CONTABILIDADE);
     if (auth.isAutenticated(session)) {
 
       List<ContraCheque> contraCheques = new ArrayList<ContraCheque>();
@@ -367,7 +367,7 @@ public class FolhaPagamentoController {
   @GetMapping("/folha-pagamento/contracheque/clear/{idFuncionario}")
   public String clearContraCheque(@PathVariable("idFuncionario") long idFuncionario, HttpSession session) {
 
-    String url = auth.getUrl(session, HOME_PAGE);
+    String url = auth.getUrl(session, HOME_PAGE, auth.CONTABILIDADE);
     if (auth.isAutenticated(session)) {
 
       List<ContraCheque> contraCheques = new ArrayList<ContraCheque>();
@@ -432,7 +432,7 @@ public class FolhaPagamentoController {
   @GetMapping("/folha-pagamento/add-contracheque/{idSetor}")
   public String getViewAddContraCheque(@PathVariable("idSetor") long idSetor, HttpSession session, Model model) {
 
-    String url = auth.getUrl(session, "pages/formContraCheque");
+    String url = auth.getUrl(session, "pages/formContraCheque", auth.CONTABILIDADE);
     if (auth.isAutenticated(session)) {
 
       List<ContraCheque> contraChequesInclusos = new ArrayList<ContraCheque>();
@@ -473,7 +473,7 @@ public class FolhaPagamentoController {
   @PostMapping("/folha-pagamento/add-contracheque")
   public String postAddContraCheque(HttpSession session, ContraCheque contraCheque, Model model) {
 
-    String url = auth.getUrl(session, "redirect:/folha-pagamento/create");
+    String url = auth.getUrl(session, "redirect:/folha-pagamento/create", auth.CONTABILIDADE);
     if (auth.isAutenticated(session)) {
 
       List<ContraCheque> contraCheques = new ArrayList<ContraCheque>();
@@ -507,7 +507,7 @@ public class FolhaPagamentoController {
   @GetMapping("/folha-pagamento/pagar/todos")
   public String getFolhaPagarTodos(HttpSession session, Model model) {
 
-    String url = auth.getUrl(session, "pages/listFolhaPagar");
+    String url = auth.getUrl(session, "pages/listFolhaPagar", auth.FINANCEIRO);
     if (auth.isAutenticated(session)) {
       model.addAttribute("allFolhasPagamentos", folhaPagamentoService.findAll());
     }
@@ -517,7 +517,7 @@ public class FolhaPagamentoController {
   @GetMapping("/folha-pagamento/pagar")
   public String getFolhaPagar(HttpSession session, Model model) {
 
-    String url = auth.getUrl(session, "pages/listFolhaPagar");
+    String url = auth.getUrl(session, "pages/listFolhaPagar",auth.FINANCEIRO);
     if (auth.isAutenticated(session)) {
       model.addAttribute("allFolhasPagamentos", folhaPagamentoService.allFolhaPagar());
     }
@@ -526,7 +526,7 @@ public class FolhaPagamentoController {
 
   @GetMapping("/folha-pagamento/pagar/pago")
   public String getFolhaPago(HttpSession session, Model model) {
-    String url = auth.getUrl(session, "pages/listFolhaPagar");
+    String url = auth.getUrl(session, "pages/listFolhaPagar",auth.FINANCEIRO);
     if (auth.isAutenticated(session)) {
       model.addAttribute("allFolhasPagamentos", folhaPagamentoService.allFolhaPago());
     }
@@ -537,7 +537,7 @@ public class FolhaPagamentoController {
   public String updateFolhaPagar(@PathVariable("idFolhaPagamento") long idFolhaPagamento, HttpSession session,
       RedirectAttributes redirectAttributes) {
 
-    String url = auth.getUrl(session, HOME_PAGE);
+    String url = auth.getUrl(session, HOME_PAGE, auth.FINANCEIRO);
     if (auth.isAutenticated(session)) {
       FolhaPagamento f = folhaPagamentoService.findById(idFolhaPagamento);
       f.setStatus(false);
@@ -563,7 +563,7 @@ public class FolhaPagamentoController {
   public String detailFolhaPagamentopagar(@PathVariable("idFolhaPagamento") long idFolhaPagamento, Model model,
       HttpSession session) {
 
-    String url = auth.getUrl(session, "pages/detailsFolhaPagamentoPagar");
+    String url = auth.getUrl(session, "pages/detailsFolhaPagamentoPagar",auth.FINANCEIRO);
     if (auth.isAutenticated(session)) {
       FolhaPagamento folhaPagamento = folhaPagamentoService.findById(idFolhaPagamento);
       model.addAttribute("folhaPagamento", folhaPagamento);

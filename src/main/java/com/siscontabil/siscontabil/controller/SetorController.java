@@ -26,7 +26,7 @@ public class SetorController {
   @GetMapping("/setor")
   public String getSetors(Model model, HttpSession session) {
 
-    String url = auth.getUrl(session, "pages/listaSetor");
+    String url = auth.getUrl(session, "pages/listaSetor", auth.ADMIN);
 
     if (auth.isAutenticated(session)) {
       model.addAttribute("allSetors", setorService.findAll());
@@ -37,13 +37,13 @@ public class SetorController {
 
   @GetMapping("/setor/create")
   public String getFormCreate(HttpSession session) {
-    return (auth.getUrl(session, "pages/formSetor"));
+    return (auth.getUrl(session, "pages/formSetor",auth.ADMIN));
   }
 
   @GetMapping("/setor/update/{id}")
   public String getFormUpdate(@PathVariable("id") long id, Model model, HttpSession session) {
 
-    String url = auth.getUrl(session, "pages/formSetor");
+    String url = auth.getUrl(session, "pages/formSetor",auth.ADMIN);
 
     if (auth.isAutenticated(session)) {
       try {
@@ -59,7 +59,7 @@ public class SetorController {
   @PostMapping("/setor/create")
   public String saveSetor(Setor setor, RedirectAttributes redirectAttributes, HttpSession session) {
 
-    String url = auth.getUrl(session, HOME_PAGE);
+    String url = auth.getUrl(session, HOME_PAGE, auth.ADMIN);
 
     if (auth.isAutenticated(session)) {
       redirectAttributes.addAttribute("message_text", "Sucesso ao cadastrar o setor");
@@ -74,7 +74,7 @@ public class SetorController {
   @PostMapping("/setor/update")
   public String updateSetor(Setor setor, RedirectAttributes redirectAttributes, HttpSession session) {
 
-    String url = auth.getUrl(session, HOME_PAGE);
+    String url = auth.getUrl(session, HOME_PAGE, auth.ADMIN);
 
     if (auth.isAutenticated(session)) {
       redirectAttributes.addAttribute("message_text", "Sucesso ao atualizar o setor");

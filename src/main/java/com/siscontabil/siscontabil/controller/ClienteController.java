@@ -29,10 +29,11 @@ public class ClienteController {
 
   Autentication auth = new Autentication();
 
+
   @GetMapping("/cliente/list/")
   public String getCliente(HttpSession session, Model model) {
 
-    String url = auth.getUrl(session, "pages/listCliente");
+    String url = auth.getUrl(session, "pages/listCliente", auth.FATURAMENTO);
     if (auth.isAutenticated(session)) {
       model.addAttribute("allCliente", clienteService.findAll());
     }
@@ -43,7 +44,7 @@ public class ClienteController {
   @GetMapping("/cliente/list/ativo")
   public String getClienteAtivo(HttpSession session, Model model) {
 
-    String url = auth.getUrl(session, "pages/listCliente");
+    String url = auth.getUrl(session, "pages/listCliente",auth.FATURAMENTO);
     if (auth.isAutenticated(session)) {
       model.addAttribute("allCliente", clienteService.allClienteAtivo());
     }
@@ -53,7 +54,7 @@ public class ClienteController {
   @GetMapping("/cliente/list/inativo")
   public String getClienteInativo(HttpSession session, Model model) {
 
-    String url = auth.getUrl(session, "pages/listCliente");
+    String url = auth.getUrl(session, "pages/listCliente",auth.FATURAMENTO);
 
     if (auth.isAutenticated(session)) {
       model.addAttribute("allCliente", clienteService.allClienteInativo());
@@ -64,7 +65,7 @@ public class ClienteController {
   @GetMapping("/cliente/create/")
   public String getClienteCreate(HttpSession session, Model model) {
 
-    String url = auth.getUrl(session, "pages/formCliente");
+    String url = auth.getUrl(session, "pages/formCliente", auth.FATURAMENTO);
 
     if (auth.isAutenticated(session)) {
       model.addAttribute("allCliente", clienteService.findAll());
@@ -77,7 +78,7 @@ public class ClienteController {
   public String saveCliente(Cliente cliente, Endereco endereco, RedirectAttributes redirectAttributes,
       HttpSession session) {
 
-    String url = auth.getUrl(session, HOME_PAGE);
+    String url = auth.getUrl(session, HOME_PAGE, auth.FATURAMENTO);
 
     if (auth.isAutenticated(session)) {
 
@@ -97,7 +98,7 @@ public class ClienteController {
   @GetMapping("/cliente/update/{id}")
   public String getFormUpdate(@PathVariable("id") long id, Model model, HttpSession session) {
 
-    String url = auth.getUrl(session, "pages/formCliente");
+    String url = auth.getUrl(session, "pages/formCliente",auth.FATURAMENTO);
 
     if (auth.isAutenticated(session)) {
       try {
@@ -114,7 +115,7 @@ public class ClienteController {
   public String updateCliente(Cliente cliente, Endereco endereco, RedirectAttributes redirectAttributes,
       HttpSession session) {
 
-    String url = auth.getUrl(session, HOME_PAGE);
+    String url = auth.getUrl(session, HOME_PAGE,auth.FATURAMENTO);
 
     if (auth.isAutenticated(session)) {
 

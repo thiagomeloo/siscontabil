@@ -31,7 +31,7 @@ public class FuncionarioFuncaoController {
   @GetMapping("/funcionario/funcao")
   public String getFuncionariosFuncao(HttpSession session, Model model) {
 
-    String url = auth.getUrl(session, "pages/listaFuncionarioFuncao");
+    String url = auth.getUrl(session, "pages/listaFuncionarioFuncao",auth.ADMIN);
 
     if (auth.isAutenticated(session)) {
       model.addAttribute("allFuncoes", funcionarioFuncaoService.findAll());
@@ -43,7 +43,7 @@ public class FuncionarioFuncaoController {
   @GetMapping("/funcionario/funcao/create")
   public String getFormCreate(HttpSession session, Model model) {
 
-    String url = auth.getUrl(session, "pages/formFuncionarioFuncao");
+    String url = auth.getUrl(session, "pages/formFuncionarioFuncao",auth.ADMIN);
 
     if (auth.isAutenticated(session)) {
       model.addAttribute("allSetors", setorService.findAll());
@@ -55,7 +55,7 @@ public class FuncionarioFuncaoController {
   @GetMapping("/funcionario/funcao/update/{id}")
   public String getFormUpdate(@PathVariable("id") long id, Model model, HttpSession session) {
 
-    String url = auth.getUrl(session, "pages/formFuncionarioFuncao");
+    String url = auth.getUrl(session, "pages/formFuncionarioFuncao",auth.ADMIN);
 
     if (auth.isAutenticated(session)) {
       try {
@@ -73,7 +73,7 @@ public class FuncionarioFuncaoController {
   public String saveFuncionarioFuncao(FuncionarioFuncao funcionarioFuncao, RedirectAttributes redirectAttributes,
       HttpSession session) {
 
-    String url = auth.getUrl(session, HOME_PAGE);
+    String url = auth.getUrl(session, HOME_PAGE,auth.ADMIN);
 
     if (auth.isAutenticated(session)) {
       redirectAttributes.addAttribute("message_text", "Sucesso ao cadastrar a Função do funcionario");
@@ -90,7 +90,7 @@ public class FuncionarioFuncaoController {
   @PostMapping({ "/funcionario/funcao/update" })
   public String updateFuncionarioFuncao(FuncionarioFuncao funcionarioFuncao, RedirectAttributes redirectAttributes, HttpSession session) {
 
-    String url = auth.getUrl(session, HOME_PAGE);
+    String url = auth.getUrl(session, HOME_PAGE,auth.ADMIN);
 
     if (auth.isAutenticated(session)) {
       redirectAttributes.addAttribute("message_text", "Sucesso ao atualizar a Função do funcionario");

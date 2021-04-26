@@ -4,36 +4,54 @@ import javax.servlet.http.HttpSession;
 
 import com.siscontabil.siscontabil.model.Usuario;
 
+import lombok.Data;
+
+@Data
 public class Autentication {
-  
-  public boolean isAutenticated(HttpSession session){
-  
-    if(session.getAttribute("user") != null){
+
+  public static final String ADMIN = "admin";
+  public static final String FINANCEIRO = "financeiro";
+  public static final String CONTABILIDADE = "contabilidade";
+  public static final String FATURAMENTO = "faturamento";
+
+  private static final String ROUTER_LOGIN = "redirect:/login";
+
+  public boolean isAutenticated(HttpSession session) {
+
+    if (session.getAttribute("user") != null) {
+
       return true;
-    }else{
+
+    } else {
       return false;
     }
 
   }
 
-  public String getPermission(HttpSession session){
-    if(isAutenticated(session)){
+  public String getUrl(HttpSession session, String pageSucess, String permission) {
+    if (isAutenticated(session)) {
+
       Usuario user = (Usuario) session.getAttribute("user");
-      return user.getTipoUsuario();
-    }else{
-      return null;
+      if (user.getTipoUsuario() == permission || user.getTipoUsuario() == ADMIN) {
+        return pageSucess;
+      }
+      return ROUTER_LOGIN;
     }
+    return ROUTER_LOGIN;
   }
 
-  public String getUrl(HttpSession session, String pageSucess){
-    if(isAutenticated(session)){
-      return pageSucess;
-    }
-    return (getRouterLogin());
-  }
+  public String getUrl(HttpSession session, String pageSucess, String[] permission) {
+    if (isAutenticated(session)) {
 
-  public String getRouterLogin(){
-    return "redirect:/login";
+      Usuario user = (Usuario) session.getAttribute("user");
+      for (int i = 0; i < permission.length; i++) {
+        if (user.getTipoUsuario() == permission[i] || user.getTipoUsuario() == ADMIN) {
+          return pageSucess;
+        }
+      }
+      return ROUTER_LOGIN;
+    }
+    return ROUTER_LOGIN;
   }
 
 }

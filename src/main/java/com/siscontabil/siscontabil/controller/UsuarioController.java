@@ -24,7 +24,7 @@ public class UsuarioController {
   @GetMapping("/usuario")
   public String getUsuarios(Model model, HttpSession session) {
 
-    String url = auth.getUrl(session, "pages/listaUsuario");
+    String url = auth.getUrl(session, "pages/listaUsuario", auth.ADMIN);
 
     if (auth.isAutenticated(session)) {
       model.addAttribute("allUsers", usuarioService.findAll());
@@ -35,13 +35,13 @@ public class UsuarioController {
 
   @GetMapping("/usuario/create")
   public String getFormCreate(HttpSession session) {
-    return (auth.getUrl(session, "pages/formUsuario"));
+    return (auth.getUrl(session, "pages/formUsuario", auth.ADMIN));
   }
 
   @PostMapping(value = "/usuario/create")
   public String saveUser(Usuario usuario, RedirectAttributes redirectAttributes, HttpSession session) {
 
-    String url = auth.getUrl(session, "redirect:/");
+    String url = auth.getUrl(session, "redirect:/", auth.ADMIN);
 
     if (auth.isAutenticated(session)) {
       redirectAttributes.addAttribute("message_text", "Sucesso ao cadastrar o usuario");

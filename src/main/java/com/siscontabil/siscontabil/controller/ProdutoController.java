@@ -38,7 +38,7 @@ public class ProdutoController {
   @GetMapping("/produto/list")
   public String getListProduto(HttpSession session, Model model) {
 
-    String url = auth.getUrl(session, "pages/listProduto");
+    String url = auth.getUrl(session, "pages/listProduto",auth.FINANCEIRO);
 
     if (auth.isAutenticated(session)) {
       model.addAttribute("allProduto", produtoService.findAll());
@@ -52,7 +52,7 @@ public class ProdutoController {
   @GetMapping("/produto/create")
   public String getListFornecedor(HttpSession session, Model model) {
 
-    String url = auth.getUrl(session, "pages/formProduto");
+    String url = auth.getUrl(session, "pages/formProduto",auth.FINANCEIRO);
 
     if (auth.isAutenticated(session)) {
       model.addAttribute("allFornecedorAtivo", fornecedorService.allFornecedorAtivo());
@@ -65,7 +65,7 @@ public class ProdutoController {
   @PostMapping({ "/produto/create" })
   public String saveFuncionario(Produto produto, RedirectAttributes redirectAttributes, HttpSession session) {
 
-    String url = auth.getUrl(session, HOME_PAGE);
+    String url = auth.getUrl(session, HOME_PAGE,auth.FINANCEIRO);
 
     if (auth.isAutenticated(session)) {
       redirectAttributes.addAttribute("message_text", "Sucesso ao cadastrar o produto");
@@ -87,7 +87,7 @@ public class ProdutoController {
   @GetMapping("/produto/update/{id}")
   public String getFormUpdate(@PathVariable("id") long id, Model model, HttpSession session) {
 
-    String url = auth.getUrl(session, "pages/formProduto");
+    String url = auth.getUrl(session, "pages/formProduto",auth.FINANCEIRO);
 
     if (auth.isAutenticated(session)) {
 
@@ -105,7 +105,7 @@ public class ProdutoController {
   @PostMapping({ "/produto/update" })
   public String updateProduto(Produto produto, RedirectAttributes redirectAttributes, HttpSession session) {
 
-    String url = auth.getUrl(session, HOME_PAGE);
+    String url = auth.getUrl(session, HOME_PAGE,auth.FINANCEIRO);
 
     if (auth.isAutenticated(session)) {
       redirectAttributes.addAttribute("message_text", "Sucesso ao atualizar o produto");

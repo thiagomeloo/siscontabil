@@ -11,16 +11,16 @@ import lombok.Data;
 
 //lombok
 @Data
-//javaPersistence
+// javaPersistence
 @Entity
 @Table(name = "TB_USUARIO")
 public class Usuario {
-  
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long id;
 
-  @Column(name = "login")
+  @Column(name = "login", unique = true)
   private String login;
 
   @Column(name = "senha")

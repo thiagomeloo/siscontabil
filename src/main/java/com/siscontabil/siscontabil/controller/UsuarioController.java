@@ -47,10 +47,15 @@ public class UsuarioController {
     String url = auth.getUrl(session, "redirect:/", auth.ADMIN);
 
     if (auth.isAutenticated(session)) {
-      redirectAttributes.addAttribute("message_text", "Sucesso ao cadastrar o usuario");
-      redirectAttributes.addAttribute("message_type", "success");
 
-      usuarioService.save(usuario);
+      try {
+        usuarioService.save(usuario);
+        redirectAttributes.addAttribute("message_text", "Sucesso ao cadastrar o usuario");
+        redirectAttributes.addAttribute("message_type", "success");
+      } catch (Exception e) {
+        redirectAttributes.addAttribute("message_text", "Erro ao cadastrar o usuario");
+        redirectAttributes.addAttribute("message_type", "danger");
+      }
     }
 
     return url;
@@ -58,9 +63,9 @@ public class UsuarioController {
 
   @GetMapping("/usuario/inativar/{id}")
   public String getInativar(@PathVariable("id") long id, Model model, HttpSession session,
-  RedirectAttributes redirectAttributes) {
+      RedirectAttributes redirectAttributes) {
 
-    String url = auth.getUrl(session, HOME_PAGE,auth.ADMIN);
+    String url = auth.getUrl(session, HOME_PAGE, auth.ADMIN);
 
     if (auth.isAutenticated(session)) {
       try {
@@ -76,11 +81,12 @@ public class UsuarioController {
 
     return url;
   }
+
   @GetMapping("/usuario/ativar/{id}")
   public String getAtivar(@PathVariable("id") long id, Model model, HttpSession session,
-  RedirectAttributes redirectAttributes) {
+      RedirectAttributes redirectAttributes) {
 
-    String url = auth.getUrl(session, HOME_PAGE,auth.ADMIN);
+    String url = auth.getUrl(session, HOME_PAGE, auth.ADMIN);
 
     if (auth.isAutenticated(session)) {
       try {

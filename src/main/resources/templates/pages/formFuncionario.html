@@ -29,24 +29,24 @@
 
       <div class="col-md-6 form-floating">
         <input type="text" class="form-control" name="CPF" id="inputText" placeholder="Cpf"
-        th:value="${funcionario?.CPF}"
+        th:value="${funcionario?.CPF}" required
         >
         <label for="inputCpf">Cpf</label>
       </div>
       <div class="col-md-4 form-floating">
         <input type="text" class="form-control" name="RG" id="inputRg" placeholder="Rg"
-        th:value="${funcionario?.RG}"
+        th:value="${funcionario?.RG}" required
         >
         <label for="inputRg">Rg</label>
       </div>
       <div class="col-md-4 form-floating">
         <input type="text" class="form-control" name="tituloEleitor" id="inputTituloEleitor" placeholder="Titulo Eleitor"
-        th:value="${funcionario?.tituloEleitor}"
+        th:value="${funcionario?.tituloEleitor}" required
         >
         <label for="inputTituloEleitor">Titulo Eleitor</label>
       </div>
       <div class="col-md-4 form-floating">
-        <select id="inputSexo" class="form-select" name="sexo" aria-label="Selecione o Sexo">
+        <select id="inputSexo" class="form-select" name="sexo" aria-label="Selecione o Sexo" required>
           <option th:selected= "${funcionario} ? false : true" disabled >Selecione</option>
           <option th:selected= "${funcionario != null and funcionario.sexo == 'Masculino'} ? true : false">Masculino</option>
           <option th:selected= "${funcionario != null and funcionario.sexo == 'Feminino'} ? true : false" >Feminino</option>
@@ -56,31 +56,31 @@
 
       <div class="col-md-6 form-floating">
         <input type="text" class="form-control" name="nomeMae" id="inputNomeMae" placeholder="Nome da Mãe"
-        th:value="${funcionario?.nomeMae}"
+        th:value="${funcionario?.nomeMae}" required
         >
         <label for="inputNomeMae">Nome da Mãe</label>
       </div>
       <div class="col-md-6 form-floating">
         <input type="text" class="form-control" name="nomePai" id="inputNomePai" placeholder="Nome do Pai"
-        th:value="${funcionario?.nomePai}"
+        th:value="${funcionario?.nomePai}" required
         >
         <label for="inputNomePai">Nome do Pai</label>
       </div>
       <div class="col-md-4 form-floating">
         <input type="text" class="form-control" name="nacionalidade" id="inputNacionalidade" placeholder="Nacionalidade"
-        th:value="${funcionario?.nacionalidade}"
+        th:value="${funcionario?.nacionalidade}" required
         >
         <label for="inputNacionalidade">Nacionalidade</label>
       </div>
       <div class="col-md-4 form-floating">
         <input type="text" class="form-control" name="naturalidade" id="inputNaturalidade" placeholder="Naturalidade"
-        th:value="${funcionario?.naturalidade}"
+        th:value="${funcionario?.naturalidade}" required
         >
         <label for="inputNaturalidade">Naturalidade</label>
       </div>
       <div class="col-md-4 form-floating">
         <input type="text" class="form-control" name="escolaridade" id="inputEscolaridade" placeholder="Nivel de Escolaridade"
-        th:value="${funcionario?.escolaridade}"
+        th:value="${funcionario?.escolaridade}" required
         >
         <label for="inputEscolaridade">Nivel de Escolaridade</label>
       </div>
@@ -89,7 +89,7 @@
 
       <div class="col-md-3 form-floating">
         <input type="date" class="form-control" name="dataAdmissao" id="inputAdmissao" placeholder="Admissao"
-        th:value="${#dates.format(funcionario?.dataAdmissao, 'yyyy-MM-dd')}"
+        th:value="${#dates.format(funcionario?.dataAdmissao, 'yyyy-MM-dd')}" required
         >
         <label for="inputAdmissao" class="form-label" >Data de Admissão</label>
       </div>
@@ -119,38 +119,36 @@
 
       <div class="col-md-6 form-floating">
         <input type="text" class="form-control" name="logradouro" id="inputRua" placeholder="Rua"
-        th:value="${funcionario?.endereco?.logradouro}"
+        th:value="${funcionario?.endereco?.logradouro}" required
         >
         <label for="inputRua" class="form-label">Rua</label>
       </div>
       <div class="col-md-3 form-floating">
         <input type="number" class="form-control" name="numero" id="inputNumero" placeholder="Numero"
-        th:value="${funcionario?.endereco?.numero}"
+        th:value="${funcionario?.endereco?.numero}" required
         >
         <label for="inputNumero" class="form-label">Numero</label>
       </div>
       <div class="col-md-3 form-floating">
         <input type="number" class="form-control" name="cep" id="inputCep" placeholder="Cep"
-        th:value="${funcionario?.endereco?.cep}">
+        th:value="${funcionario?.endereco?.cep}" required>
         <label for="inputCep" class="form-label">CEP</label>
       </div>
       <div class="col-md-4 form-floating">
         <input type="text" class="form-control" name="bairro" id="inputBairro" placeholder="Bairro"
-        th:value="${funcionario?.endereco?.bairro}"
+        th:value="${funcionario?.endereco?.bairro}" required
         >
         <label for="inputBairro" class="form-label">Bairro</label>
       </div>
       <div class="col-md-4 form-floating">
         <input type="text" class="form-control" name="cidade" id="inputCidade" placeholder="Cidade"
-        th:value="${funcionario?.endereco?.cidade}"
+        th:value="${funcionario?.endereco?.cidade}" required
         >
         <label for="inputCidade" class="form-label">Cidade</label>
       </div>
       <div class="col-md-4 form-floating">
-        <select id="inputEstado" class="form-select" name="uf">
-          <option selected>Selecione</option>
-          <option>...</option>
-        </select>
+        <input type="text" class="form-control" name="UF" id="inputUF" placeholder="UF"
+        th:value="${fornecedor?.endereco?.UF}" required>
         <label for="inputEstado" class="form-label">Estado</label>
       </div>
 
@@ -158,19 +156,19 @@
 
       <div class="col-md-3 form-floating">
         <input type="text" class="form-control" name="agencia" id="inputAgencia" placeholder="Agencia"
-        th:value="${funcionario?.dadosBancario?.agencia}"
+        th:value="${funcionario?.dadosBancario?.agencia}"required
         >
         <label for="inputAgencia" class="form-label">Agência</label>
       </div>
       <div class="col-md-3 form-floating">
         <input type="text" class="form-control" name="conta" id="inputConta" placeholder="Conta"
-        th:value="${funcionario?.dadosBancario?.conta}"
+        th:value="${funcionario?.dadosBancario?.conta}"required
         >
         <label for="inputConta" class="form-label">Nº da Conta</label>
       </div>
       <div class="col-md-6 form-floating">
         <input type="text" class="form-control" name="banco" id="inputBanco" placeholder="Banco"
-        th:value="${funcionario?.dadosBancario?.banco}"
+        th:value="${funcionario?.dadosBancario?.banco}"required
         >
         <label for="inputBairro" class="form-label">Banco</label>
       </div>

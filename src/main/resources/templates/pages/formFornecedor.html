@@ -28,7 +28,7 @@
 
       <div class="col-md-4 form-floating">
         <input type="text" class="form-control" name="CNPJ" id="inputCNPJ" placeholder="CNPJ"
-        th:value="${fornecedor?.CNPJ}"
+        th:value="${fornecedor?.CNPJ}" required
         >
         <label for="inputCNPJ">CNPJ</label>
       </div>
@@ -44,37 +44,35 @@
       <div class="col-md-6 form-floating">
         <input type="text" class="form-control" name="logradouro" id="inputRua" placeholder="Rua"
         th:value="${fornecedor?.endereco?.logradouro}"
-        >
+        required>
         <label for="inputRua" class="form-label">Rua</label>
       </div>
       <div class="col-md-3 form-floating">
         <input type="number" class="form-control" name="numero" id="inputNumero" placeholder="Numero"
-        th:value="${fornecedor?.endereco?.numero}"
+        th:value="${fornecedor?.endereco?.numero}" required
         >
         <label for="inputNumero" class="form-label">Numero</label>
       </div>
       <div class="col-md-3 form-floating">
         <input type="number" class="form-control" name="cep" id="inputCep" placeholder="Cep"
-        th:value="${fornecedor?.endereco?.cep}">
+        th:value="${fornecedor?.endereco?.cep}" required>
         <label for="inputCep" class="form-label">CEP</label>
       </div>
       <div class="col-md-4 form-floating">
         <input type="text" class="form-control" name="bairro" id="inputBairro" placeholder="Bairro"
-        th:value="${fornecedor?.endereco?.bairro}"
+        th:value="${fornecedor?.endereco?.bairro}" required
         >
         <label for="inputBairro" class="form-label">Bairro</label>
       </div>
       <div class="col-md-4 form-floating">
         <input type="text" class="form-control" name="cidade" id="inputCidade" placeholder="Cidade"
-        th:value="${fornecedor?.endereco?.cidade}"
+        th:value="${fornecedor?.endereco?.cidade}" required
         >
         <label for="inputCidade" class="form-label">Cidade</label>
       </div>
       <div class="col-md-4 form-floating">
-        <select id="inputEstado" class="form-select" name="uf">
-          <option selected>Selecione</option>
-          <option>...</option>
-        </select>
+        <input type="text" class="form-control" name="UF" id="inputUF" placeholder="UF"
+        th:value="${fornecedor?.endereco?.UF}" required>
         <label for="inputEstado" class="form-label">Estado</label>
       </div>
 

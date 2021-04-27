@@ -85,4 +85,48 @@ public class SetorController {
     return url;
   }
 
+  @GetMapping("/setor/inativar/{id}")
+  public String getInativo(@PathVariable("id") long id, Model model, HttpSession session,
+  RedirectAttributes redirectAttributes) {
+
+    String url = auth.getUrl(session, HOME_PAGE,auth.ADMIN);
+
+    if (auth.isAutenticated(session)) {
+      try {
+        
+        Setor setor = setorService.findById(id);
+        setor.setStatus(false);
+        setorService.save(setor);
+
+        redirectAttributes.addAttribute("message_text", "Sucesso ao inativar o setor");
+        redirectAttributes.addAttribute("message_type", "success");
+      } catch (Exception e) {
+        return HOME_PAGE;
+      }
+    }
+
+    return url;
+  }
+  @GetMapping("/setor/ativar/{id}")
+  public String getAtivar(@PathVariable("id") long id, Model model, HttpSession session,
+  RedirectAttributes redirectAttributes) {
+
+    String url = auth.getUrl(session, HOME_PAGE,auth.ADMIN);
+
+    if (auth.isAutenticated(session)) {
+      try {
+        
+        Setor setor = setorService.findById(id);
+        setor.setStatus(true);
+        setorService.save(setor);
+
+        redirectAttributes.addAttribute("message_text", "Sucesso ao ativar o setor");
+        redirectAttributes.addAttribute("message_type", "success");
+      } catch (Exception e) {
+        return HOME_PAGE;
+      }
+    }
+
+    return url;
+  }
 }

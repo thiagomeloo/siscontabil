@@ -50,6 +50,18 @@ public class FuncionarioController {
     return url;
   }
 
+  @GetMapping("/funcionario/{id}")
+  public String getFuncDetails(@PathVariable("id") long id,HttpSession session, Model model) {
+
+    String url = auth.getUrl(session, "pages/detailsFuncionario", auth.CONTABILIDADE);
+
+    if (auth.isAutenticated(session)) {
+      model.addAttribute("funcionario", funcionarioService.findById(id));
+    }
+
+    return url;
+  }
+
   @GetMapping("/funcionario/create")
   public String getFormCreate(HttpSession session, Model model) {
 
@@ -61,6 +73,8 @@ public class FuncionarioController {
 
     return url;
   }
+
+  
 
   @PostMapping({ "/funcionario/create" })
   public String saveFuncionario(Funcionario funcionario, Endereco endereco, DadosBancario dadosBancario,

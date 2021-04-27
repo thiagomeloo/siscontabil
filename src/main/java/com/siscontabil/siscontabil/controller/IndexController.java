@@ -14,33 +14,34 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class IndexController {
-  
+
   @Autowired
   UsuarioServiceImpl usuarioService;
 
   Autentication auth = new Autentication();
 
   @RequestMapping("/")
-  public String getIndex(HttpSession session){
-   if(auth.isAutenticated(session)){
-    return "pages/index";
-   }
-   return "redirect:/login";
+  public String getIndex(HttpSession session) {
+    if (auth.isAutenticated(session)) {
+      return "pages/index";
+    }
+    return "redirect:/login";
 
   }
+
   @RequestMapping("/login")
-  public String getLogin(HttpSession session){
-    if(auth.isAutenticated(session)){
+  public String getLogin(HttpSession session) {
+    if (auth.isAutenticated(session)) {
       return "redirect:/";
     }
     return "pages/login";
   }
 
   @PostMapping("/login")
-  public String getTeste(HttpSession session, Usuario usuario, RedirectAttributes redirectAttributes){
-    
+  public String getTeste(HttpSession session, Usuario usuario, RedirectAttributes redirectAttributes) {
+
     Usuario userRetorno = usuarioService.findByLoginAndSenha(usuario.getLogin(), usuario.getSenha());
-    if(userRetorno != null){
+    if (userRetorno != null) {
       session.setAttribute("user", userRetorno);
 
       redirectAttributes.addAttribute("message_text", "Sucesso ao realizar login!");
@@ -53,16 +54,13 @@ public class IndexController {
   }
 
   @RequestMapping("/logout")
-  public String getLogout(HttpSession session, RedirectAttributes redirectAttributes){
-    if(auth.isAutenticated(session)){
+  public String getLogout(HttpSession session, RedirectAttributes redirectAttributes) {
+    if (auth.isAutenticated(session)) {
       session.removeAttribute("user");
+      redirectAttributes.addAttribute("message_text", "Logout efetuado com Sucesso!");
+      redirectAttributes.addAttribute("message_type", "success");
     }
 
-    redirectAttributes.addAttribute("message_text", "Logout efetuado com Sucesso!");
-    redirectAttributes.addAttribute("message_type", "success");
     return "redirect:/login";
   }
 }
-
-
-

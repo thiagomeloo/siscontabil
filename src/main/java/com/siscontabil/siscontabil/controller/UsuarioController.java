@@ -61,6 +61,48 @@ public class UsuarioController {
     return url;
   }
 
+  @GetMapping("/usuario/update/{id}")
+  public String getForm(@PathVariable("id") long id, Model model, HttpSession session,
+      RedirectAttributes redirectAttributes) {
+
+    String[] permissions = { auth.FINANCEIRO, auth.CONTABILIDADE, auth.FATURAMENTO };
+
+    String url = auth.getUrl(session, "pages/formUsuario", permissions);
+
+    if (auth.isAutenticated(session)) {
+      try {
+        Usuario usuario = usuarioService.findById(id);
+        model.addAttribute("usuario", usuario);
+
+      } catch (Exception e) {
+        return HOME_PAGE;
+      }
+    }
+
+    return url;
+  }
+
+  @PostMapping("/usuario/update")
+  public String getForm(Usuario usuario, Model model, HttpSession session, RedirectAttributes redirectAttributes) {
+
+    String[] permissions = { auth.FINANCEIRO, auth.CONTABILIDADE, auth.FATURAMENTO };
+    String url = auth.getUrl(session, HOME_PAGE, permissions);
+
+    if (auth.isAutenticated(session)) {
+      try {
+        usuarioService.save(usuario);
+        redirectAttributes.addAttribute("message_text", "Sucesso ao atualizar o usuario");
+        redirectAttributes.addAttribute("message_type", "success");
+      } catch (Exception e) {
+        redirectAttributes.addAttribute("message_text", "Erro ao atualizar o usuario");
+        redirectAttributes.addAttribute("message_type", "danger");
+      }
+
+    }
+
+    return url;
+  }
+
   @GetMapping("/usuario/inativar/{id}")
   public String getInativar(@PathVariable("id") long id, Model model, HttpSession session,
       RedirectAttributes redirectAttributes) {

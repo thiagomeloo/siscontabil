@@ -1,6 +1,5 @@
 package com.siscontabil.siscontabil.service.serviceImplents;
 
-import java.util.Date;
 import java.util.List;
 
 import com.siscontabil.siscontabil.model.Movimentacao;
@@ -36,7 +35,4 @@ public class MovimentacaoServiceImpl implements MovimentacaoService {
     return repository.allMovimentacaoDate(dataInicial, dataFinal);
   }
 
- 
-  
-  
 }

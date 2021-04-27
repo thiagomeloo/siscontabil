@@ -14,34 +14,57 @@
 <body>
 
   <div th:insert="fragments/menu :: menu"></div>
-  
+
   <div class="container-fluid">
-    <h4 class="mt-4">Cadastrar Usuario</h4>
-    <form class="row g-3 form-floating" method="POST" action="">
-      
+    <h4 class="mt-4" th:text="${usuario}? 'Atualizar Usuario' : 'Cadastrar Usuario'"></h4>
+    <form class="row g-3 form-floating" method="POST" th:action="${usuario}? '/usuario/update' : ''">
+
       <h5 class="mt-4 mb-0 text-muted">Dados Usuario</h5>
       <div class="col-md-4 form-floating">
-        <input type="text" class="form-control" id="inputLogin" name="login" placeholder="login" required>
+        <input type="text" class="form-control" id="inputLogin" name="login" placeholder="login"
+          th:value="${usuario?.login}" required>
         <label for="inputLogin">Login</label>
       </div>
       <div class="col-md-4 form-floating">
-        <input type="text" class="form-control" id="inputSenha" name="senha" placeholder="senha" required>
+        <input type="text" class="form-control" id="inputSenha" name="senha" placeholder="senha"
+          th:value="${usuario?.senha}" required>
         <label for="inputSenha">Senha</label>
       </div>
-      <div class="col-md-4 form-floating">
+      <div class="col-md-4 form-floating" th:if="${session.user?.tipoUsuario == 'admin'}">
         <select id="inputTipoUsuario" class="form-select" name="tipoUsuario" required>
           <option selected disabled value="">Selecione</option>
-          <option value="admin">Admin</option>
-          <option value="financeiro">Financeiro</option>
-          <option value="contabilidade">Contabilidade</option>
-          <option value="faturamento">Faturamento</option>
+          <option value="admin" th:selected="${usuario != null and usuario.tipoUsuario == 'admin'} ? true : false">Admin
+          </option>
+          <option value="financeiro"
+            th:selected="${usuario != null and usuario.tipoUsuario == 'financeiro'} ? true : false">Financeiro</option>
+          <option value="contabilidade"
+            th:selected="${usuario != null and usuario.tipoUsuario == 'contabilidade'} ? true : false">Contabilidade
+          </option>
+          <option value="faturamento"
+            th:selected="${usuario != null and usuario.tipoUsuario == 'faturamento'} ? true : false">Faturamento
+          </option>
         </select>
         <label for="inputTipoUsuario" class="form-label">Tipo Usuario</label>
       </div>
 
-      <div class="col-12">
-        <button type="submit" class="btn btn-primary btn-lg">Cadastrar</button>
+      <div class="col-md-4 form-floating" th:if="${session.user?.tipoUsuario != 'admin'}">
+        <input type="text" class="form-control" id="inputTipoUsuario" name="tipoUsuario" readonly
+          placeholder="Tipo Usuario" th:value="${usuario?.tipoUsuario}" required>
+        <label for="inputTipoUsuario" class="form-label">Tipo Usuario</label>
       </div>
+
+
+
+      <div class="col-12">
+        <button type="submit" class="btn btn-primary btn-lg" th:text="${usuario}? 'Atualizar' : 'Cadastrar'"></button>
+      </div>
+      <div th:if="${usuario}">
+        <input type="hidden" th:value="${usuario?.id}" name="Id" />
+        <input type="hidden" th:value="${usuario?.status}" name="status" />
+
+      </div>
+
+
     </form>
   </div>
 

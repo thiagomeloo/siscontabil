@@ -26,7 +26,7 @@
             <h6 class="card-title mb-2 text-muted" th:text="${funcionario?.nome}"></h6>
             <strong>CPF:</strong>
             <span th:text="${funcionario?.CPF}" class="card-text"></span>
-            <strong>RG:</strong>
+            <strong>&nbsp; RG:</strong>
             <span th:text="${funcionario?.RG}" class="card-text"></span></br>
             <strong>TITULO DE ELEITOR:</strong>
             <span th:text="${funcionario?.tituloEleitor}" class="card-text"></span></br>
@@ -51,7 +51,7 @@
             <h5 class="card-header text-center">ENDEREÇO</h5><br>
             <strong>RUA:</strong>
             <span th:text="${funcionario?.endereco?.logradouro}" class="card-text"></span>
-            <strong>Nº:</strong>
+            <strong>&nbsp; Nº:</strong>
             <span th:text="${funcionario?.endereco?.numero}" class="card-text"></span></br>
             <strong>BAIRRO:</strong>
             <span th:text="${funcionario?.endereco?.bairro}" class="card-text"></span></br>
@@ -70,12 +70,20 @@
           <div class="card-body">
             <h5 class="card-header text-center">DADOS BANCARIOS</h5><br>
             <strong>AGENCIA:</strong>
-            <span th:text="${funcionario?.dadosBancario.agencia}" class="card-text"></span></br>
+            <span th:text="${funcionario?.dadosBancario.agencia}" class="card-text"></span><br>
             <strong>CONTA:</strong>
             <span th:text="${funcionario?.dadosBancario?.conta}" class="card-text"></span></br>
             <strong>BANCO:</strong>
             <span th:text="${funcionario?.dadosBancario?.banco}" class="card-text"></span></br>
-            <br><br><br><br><br><br>
+            <h5 class="card-header text-center">DADOS Profissionais</h5><br>
+            <strong>CARGO:</strong>
+            <span th:text="${funcionario?.funcao?.cargo}" class="card-text"></span>
+            <strong>&nbsp; SALARIO BASE:</strong>
+            <span th:text="'R$'+${funcionario?.funcao?.salario}" class="card-text"></span></br>
+            <strong>DATA DE ADMISSÃO:</strong>
+            <span th:text="${funcionario?.dataAdmissao}" class="card-text"></span></br>
+            <strong>DATA DE DEMISSÃO:</strong>
+            <span th:text="${funcionario?.dataDemissao!= null}? ${funcionario?.dataDemissao}: 'Não consta'" class="card-text"></span></br>
           </div>
         </div>
       </div>
